@@ -3,6 +3,6 @@ import styled from 'styled-components'
 
 export const SignUp = () => {
     return (
-        <span>test</span>
+        <p>test</p>
     )
 }

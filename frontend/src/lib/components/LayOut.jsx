@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
 import { Outlet } from 'react-router-dom';
+import Color from './common/Color';
 
 export const LayOut = () => {
     return (
@@ -11,7 +12,7 @@ export const LayOut = () => {
 }
 
 const Screen = styled.div`
-    background-color: black;
+    background-color: ${Color.bg};;
     margin: 0;
     padding: 0;
     width: 100%;

@@ -6,6 +6,7 @@ export const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path={"/"} element={<LayOut/>}/>
         <Route path={"/signup"} element={<SignUp/>}/>
       </Routes>
     </BrowserRouter>

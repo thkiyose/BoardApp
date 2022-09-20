@@ -1,10 +1,13 @@
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-      </header>
-    </div>
-  );
-}
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { SignUp } from './lib/components/SignUp';
 
-export default App;
+export const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path={"/signup"} element={<SignUp/>}/>
+      </Routes>
+    </BrowserRouter>
+  );
+};

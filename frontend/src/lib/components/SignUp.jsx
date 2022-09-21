@@ -1,18 +1,36 @@
 import React from 'react';
 import styled from 'styled-components'
+import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
+import { signUp } from "../api/session.js"
 import Color from './common/Color';
 
 export const SignUp = () => {
     const { register, handleSubmit } = useForm();
 
-    const onSubmit = data => console.log(data);
+    const handleSignUp = async(data) => {
+        try {
+            const res = await signUp(data)
+            console.log(res)
+      
+            if (res.status === 200) {
+              Cookies.set("_access_token", res.headers["access-token"])
+              Cookies.set("_client", res.headers["client"])
+              Cookies.set("_uid", res.headers["uid"])    
+              console.log("Signed in successfully!")
+            } else {
+              console.log(res)
+            }
+          } catch (e) {
+            console.log(e)
+          }
+    }
 
     return (
         <Div>
             <h1>アカウント登録</h1>
             <FormDiv>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(handleSignUp)}>
                     <p><label>ユーザーID</label></p>
                     <input {...register("publicId")} />
                     <p><label>メールアドレス</label></p>

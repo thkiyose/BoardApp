@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
-import { signUp } from "../api/session.js"
+import { signIn } from "../api/session.js"
 import Color from './common/Color';
 import { AuthContext } from '../../App.jsx';
 
@@ -13,7 +13,7 @@ export const SignIn = () => {
 
     const handleSignIn = async(data) => {
         try {
-            const res = await signUp(data)
+            const res = await signIn(data)
             console.log(res)
       
             if (res.status === 200) {

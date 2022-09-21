@@ -13,7 +13,6 @@ export const SignUp = () => {
     const handleSignUp = async(data) => {
         try {
             const res = await signUp(data)
-            console.log(res)
       
             if (res.status === 200) {
               Cookies.set("_access_token", res.headers["access-token"])

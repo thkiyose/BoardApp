@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components'
+import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { signUp } from "../api/session.js"
@@ -31,7 +32,7 @@ export const SignIn = () => {
 
     return (
         <Div>
-            <h1>アカウント登録</h1>
+            <h1>サインイン</h1>
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignIn)}>
                     <p><label>メールアドレス</label></p>
@@ -39,6 +40,7 @@ export const SignIn = () => {
                     <p><label>パスワード</label></p>
                     <input {...register("password")} />
                 </form>
+                <p id="signUpGuide">アカウントをお持ちでない方は:<Link to="signup">アカウントを作成する</Link></p>
             </FormDiv>
         </Div>
     )
@@ -55,11 +57,17 @@ const Div = styled.div`
 `
 
 const FormDiv = styled.div`
+    padding-top: 70px;
     @media (max-width: 425px) {
         max-width:100%;
     }
     max-width: 50%;
     margin: 0 auto;
+
+    #signUpGuide {
+        text-align: right;
+    }
+    
     form {
         p {
             margin-bottom: 5px;

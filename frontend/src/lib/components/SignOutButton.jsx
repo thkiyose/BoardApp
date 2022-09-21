@@ -3,7 +3,8 @@ import Cookies from "js-cookie"
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../../App"
 
-export const LogOutButton = () => {
+export const SignOutButton = () => {
+
     return (
         <p>test</p>
     )

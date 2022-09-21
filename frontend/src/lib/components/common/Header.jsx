@@ -1,10 +1,14 @@
 import React from 'react'
 import styled from "styled-components";
 import Color from './Color';
+import { LogOutButton } from '../LogOutButton';
 
 export const Header = () => {
     return (
       <HeaderDiv>
+        <ul>
+            <li><LogOutButton /></li>
+        </ul>
       </HeaderDiv>
     )
   };

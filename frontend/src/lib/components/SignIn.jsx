@@ -39,6 +39,7 @@ export const SignIn = () => {
                     <input {...register("email")} />
                     <p><label>パスワード</label></p>
                     <input {...register("password")} />
+                    <p><button type="submit" >サインイン</button></p>
                 </form>
                 <p id="signUpGuide">アカウントをお持ちでない方は:<Link to="signup">アカウントを作成する</Link></p>
             </FormDiv>
@@ -67,7 +68,7 @@ const FormDiv = styled.div`
     #signUpGuide {
         text-align: right;
     }
-    
+
     form {
         p {
             margin-bottom: 5px;
@@ -83,7 +84,8 @@ const FormDiv = styled.div`
             background-color: ${Color.primary};
             color: white;
             border: none;
-            padding: 10px;
+            padding: 15px;
+            cursor: pointer;
             margin: 0 auto;
             width: 100%;
         }

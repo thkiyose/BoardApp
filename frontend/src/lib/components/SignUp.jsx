@@ -80,9 +80,10 @@ const FormDiv = styled.div`
             background-color: ${Color.primary};
             color: white;
             border: none;
-            padding: 10px;
             margin: 0 auto;
             width: 100%;
+            padding: 15px;
+            cursor: pointer;
         }
     }
 `

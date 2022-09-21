@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LayOut } from './lib/components/LayOut';
 import { SignUp } from './lib/components/SignUp';
 import { getCurrentUser } from "./lib/api/session.js"
@@ -31,6 +31,30 @@ export const App = () => {
   useEffect(() => {
     handleGetCurrentUser()
   }, [setCurrentUser])
+
+  const LoggedInRoute = ( {children} ) => {
+    if (!loading) {
+      if (isSignedIn) {
+        return children ;
+      } else {
+        return <Navigate  to='/' />;
+      }
+    } else {
+      return <></>;
+    }
+  };
+  
+  const NotLoggedInRoute = ( {children} ) => {
+    if (!loading) {
+      if (!isSignedIn) {
+        return children ;
+      } else {
+        return <Navigate to="/books" />;
+      }
+    } else {
+      return <></>;
+    }
+  };
 
   return (
     <AuthContext.Provider value={{currentUser,setCurrentUser,setIsSignedIn, isSignedIn}}>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import Cookies from 'js-cookie';
@@ -10,6 +10,7 @@ import { AuthContext } from '../../App.jsx';
 export const SignUp = () => {
     const { register, handleSubmit, formState: { errors }  } = useForm();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
+    const [ errorMessage, setErrorMessage ] = useState([]);
 
     const handleSignUp = async(data) => {
         try {
@@ -26,6 +27,9 @@ export const SignUp = () => {
             }
           } catch (e) {
             console.log(e)
+            if (e.response?.data?.errors?.fullMessages) {
+                setErrorMessage(e.response?.data?.errors?.fullMessages)
+              }
           }
     }
 

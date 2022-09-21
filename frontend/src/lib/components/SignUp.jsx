@@ -39,16 +39,20 @@ const Div = styled.div`
 `
 
 const FormDiv = styled.div`
+    @media (max-width: 425px) {
+        max-width:100%;
+    }
     max-width: 50%;
     margin: 0 auto;
-
     form {
+        p {
+            margin-bottom: 5px;
+        }
         input {
             width: 100%;
             box-sizing: border-box;
-            border: none;
+            border: solid 1px gray;
             padding: 10px;
-            background-color: ${Color.form};
         }
         button {
             display: block;

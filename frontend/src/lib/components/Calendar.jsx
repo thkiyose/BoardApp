@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Calendar = () => {
+export const Calendar = () => {
     return <p>
         test
     </p>

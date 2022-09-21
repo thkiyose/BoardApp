@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
@@ -43,6 +44,7 @@ export const SignUp = () => {
                     <input {...register("passwordConfirmation")} />
                     <p><button type="submit" >登録</button></p>
                 </form>
+                <p id="signInGuide">アカウントをお持ちの方は<Link to="/">サインイン</Link></p>
             </FormDiv>
         </Div>
     )
@@ -62,8 +64,14 @@ const FormDiv = styled.div`
     @media (max-width: 425px) {
         max-width:100%;
     }
-    max-width: 50%;
+    max-width: 40%;
+    padding-top: 30px;
     margin: 0 auto;
+
+    #signInGuide {
+        text-align: right;
+    }
+
     form {
         p {
             margin-bottom: 5px;

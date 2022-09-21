@@ -62,7 +62,7 @@ const FormDiv = styled.div`
     @media (max-width: 425px) {
         max-width:100%;
     }
-    max-width: 50%;
+    max-width: 40%;
     margin: 0 auto;
 
     #signUpGuide {

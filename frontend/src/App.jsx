@@ -33,7 +33,7 @@ export const App = () => {
   }, [setCurrentUser])
 
   return (
-    <AuthContext.Provider value={setIsSignedIn}>
+    <AuthContext.Provider value={{currentUser,setCurrentUser,setIsSignedIn}}>
       <BrowserRouter>
         <Routes>
           <Route path={"/"} element={<LayOut/>}>

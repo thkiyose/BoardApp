@@ -8,7 +8,7 @@ import Color from './common/Color';
 import { AuthContext } from '../../App.jsx';
 
 export const SignUp = () => {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, formState: { errors }  } = useForm();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
 
     const handleSignUp = async(data) => {
@@ -35,13 +35,21 @@ export const SignUp = () => {
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignUp)}>
                     <p><label>名前</label></p>
-                    <input {...register("name")} />
+                    <input {...register("name",{required :true, maxLength: 30})} />
+                    {errors.name?.type === "required" && <ErrorMessage>名前を入力して下さい。</ErrorMessage>}
+                    {errors.name?.type === "maxLength" && <ErrorMessage>30文字以内で入力して下さい。</ErrorMessage>}
                     <p><label>メールアドレス</label></p>
-                    <input {...register("email")} />
+                    <input {...register("email",{ required: true, pattern: /[\w\-._]+@[\w\-._]+\.[A-Za-z]+/ })} />
+                    {errors.email?.type === "required" && <ErrorMessage>メールアドレスを入力して下さい。</ErrorMessage>}
+                    {errors.email?.type === "pattern" && <ErrorMessage>正しい形式で入力して下さい。</ErrorMessage>}
                     <p><label>パスワード</label></p>
-                    <input {...register("password")} />
+                    <input type="password" {...register("password",{ required: true, minLength: 6,maxLength: 128 })} />
+                    {errors.password?.type === "required" && <ErrorMessage>パスワードを入力して下さい。</ErrorMessage>}
+                    {errors.password?.type === "minLength" && <ErrorMessage>パスワードが短すぎます。(最小6文字)</ErrorMessage>}
+                    {errors.password?.type === "maxLength" && <ErrorMessage>パスワードが長すぎます。(最大128文字)</ErrorMessage>}  
                     <p><label>パスワード(確認)</label></p>
-                    <input {...register("passwordConfirmation")} />
+                    <input type="password" {...register("passwordConfirmation",{ required: true })} />
+                    {errors.passwordConfirmation?.type === "required" && <ErrorMessage>パスワードをもう一度入力して下さい。</ErrorMessage>}
                     <p><button type="submit" >登録</button></p>
                 </form>
                 <p id="signInGuide">アカウントをお持ちの方は<Link to="/">サインイン</Link></p>
@@ -93,4 +101,9 @@ const FormDiv = styled.div`
             cursor: pointer;
         }
     }
+`
+const ErrorMessage = styled.span`
+  font-size: 0.8rem;
+  display: block;
+  background-color: ${Color.form};
 `

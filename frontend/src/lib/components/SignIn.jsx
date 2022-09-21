@@ -8,7 +8,7 @@ import Color from './common/Color';
 import { AuthContext } from '../../App.jsx';
 
 export const SignIn = () => {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
 
     const handleSignIn = async(data) => {
@@ -36,9 +36,12 @@ export const SignIn = () => {
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignIn)}>
                     <p><label>メールアドレス</label></p>
-                    <input {...register("email")} />
+                    <input {...register("email",{ required: true, pattern: /[\w\-._]+@[\w\-._]+\.[A-Za-z]+/ })} />
+                    {errors.email?.type === "required" && <ErrorMessage>メールアドレスを入力して下さい。</ErrorMessage>}
+                    {errors.email?.type === "pattern" && <ErrorMessage>正しい形式で入力して下さい。</ErrorMessage>}
                     <p><label>パスワード</label></p>
-                    <input {...register("password")} />
+                    <input type="password" {...register("password",{required: true})} />
+                    {errors.password?.type === "required" && <ErrorMessage>パスワードを入力して下さい。</ErrorMessage>}
                     <p><button type="submit" >サインイン</button></p>
                 </form>
                 <p id="signUpGuide">アカウントをお持ちでない方は:<Link to="signup">アカウントを作成する</Link></p>
@@ -90,4 +93,10 @@ const FormDiv = styled.div`
             width: 100%;
         }
     }
+`
+
+const ErrorMessage = styled.span`
+  font-size: 0.8rem;
+  display: block;
+  background-color: ${Color.form};
 `

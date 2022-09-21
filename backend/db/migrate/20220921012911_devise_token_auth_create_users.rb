@@ -10,7 +10,7 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[7.0]
       t.string :encrypted_password, :null => false, :default => ""
 
       ## User Info
-      t.string :public_id
+      t.string :name
       t.string :email
 
       ## Tokens

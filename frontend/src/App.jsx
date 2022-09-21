@@ -8,9 +8,31 @@ export const AuthContext = React.createContext("");
 
 export const App = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+
+  const handleGetCurrentUser = async () => {
+    try {
+      const res = await getCurrentUser()
+      console.log(res)
+      if (res?.data.isLogin === true) {
+        setIsSignedIn(true)
+        setCurrentUser(res?.data.data)
+
+        console.log(res?.data.data)
+      } else {
+        console.log("No current user")
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    handleGetCurrentUser()
+  }, [setCurrentUser])
 
   return (
-    <AuthContext.Provider value={isSignedIn}>
+    <AuthContext.Provider value={setIsSignedIn}>
       <BrowserRouter>
         <Routes>
           <Route path={"/"} element={<LayOut/>}>

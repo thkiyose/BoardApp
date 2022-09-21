@@ -31,8 +31,8 @@ export const SignUp = () => {
             <h1>アカウント登録</h1>
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignUp)}>
-                    <p><label>ユーザーID</label></p>
-                    <input {...register("publicId")} />
+                    <p><label>名前</label></p>
+                    <input {...register("name")} />
                     <p><label>メールアドレス</label></p>
                     <input {...register("email")} />
                     <p><label>パスワード</label></p>

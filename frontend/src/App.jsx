@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LayOut } from './lib/components/LayOut';
 import { SignUp } from './lib/components/SignUp';
@@ -13,17 +13,16 @@ export const App = () => {
   const handleGetCurrentUser = async () => {
     try {
       const res = await getCurrentUser()
-      console.log(res)
+
       if (res?.data.isLogin === true) {
         setIsSignedIn(true)
         setCurrentUser(res?.data.data)
-
         console.log(res?.data.data)
       } else {
         console.log("No current user")
       }
-    } catch (err) {
-      console.log(err)
+    } catch (e) {
+      console.log(e)
     }
   }
 

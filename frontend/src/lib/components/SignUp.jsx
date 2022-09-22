@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { signUp } from "../api/session.js"
 import Color from './common/Color';
+import { FlashMessage } from './common/FlashMessage';
 import { AuthContext } from '../../App.jsx';
 
 export const SignUp = () => {
@@ -35,6 +36,12 @@ export const SignUp = () => {
 
     return (
         <Div>
+            { errorMessage.map((msg, index) => {
+                    return (
+                        <FlashMessage key={index} message={msg} type={"warning"} />
+                    );
+                })
+            }
             <h1>アカウント登録</h1>
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignUp)}>
@@ -67,6 +74,7 @@ const Div = styled.div`
 
     h1 {
         margin:0 auto;
+        margin-top: 20px;
         text-align: center;
     }
 

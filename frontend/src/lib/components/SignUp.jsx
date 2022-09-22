@@ -14,6 +14,7 @@ export const SignUp = () => {
     const [ errorMessage, setErrorMessage ] = useState([]);
 
     const handleSignUp = async(data) => {
+        setErrorMessage([]);
         try {
             const res = await signUp(data)
       

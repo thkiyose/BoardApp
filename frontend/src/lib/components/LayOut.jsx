@@ -7,19 +7,20 @@ import { FlashMessage } from './common/FlashMessage';
 
 export const LayOut = () => {
     const [ message, setMessage ] = useState([]);
+    const [ showFlag, setShowFlag ] = useState(false);
 
     return (
         <Screen>
             <Header />
             <Wrapper>
-                { 
-                    message.map((msg, index) => {
-                        return (
-                            <FlashMessage key={index} message={msg} type={"warning"} />
-                        );
-                    })
-                }
-                <Outlet context={[setMessage]}/>
+            { 
+                message.map((msg, index) => {
+                    return (
+                        <FlashMessage key={index} message={msg} type={"warning"} showFlag={showFlag} setShowFlag={setShowFlag} />
+                    );
+                })
+             }
+                <Outlet context={[setMessage, setShowFlag]}/>
             </Wrapper>
         </Screen>
     )

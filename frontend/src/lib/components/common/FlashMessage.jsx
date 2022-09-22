@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from "styled-components";
 
 export const FlashMessage = (props) => {
-    const [ showFlag, setShowFlag ] = useState(true);
-    const { message, type } = props;
+    const { message, type, showFlag, setShowFlag } = props;
 
     if (message) {
         return (

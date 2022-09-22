@@ -11,7 +11,7 @@ import { AuthContext } from '../../App.jsx';
 export const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
-    const [ setMessage ] = useOutletContext();
+    const [ setMessage, setShowFlag ] = useOutletContext();
 
     const handleSignIn = async(data) => {
         setMessage([]);

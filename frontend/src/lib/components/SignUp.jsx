@@ -11,7 +11,8 @@ import { AuthContext } from '../../App.jsx';
 export const SignUp = () => {
     const { register, handleSubmit, formState: { errors }  } = useForm();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
-    const [ setMessage ] = useOutletContext();
+    const [ setMessage, setShowFlag ] = useOutletContext();
+
 
     const handleSignUp = async(data) => {
         setMessage([]);
@@ -30,6 +31,7 @@ export const SignUp = () => {
           } catch (e) {
             console.log(e)
             if (e.response?.data?.errors?.fullMessages) {
+                setShowFlag(true);
                 setMessage(e.response?.data?.errors?.fullMessages)
               }
           }

@@ -15,8 +15,10 @@ export const FlashMessage = (props) => {
 
 const Display = styled.div`
     p {
-        background-color: ${props => props.type === "warning" && "#f9b9be"};
+        background-color: ${props => props.type === "warning" && '#f9b9be'};
         border: ${props => props.type === "warning" && "solid 1px red" };
+        background-color: ${props => props.type === "success" && '#bfd3ad'};
+        border: ${props => props.type === "success" && "solid 1px green" };
         text-align: center;
         padding: 10px;
     }  

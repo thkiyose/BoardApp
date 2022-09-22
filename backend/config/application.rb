@@ -8,6 +8,9 @@ module Backend
   class Application < Rails::Application
     config.load_defaults 7.0
     config.api_only = true
+    config.i18n.default_locale = :ja
+    config.i18n.load_path += Dir[Rails.root.join('config/locales/*.yml').to_s]
+    config.active_model.i18n_customize_full_message = true
     config.session_store :cookie_store, key: '_interslice_session'
     config.middleware.use ActionDispatch::Cookies # Required for all session management
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options

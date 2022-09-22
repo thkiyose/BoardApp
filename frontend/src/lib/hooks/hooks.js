@@ -4,14 +4,14 @@ export const useFlash = () => {
     const [ showFlag, setShowFlag ] = useState(false);
     const [ message, setMessage ] = useState("");
 
-    const Show = (msg) => { 
+    const show = (msg) => { 
         setShowFlag(true);
         setMessage(msg) 
     }
 
-    const Hide = () => {
+    const hide = () => {
         setShowFlag(false);
         setMessage("") 
     }
-    return [ showFlag, message, { Show, Hide }]
+    return [ showFlag, message, { show, hide }]
 }

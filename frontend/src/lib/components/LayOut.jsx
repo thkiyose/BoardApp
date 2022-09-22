@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
 import { Outlet } from 'react-router-dom';
 import { Header } from './common/Header';
 import Color from './common/Color';
+import { FlashMessage } from './common/FlashMessage';
 
 export const LayOut = () => {
+    const [ message, setMessage ] = useState([]);
+
     return (
         <Screen>
             <Header />
             <Wrapper>
-                <Outlet />
+                { 
+                    message.map((msg, index) => {
+                        return (
+                            <FlashMessage key={index} message={msg} type={"warning"} />
+                        );
+                    })
+                }
+                <Outlet context={[setMessage]}/>
             </Wrapper>
         </Screen>
     )

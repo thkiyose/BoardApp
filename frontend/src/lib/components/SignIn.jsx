@@ -1,20 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
+import { useOutletContext } from "react-router-dom";
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { signIn } from "../api/session.js"
-import { FlashMessage } from './common/FlashMessage';
 import Color from './common/Color';
 import { AuthContext } from '../../App.jsx';
 
 export const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
-    const [ errorMessage, setErrorMessage ] = useState([]);
+    const [ setMessage ] = useOutletContext();
 
     const handleSignIn = async(data) => {
-        setErrorMessage([]);
+        setMessage([]);
         try {
             const res = await signIn(data)
             console.log(res)
@@ -31,19 +31,13 @@ export const SignIn = () => {
           } catch (e) {
             console.log(e)
             if (e.response?.data?.errors?.fullMessages) {
-                setErrorMessage(e.response?.data?.errors?.fullMessages)
+                setMessage(e.response?.data?.errors?.fullMessages)
               }
           }
     }
 
     return (
         <Div>
-            { errorMessage.map((msg, index) => {
-                return (
-                    <FlashMessage key={index} message={msg} type={"warning"} />
-                );
-             })
-            }
             <h1>サインイン</h1>
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignIn)}>

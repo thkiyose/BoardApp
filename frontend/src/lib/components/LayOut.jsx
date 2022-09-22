@@ -8,7 +8,9 @@ export const LayOut = () => {
     return (
         <Screen>
             <Header />
-            <Wrapper><Outlet /></Wrapper>
+            <Wrapper>
+                <Outlet />
+            </Wrapper>
         </Screen>
     )
 }

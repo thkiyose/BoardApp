@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_22_075124) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_24_071224) do
   create_table "sections", charset: "utf8mb4", force: :cascade do |t|
     t.integer "sections", null: false
     t.integer "areas", null: false
@@ -31,4 +31,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_22_075124) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "users_sections", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "section_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["section_id"], name: "index_users_sections_on_section_id"
+    t.index ["user_id"], name: "index_users_sections_on_user_id"
+  end
+
+  add_foreign_key "users_sections", "sections"
+  add_foreign_key "users_sections", "users"
 end

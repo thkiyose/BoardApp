@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components'
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
@@ -10,8 +10,9 @@ import { AuthContext } from '../../App.jsx';
 
 export const SignUp = () => {
     const { register, handleSubmit, formState: { errors }  } = useForm();
+    const location = useLocation();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
-    const [ message, setMessage ] = useState([]);
+    const [ message, setMessage ] = useState(location.state ?  [location.state.message] : []);
     const navigate = useNavigate("");
 
     const handleSignUp = async(data) => {

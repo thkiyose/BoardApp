@@ -13,6 +13,7 @@ export const SignIn = () => {
     const location = useLocation();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
     const [ message, setMessage ] = useState(location.state ?  [location.state.message] : []);
+    const [ type, setType ] = useState(location.state && location.state.type ?  location.state.type : "warning");
     const navigate = useNavigate("");
 
     const handleSignIn = async(data) => {
@@ -34,8 +35,10 @@ export const SignIn = () => {
           } catch (e) {
             console.log(e)
             if (e.response?.data?.errors?.fullMessages) {
+                setType("warning");
                 setMessage(e.response?.data?.errors?.fullMessages)
               } else if (e.message) {
+                setType("warning");
                 setMessage([e.message])
               }
           }
@@ -44,7 +47,7 @@ export const SignIn = () => {
     return (
         <Div>
             <h1>ログイン</h1>
-            <FlashMessage message={message} type={"warning"} />
+            <FlashMessage message={message} type={type} />
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignIn)}>
                     <p><label>メールアドレス</label></p>

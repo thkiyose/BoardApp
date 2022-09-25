@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
@@ -12,7 +12,7 @@ export const SignUp = () => {
     const { register, handleSubmit, formState: { errors }  } = useForm();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
     const [ message, setMessage ] = useState([]);
-
+    const navigate = useNavigate("");
 
     const handleSignUp = async(data) => {
         setMessage([]);
@@ -25,6 +25,7 @@ export const SignUp = () => {
               Cookies.set("_uid", res.headers["uid"]) 
               setIsSignedIn(true);
               setCurrentUser(res.data.data)
+              navigate("/calendar", { state: { message: "アカウントを作成しました。"}})
             } else {
               console.log(res)
             }

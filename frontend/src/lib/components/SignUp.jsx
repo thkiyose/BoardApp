@@ -1,17 +1,17 @@
-import React, { useContext } from 'react';
-import { useOutletContext } from "react-router-dom";
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { signUp } from "../api/session.js"
 import Color from './common/Color';
+import { FlashMessage } from './common/FlashMessage';
 import { AuthContext } from '../../App.jsx';
 
 export const SignUp = () => {
     const { register, handleSubmit, formState: { errors }  } = useForm();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
-    const [ setMessage, setShowFlag ] = useOutletContext();
+    const [ message, setMessage ] = useState([]);
 
 
     const handleSignUp = async(data) => {
@@ -31,14 +31,14 @@ export const SignUp = () => {
           } catch (e) {
             console.log(e)
             if (e.response?.data?.errors?.fullMessages) {
-                setShowFlag(true);
-                setMessage(e.response?.data?.errors?.fullMessages)
+                setMessage(e.response?.data?.errors?.fullMessages);
               }
           }
     }
 
     return (
         <Div>
+            <FlashMessage message={message} type={"warning"} />
             <h1>アカウント登録</h1>
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignUp)}>

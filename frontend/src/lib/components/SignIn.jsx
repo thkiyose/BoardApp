@@ -1,17 +1,17 @@
-import React, { useContext } from 'react';
-import { useOutletContext } from "react-router-dom";
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { signIn } from "../api/session.js"
 import Color from './common/Color';
+import { FlashMessage } from './common/FlashMessage';
 import { AuthContext } from '../../App.jsx';
 
 export const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
-    const [ setMessage, setShowFlag ] = useOutletContext();
+    const [ message, setMessage ] = useState([]);
 
     const handleSignIn = async(data) => {
         setMessage([]);
@@ -32,6 +32,8 @@ export const SignIn = () => {
             console.log(e)
             if (e.response?.data?.errors?.fullMessages) {
                 setMessage(e.response?.data?.errors?.fullMessages)
+              } else if (e.message) {
+                setMessage([e.message])
               }
           }
     }
@@ -39,6 +41,7 @@ export const SignIn = () => {
     return (
         <Div>
             <h1>サインイン</h1>
+            <FlashMessage message={message} type={"warning"} />
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignIn)}>
                     <p><label>メールアドレス</label></p>

@@ -2,19 +2,21 @@ import React from 'react'
 import styled from "styled-components";
 
 export const FlashMessage = (props) => {
-    const { message, type, showFlag, setShowFlag } = props;
+    const { message, type } = props;
 
-    if (message) {
-        return (
-            <Display type={type} showFlag={showFlag}>
-                <p>{message}<span onClick={()=>{setShowFlag(false)}}>✕</span></p>
-            </Display>
-        );
-    }
+    return (
+        message.map((msg,key)=> {
+            return (
+                <Display key={key} type={type}>
+                    <p>{msg}</p>
+                </Display>
+            )
+        })
+    );
+
 }
 
 const Display = styled.div`
-    display: ${props=> props.showFlag === false && "none"};
 
     p {
         background-color: ${props => props.type === "warning" && '#f9b9be'};
@@ -28,6 +30,5 @@ const Display = styled.div`
             cursor: pointer;
         }
     }  
-    max-width: 70%;
     margin: 0 auto;
 `

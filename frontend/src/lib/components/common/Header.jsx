@@ -21,4 +21,16 @@ export const Header = () => {
   top: 0;
   left: 0;
   width:100%;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    height: 60px;
+    margin: 0px 20px;
+    button {
+        height: 60px;
+    }
+  }
 `

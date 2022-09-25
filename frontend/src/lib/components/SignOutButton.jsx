@@ -40,5 +40,4 @@ const Button = styled.button`
     border: none;
     padding: 15px;
     cursor: pointer;
-    border-radius: 10px;
 `

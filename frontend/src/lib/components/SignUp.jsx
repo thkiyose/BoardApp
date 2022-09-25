@@ -60,7 +60,7 @@ export const SignUp = () => {
                     {errors.passwordConfirmation?.type === "required" && <ErrorMessage>パスワードをもう一度入力して下さい。</ErrorMessage>}
                     <p><button type="submit" >登録</button></p>
                 </form>
-                <p id="signInGuide">アカウントをお持ちの方は<Link to="/">サインイン</Link></p>
+                <p id="signInGuide">アカウントをお持ちの方は<Link to="/">ログイン</Link></p>
             </FormDiv>
         </Div>
     )

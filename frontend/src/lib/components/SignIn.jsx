@@ -42,7 +42,7 @@ export const SignIn = () => {
 
     return (
         <Div>
-            <h1>サインイン</h1>
+            <h1>ログイン</h1>
             <FlashMessage message={message} type={"warning"} />
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignIn)}>
@@ -53,7 +53,7 @@ export const SignIn = () => {
                     <p><label>パスワード</label></p>
                     <input type="password" {...register("password",{required: true})} />
                     {errors.password?.type === "required" && <ErrorMessage>パスワードを入力して下さい。</ErrorMessage>}
-                    <p><button type="submit" >サインイン</button></p>
+                    <p><button type="submit" >ログイン</button></p>
                 </form>
                 <p id="signUpGuide">アカウントをお持ちでない方は:<Link to="signup">アカウントを作成する</Link></p>
             </FormDiv>

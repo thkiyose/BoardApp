@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useLocation } from "react-router-dom"
+import { FlashMessage } from './common/FlashMessage';
 
 export const Calendar = (props) => {
+    const location = useLocation();
+    const [ message, setMessage ] = useState(location.state ?  [location.state.message] : []);
 
     return <p>
-        test
+        <FlashMessage message={message} type={"success"} />
     </p>
 }

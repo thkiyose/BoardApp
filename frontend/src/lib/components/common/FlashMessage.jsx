@@ -25,6 +25,7 @@ const Display = styled.div`
         border: ${props => props.type === "success" && "solid 1px green" };
         text-align: center;
         padding: 10px;
+        border-radius: 10px;
         span {
             float:right;
             cursor: pointer;

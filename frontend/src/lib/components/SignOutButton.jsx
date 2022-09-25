@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import Cookies from "js-cookie"
+import styled from 'styled-components'
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../../App"
+import Color from './common/Color';
 import { signOut } from "../api/session"
 
 export const SignOutButton = () => {
@@ -27,7 +29,16 @@ export const SignOutButton = () => {
     }
     if ( isSignedIn === true ) {
         return (
-            <button onClick={()=>{handleSignOut()}}>ログアウト</button>
+            <Button onClick={()=>{handleSignOut()}}>ログアウト</Button>
         )
     }
 }
+
+const Button = styled.button`
+    display: block;
+    background-color: ${Color.secondary};
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 10px;
+`

@@ -7,15 +7,17 @@ import { signUp } from "../api/session.js"
 import Color from './common/Color';
 import { FlashMessage } from './common/FlashMessage';
 import { AuthContext } from '../../App.jsx';
+import { SectionContext } from '../../App.jsx';
 
 export const SignUp = () => {
     const { register, handleSubmit, formState: { errors }  } = useForm();
     const location = useLocation();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
+    const { sections } = useContext(SectionContext)
     const [ message, setMessage ] = useState(location.state ?  [location.state.message] : []);
     const [ type, setType ] = useState(location.state && location.state.type ?  location.state.type : "warning");
     const navigate = useNavigate("");
-
+console.log(sections)
     const handleSignUp = async(data) => {
         setMessage([]);
         try {

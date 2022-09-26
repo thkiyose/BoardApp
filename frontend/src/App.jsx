@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LayOut } from './lib/components/LayOut';
 import { SignUp } from './lib/components/SignUp';
 import { SignIn } from './lib/components/SignIn';
+import { MyPage } from './lib/components/MyPage';
 import { Calendar } from './lib/components/Calendar';
 import { getCurrentUser } from "./lib/api/session.js"
 
@@ -65,6 +66,7 @@ export const App = () => {
           <Route path={"/"} element={<NotLoggedInRoute><SignIn/></NotLoggedInRoute>}/>
           <Route path={"/signup"} element={<NotLoggedInRoute><SignUp/></NotLoggedInRoute>}/>
           <Route path={"/calendar"} element={<LoggedInRoute><Calendar/></LoggedInRoute>}/>
+          <Route path={"/mypage"} element={<LoggedInRoute><MyPage/></LoggedInRoute>}/>
           </Route>
         </Routes>
       </BrowserRouter>

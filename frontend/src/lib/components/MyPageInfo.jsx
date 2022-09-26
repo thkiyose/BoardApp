@@ -12,7 +12,7 @@ export const MyPageInfo = () => {
                 <label>メールアドレス</label>
                 <li>{currentUser.email}</li>
                 <label>ユーザー種別</label>
-                <li>{currentUser.email}</li>
+                <li>{currentUser.admin ? "管理者": "一般"}</li>
             </ul>
         </InfoDiv>
     )

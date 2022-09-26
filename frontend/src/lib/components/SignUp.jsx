@@ -62,6 +62,9 @@ export const SignUp = () => {
                     <p><label>パスワード(確認)</label></p>
                     <input type="password" {...register("passwordConfirmation",{ required: true })} />
                     {errors.passwordConfirmation?.type === "required" && <ErrorMessage>パスワードをもう一度入力して下さい。</ErrorMessage>}
+                    <SectionDiv>
+                    <p><label>所属セクション・エリア</label></p>
+                    </SectionDiv>
                     <p><button type="submit" >登録</button></p>
                 </form>
                 <p id="signInGuide">アカウントをお持ちの方は<Link to="/">ログイン</Link></p>
@@ -119,4 +122,9 @@ const ErrorMessage = styled.span`
   font-size: 0.8rem;
   display: block;
   background-color: ${Color.form};
+`
+
+const SectionDiv = styled.div`
+    border-top: solid 1px gray;
+    margin-top: 20px;
 `

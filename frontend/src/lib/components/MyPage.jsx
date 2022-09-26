@@ -18,7 +18,7 @@ export const MyPage = () => {
     )
 }
 const SideMenu = styled.div`
-    min-height: 70vh;
+    min-height: 80vh;
     float: left;
     width: 25%;
 `

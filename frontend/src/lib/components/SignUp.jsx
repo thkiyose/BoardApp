@@ -136,13 +136,15 @@ const SectionDiv = styled.div`
     }
     label input {
         display: none;
+
     }
     label span {
         color: #333;
         font-size: 0.9rem;
         border: 1px solid black;
         border-radius: 20px;
-        padding: 5px 20px;
+        padding: 6px;
+        cursor: pointer;
     }
     label input:checked + span {
         color: #FFF;

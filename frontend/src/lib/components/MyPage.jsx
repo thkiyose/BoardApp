@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Outlet } from 'react-router-dom';
 import { AuthContext } from '../../App.jsx';
 import styled from 'styled-components'
 
@@ -7,8 +8,11 @@ export const MyPage = () => {
     return (
         <>
             <SideMenu>
+                <p>{currentUser.name}</p>
+                <p>{currentUser.email}</p>
             </SideMenu>
             <Content>
+                <Outlet />
             </Content>
         </>
     )

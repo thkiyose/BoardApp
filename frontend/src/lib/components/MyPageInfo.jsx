@@ -5,8 +5,10 @@ import styled from 'styled-components'
 export const MyPageInfo = () => {
     const { currentUser } = useContext(AuthContext)
     return (
-        <div>
+        <InfoDiv>
             {currentUser.email}
-        </div>
+        </InfoDiv>
     )
 }
+
+const InfoDiv = styled.div``

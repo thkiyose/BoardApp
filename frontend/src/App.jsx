@@ -30,10 +30,6 @@ export const App = () => {
     } catch (e) {
       console.log(e);
     }
-    setLoading(false);
-  }
-
-  const handleFetchSections = async() => {
     try {
       const res = await fetchSections();
       setSections(res.data.sections)
@@ -46,10 +42,6 @@ export const App = () => {
   useEffect(() => {
     handleGetCurrentUser()
   }, [setCurrentUser])
-
-  useEffect(() => {
-    handleFetchSections()
-  }, [setSections])
 
   const LoggedInRoute = ( {children} ) => {
     if (!loading) {

@@ -15,7 +15,6 @@ export const SignUp = () => {
     const [ message, setMessage ] = useState(location.state ?  [location.state.message] : []);
     const [ type, setType ] = useState(location.state && location.state.type ?  location.state.type : "warning");
     const navigate = useNavigate("");
-console.log(sections)
     const handleSignUp = async(data) => {
         setMessage([]);
         try {
@@ -68,6 +67,17 @@ console.log(sections)
                     return <React.Fragment key={key}><label><input type="checkbox" value={key} name={key}/><span>{key}</span></label></React.Fragment>
                     })}
                     </SectionDiv>
+                    <AreaDiv>
+                        <p>
+                            {sections["civil"].map((sec,index)=> {
+                                return (
+                                <React.Fragment key={index}>
+                                    <label><input type="checkbox" value={sec.areas} name={sec.areas}/><span>{sec.areas}</span></label>
+                                </React.Fragment>)
+                            
+                            })}
+                        </p>
+                    </AreaDiv>
                     <p><button type="submit" >登録</button></p>
                 </form>
                 <p id="signInGuide">アカウントをお持ちの方は<Link to="/">ログイン</Link></p>
@@ -151,4 +161,27 @@ const SectionDiv = styled.div`
         background: #00CC33;
         border: 1px solid #00CC33;
     }
+`
+const AreaDiv = styled.div`
+label {
+    margin-right: 5px;
+    padding-bottom: 10px;
+}
+label input {
+    display: none;
+
+}
+label span {
+    color: #333;
+    font-size: 0.9rem;
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 6px;
+    cursor: pointer;
+}
+label input:checked + span {
+    color: #FFF;
+    background: #FF6633;
+    border: 1px solid #FF6633;
+}
 `

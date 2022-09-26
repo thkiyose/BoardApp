@@ -7,13 +7,11 @@ import { signUp } from "../api/session.js"
 import Color from './common/Color';
 import { FlashMessage } from './common/FlashMessage';
 import { AuthContext } from '../../App.jsx';
-import { SectionContext } from '../../App.jsx';
 
 export const SignUp = () => {
     const { register, handleSubmit, formState: { errors }  } = useForm();
     const location = useLocation();
-    const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
-    const { sections } = useContext(SectionContext)
+    const { setCurrentUser, setIsSignedIn,sections} = useContext(AuthContext)
     const [ message, setMessage ] = useState(location.state ?  [location.state.message] : []);
     const [ type, setType ] = useState(location.state && location.state.type ?  location.state.type : "warning");
     const navigate = useNavigate("");
@@ -66,6 +64,9 @@ console.log(sections)
                     {errors.passwordConfirmation?.type === "required" && <ErrorMessage>パスワードをもう一度入力して下さい。</ErrorMessage>}
                     <SectionDiv>
                     <p><label>所属セクション・エリア</label></p>
+                    {Object.keys(sections).map((key,value) => {
+                    return <React.Fragment key={key}><label><input type="checkbox" value={key} name={key}/><span>{key}</span></label></React.Fragment>
+                    })}
                     </SectionDiv>
                     <p><button type="submit" >登録</button></p>
                 </form>
@@ -129,4 +130,23 @@ const ErrorMessage = styled.span`
 const SectionDiv = styled.div`
     border-top: solid 1px gray;
     margin-top: 20px;
+    label {
+        margin-right: 5px;
+        padding-bottom: 10px;
+    }
+    label input {
+        display: none;
+    }
+    label span {
+        color: #333;
+        font-size: 0.9rem;
+        border: 1px solid black;
+        border-radius: 20px;
+        padding: 5px 20px;
+    }
+    label input:checked + span {
+        color: #FFF;
+        background: #00CC33;
+        border: 1px solid #00CC33;
+    }
 `

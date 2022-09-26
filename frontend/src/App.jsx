@@ -36,7 +36,7 @@ export const App = () => {
   const handleFetchSections = async() => {
     try {
       const res = await fetchSections();
-      setSections(res.data)
+      setSections(res.data.sections)
     } catch (e) {
       console.log(e);
     }
@@ -76,8 +76,7 @@ export const App = () => {
   };
 
   return (
-    <AuthContext.Provider value={{currentUser,setCurrentUser,setIsSignedIn, isSignedIn}}>
-      <SectionContext.Provider value={sections}>
+    <AuthContext.Provider value={{currentUser,setCurrentUser,setIsSignedIn, isSignedIn, sections}}>
         <BrowserRouter>
           <Routes>
             <Route path={"/"} element={<LayOut/>}>
@@ -90,7 +89,6 @@ export const App = () => {
             </Route>
           </Routes>
         </BrowserRouter>
-      </SectionContext.Provider>
     </AuthContext.Provider>
   );
 };

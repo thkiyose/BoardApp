@@ -15,7 +15,10 @@ export const Header = () => {
         </LeftMenu>
         <RightMenu>
           { isSignedIn &&
+          <>
             <li><Link to="/mypage/info">マイページ</Link></li>
+            <li><Link to="/news">News</Link></li>
+          </>
           }
         </RightMenu>
       </HeaderDiv>
@@ -51,19 +54,19 @@ const RightMenu = styled.ul`
     margin: 0;
     float: right;
   li {
-    height: 40px;
+    float: right;
     margin: 0px 20px;
     background: ${Color.secondary};
-    cursor: pointer;
     text-align: center;
-    min-width: 100px;
     button {
         height: 40px;
     }
     a {
         display: block;
         height: 40px;
-        margin: 0px 20px;
+        padding: 0px;
+        margin: 0px;
+        min-width: 100px;
         line-height: 40px;
         text-decoration: none;
     }

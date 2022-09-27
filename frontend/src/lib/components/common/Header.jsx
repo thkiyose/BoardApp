@@ -1,17 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import Color from './Color';
 import { SignOutButton } from '../SignOutButton';
+import { AuthContext  } from '../../../App';
 
 export const Header = () => {
+  const { isSignedIn } = useContext(AuthContext);
+
     return (
       <HeaderDiv>
         <LeftMenu>
             <li><SignOutButton /></li>
         </LeftMenu>
         <RightMenu>
+          { isSignedIn &&
             <li><Link to="/mypage/info">マイページ</Link></li>
+          }
         </RightMenu>
       </HeaderDiv>
     )

@@ -5,12 +5,12 @@ import { SignUp } from './lib/components/SignUp';
 import { SignIn } from './lib/components/SignIn';
 import { MyPage } from './lib/components/MyPage';
 import { MyPageInfo } from './lib/components/MyPageInfo';
+import { News } from './lib/components/News';
 import { Calendar } from './lib/components/Calendar';
 import { getCurrentUser } from "./lib/api/session.js"
 import { fetchSections } from "./lib/api/section.js"
 
 export const AuthContext = React.createContext("");
-export const SectionContext = React.createContext("");
 
 export const App = () => {
   const [loading, setLoading] = useState(true)
@@ -76,8 +76,9 @@ export const App = () => {
               <Route path={"/signup"} element={<NotLoggedInRoute><SignUp/></NotLoggedInRoute>}/>
               <Route path={"/calendar"} element={<LoggedInRoute><Calendar/></LoggedInRoute>}/>
               <Route path={"/mypage"} element={<LoggedInRoute><MyPage/></LoggedInRoute>}>
-              <Route path={"info"} element={<MyPageInfo/>} />
+               <Route path={"info"} element={<MyPageInfo/>} />
               </Route>
+              <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} ></Route>
             </Route>
           </Routes>
         </BrowserRouter>

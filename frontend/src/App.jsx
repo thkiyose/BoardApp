@@ -6,6 +6,7 @@ import { SignIn } from './lib/components/SignIn';
 import { MyPage } from './lib/components/MyPage';
 import { MyPageInfo } from './lib/components/MyPageInfo';
 import { News } from './lib/components/News';
+import { CreateNews } from './lib/components/CreateNews';
 import { Calendar } from './lib/components/Calendar';
 import { getCurrentUser } from "./lib/api/session.js"
 import { fetchSections } from "./lib/api/section.js"
@@ -78,7 +79,9 @@ export const App = () => {
               <Route path={"/mypage"} element={<LoggedInRoute><MyPage/></LoggedInRoute>}>
                <Route path={"info"} element={<MyPageInfo/>} />
               </Route>
-              <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} ></Route>
+              <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} >
+              <Route path={"create"} element={<LoggedInRoute><CreateNews/></LoggedInRoute>} />
+              </Route>
             </Route>
           </Routes>
         </BrowserRouter>

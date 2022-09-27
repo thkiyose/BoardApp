@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useLocation } from "react-router-dom"
 import { FlashMessage } from './common/FlashMessage';
 
-export const News = (props) => {
+export const CreateNews = (props) => {
     const location = useLocation();
-    const [ message ] = useState(location.state ?  [location.state.message] : []);
+    const [ message ] = useState([]);
     
     return (<>
-        <FlashMessage message={message} type={"success"} />
+        <FlashMessage message={message} type={"warning"} />
     </>)
 }

@@ -58,8 +58,8 @@ export const SectionSelector = (props) => {
 
 const SectionDiv = styled.div`
     border-top: solid 1px gray;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
     label {
         margin-right: 5px;
         padding-bottom: 10px;
@@ -83,7 +83,7 @@ const SectionDiv = styled.div`
     }
 `
 const AreaDiv = styled.div`
-    padding: 10px 0px 6px 0px;
+    padding: 0px 0px 6px 0px;
     font-size: 0.8rem;
     table {
         width: 100%;
@@ -104,7 +104,7 @@ const AreaDiv = styled.div`
         color: #333;
         border: 1px solid black;
         border-radius: 20px;
-        padding: 6px;
+        padding: 4px;
         cursor: pointer;
     }
     label input:checked + span {

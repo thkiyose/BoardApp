@@ -10,12 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_26_020149) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_27_063542) do
+  create_table "news", charset: "utf8mb4", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "content", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_news_on_user_id"
+  end
+
   create_table "sections", charset: "utf8mb4", force: :cascade do |t|
     t.integer "sections", null: false
     t.integer "areas", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "user_sections", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "section_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["section_id"], name: "index_users_sections_on_section_id"
+    t.index ["user_id"], name: "index_users_sections_on_user_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
@@ -32,15 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_020149) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  create_table "users_sections", charset: "utf8mb4", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "section_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["section_id"], name: "index_users_sections_on_section_id"
-    t.index ["user_id"], name: "index_users_sections_on_user_id"
-  end
-
-  add_foreign_key "users_sections", "sections"
-  add_foreign_key "users_sections", "users"
+  add_foreign_key "news", "users"
+  add_foreign_key "user_sections", "sections"
+  add_foreign_key "user_sections", "users"
 end

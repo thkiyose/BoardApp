@@ -79,9 +79,8 @@ export const App = () => {
               <Route path={"/mypage"} element={<LoggedInRoute><MyPage/></LoggedInRoute>}>
                <Route path={"info"} element={<MyPageInfo/>} />
               </Route>
-              <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} >
-              <Route path={"create"} element={<LoggedInRoute><CreateNews/></LoggedInRoute>} />
-              </Route>
+              <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} />
+              <Route path={"/news/create"} element={<LoggedInRoute><CreateNews/></LoggedInRoute>} />
             </Route>
           </Routes>
         </BrowserRouter>

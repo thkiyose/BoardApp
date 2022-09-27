@@ -55,7 +55,6 @@ export const NewsForm = () => {
 }
 
 const FormDiv = styled.div`
-    width: 50%;
     margin: 0 auto;
     input {
         box-sizing: border-box;

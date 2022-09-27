@@ -20,7 +20,7 @@ export const Header = () => {
   const HeaderDiv = styled.div`
     background-color: ${Color.primary};
     z-index: 1000;
-    height: 60px;
+    height: 40px;
     position: fixed;
     top: 0;
     left: 0;
@@ -33,10 +33,10 @@ const LeftMenu = styled.ul`
     margin: 0;
     float: left;
   li {
-    height: 60px;
+    height: 40px;
     margin: 0px 20px;
     button {
-        height: 60px;
+        height: 40px;
     }
 `
 
@@ -46,20 +46,20 @@ const RightMenu = styled.ul`
     margin: 0;
     float: right;
   li {
-    height: 60px;
+    height: 40px;
     margin: 0px 20px;
     background: ${Color.secondary};
     cursor: pointer;
     text-align: center;
     min-width: 100px;
     button {
-        height: 60px;
+        height: 40px;
     }
     a {
         display: block;
-        height: 60px;
+        height: 40px;
         margin: 0px 20px;
-        line-height: 60px;
+        line-height: 40px;
         text-decoration: none;
     }
 `

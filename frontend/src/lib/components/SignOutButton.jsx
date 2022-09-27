@@ -38,6 +38,5 @@ const Button = styled.button`
     display: block;
     background-color: ${Color.secondary};
     border: none;
-    padding: 15px;
     cursor: pointer;
 `

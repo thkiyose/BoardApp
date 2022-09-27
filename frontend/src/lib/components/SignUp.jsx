@@ -21,6 +21,11 @@ export const SignUp = () => {
 
     const handleSignUp = async(data) => {
         setMessage([]);
+        if (selectedArea.length === 0) {
+            setType("warning");
+            setMessage(["所属するエリアを選択して下さい。"]);
+            return;
+        }
         try {
             const res = await signUp(data)
       

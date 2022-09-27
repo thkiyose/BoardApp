@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { signUp } from "../api/session.js"
+import { createUserSections } from "../api/section.js"
 import { SectionSelector } from './common/SectionSelector.jsx';
 import Color from './common/Color';
 import { FlashMessage } from './common/FlashMessage';
@@ -28,14 +29,16 @@ export const SignUp = () => {
         }
         try {
             const res = await signUp(data)
-      
             if (res.status === 200) {
-              Cookies.set("_access_token", res.headers["access-token"])
-              Cookies.set("_client", res.headers["client"])
-              Cookies.set("_uid", res.headers["uid"]) 
-              setIsSignedIn(true);
-              setCurrentUser(res.data.data)
-              navigate("/calendar", { state: { message: "アカウントを作成しました。"}})
+              const sectionRes = await createUserSections( {id:res.data.data.id, selected: selectedArea})
+              if ( sectionRes.status === 200 ) {
+                Cookies.set("_access_token", res.headers["access-token"])
+                Cookies.set("_client", res.headers["client"])
+                Cookies.set("_uid", res.headers["uid"]) 
+                setIsSignedIn(true);
+                setCurrentUser({user: res.data.data ,sections: sectionRes.data.sections})
+                navigate("/calendar", { state: { message: "アカウントを作成しました。"}})
+              }
             } else {
               console.log(res)
             }

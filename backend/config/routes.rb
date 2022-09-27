@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :auth do
-        resources :sessions, only: %i[index]
+        resources :sessions, only: [:index]
       end
-      resources :sections, only: %i[index, create]
+      resources :sections, only:[:index, :create]
     end
   end
 end

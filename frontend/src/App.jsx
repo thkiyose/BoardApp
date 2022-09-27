@@ -61,7 +61,19 @@ export const App = () => {
       if (!isSignedIn) {
         return children ;
       } else {
-        return <Navigate to="/calendar" />;
+        return <Navigate to="/news" />;
+      }
+    } else {
+      return <></>;
+    }
+  };
+
+  const AdminProtectedRoute = ( {children} ) => {
+    if (!loading) {
+      if (isSignedIn && currentUser.user.admin === true) {
+        return children ;
+      } else {
+        return <Navigate to="/news" />;
       }
     } else {
       return <></>;
@@ -80,7 +92,7 @@ export const App = () => {
                <Route path={"info"} element={<MyPageInfo/>} />
               </Route>
               <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} />
-              <Route path={"/news/create"} element={<LoggedInRoute><CreateNews/></LoggedInRoute>} />
+              <Route path={"/news/create"} element={<AdminProtectedRoute><CreateNews/></AdminProtectedRoute>} />
             </Route>
           </Routes>
         </BrowserRouter>

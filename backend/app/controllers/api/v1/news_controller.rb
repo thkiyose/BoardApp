@@ -7,9 +7,8 @@ class Api::V1::NewsController < ApplicationController
     if news.save
       render json: { status:"success" }
     else
-      render json { errors: news.errors}
+      render json: { errors: news.errors}
     end
-    
   end
 
   private

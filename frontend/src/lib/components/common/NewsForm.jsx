@@ -3,24 +3,50 @@ import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Color from './Color';
+import { createNews } from '../../api/news';
 import { FlashMessage } from './FlashMessage';
 import { AuthContext } from '../../../App.jsx';
 
 export const NewsForm = () => {
-    const [ message ] = useState([]);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const [ message,setMessage ] = useState([]);
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const navigate = useNavigate();
+    const { currentUser } = useContext(AuthContext)
+    const [ type, setType ] = useState("warning");
+
+    const handleCreateNews = async(data) => {
+        setMessage([]);
+        const params = { title: watch("title"), content: watch("content"), userId: currentUser.user.id}
+        try {
+            const res = await createNews(params) 
+            if (res.status === 200) {
+                navigate("/news", {state: { message: "Newsを投稿しました。"}})
+            } else {
+                console.log(res)
+            }
+            } catch (e) {
+            console.log(e)
+            if (e.response?.data?.errors?.fullMessages) {
+                setType("warning");
+                setMessage(e.response?.data?.errors?.fullMessages)
+                } else if (e.message) {
+                setType("warning");
+                setMessage([e.message])
+                }
+            }
+    }
 
     return (
         <FormDiv>
-            <FlashMessage message={message} type={"warning"} />
+            <FlashMessage message={message} type={type} />
             <h1>Newsを投稿する</h1>
-            <form onSubmit={handleSubmit()}>
+            <form onSubmit={handleSubmit(handleCreateNews)}>
             <p><label>タイトル</label></p>
             <input className="titleForm" {...register("title",{ required: true, maxLength: 30 })} />
             {errors.title?.type === "required" && <ErrorMessage>タイトルを入力して下さい。</ErrorMessage>}
             {errors.title?.type === "maxLength" && <ErrorMessage>30文字以内で入力して下さい。</ErrorMessage>}
             <p><label>本文</label></p>
-            <input className="contentForm" {...register("content",{ required: true })} />
+            <textarea className="contentForm" {...register("content",{ required: true })} />
             {errors.content?.type === "required" && <ErrorMessage>本文を入力して下さい。</ErrorMessage>}
             <p><button type="submit" >投稿</button></p>
             </form>

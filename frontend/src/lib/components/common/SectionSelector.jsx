@@ -23,11 +23,12 @@ export const SectionSelector = (props) => {
     return (
         <>
             <SectionDiv>
-            <p><label>所属セクション・エリア</label></p>
+            <p><label>所属セクション</label></p>
             {Object.keys(sections).map((key,value) => {
             return <React.Fragment key={key}><label><input onChange={(e)=>handleSelectSection(e)} type="checkbox" value={key} name={key}/><span>{key}</span></label></React.Fragment>
             })}
             </SectionDiv>
+            { selectedSection.length > 0 && <p><label>所属エリア</label></p>}
             { selectedSection.map((secName) => {
                 return (
                     <AreaDiv key={secName}>
@@ -88,8 +89,8 @@ const AreaDiv = styled.div`
         width: 100%;
     }
     th {
-        width: 25%;
-        text-align: right;
+        width: 20%;
+        text-align: left;
     }
     label {
         margin-right: 5px;

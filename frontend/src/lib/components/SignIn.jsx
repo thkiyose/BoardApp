@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { signIn } from "../api/session.js"
+import { fetchUserSections } from "../api/section.js"
 import Color from './common/Color';
 import { FlashMessage } from './common/FlashMessage';
 import { AuthContext } from '../../App.jsx';
@@ -19,15 +20,14 @@ export const SignIn = () => {
     const handleSignIn = async(data) => {
         setMessage([]);
         try {
-            const res = await signIn(data)
-            console.log(res)
-      
+            const res = await signIn(data) 
             if (res.status === 200) {
+              const sectionRes = await fetchUserSections(res.data.data.id)
               Cookies.set("_access_token", res.headers["access-token"])
               Cookies.set("_client", res.headers["client"])
               Cookies.set("_uid", res.headers["uid"]) 
               setIsSignedIn(true);
-              setCurrentUser(res.data.data)
+              setCurrentUser({user: res.data.data, sections: sectionRes.data.sections })
               navigate("/news", { state: { message: "ログインしました。"}})
             } else {
               console.log(res)

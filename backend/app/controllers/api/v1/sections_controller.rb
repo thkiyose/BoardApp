@@ -15,4 +15,9 @@ class Api::V1::SectionsController < ApplicationController
         end
         render json: {status: "success", sections: user.sections.group_by { |s| s.sections }}
     end
+
+    def show
+        user = User.find_by(id: params[:id])
+        render json: {sections: user.sections.group_by { |s| s.sections }}
+    end
 end

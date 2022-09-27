@@ -14,8 +14,11 @@ export const SignUp = () => {
     const location = useLocation();
     const { setCurrentUser, setIsSignedIn,sections} = useContext(AuthContext)
     const [ message, setMessage ] = useState(location.state ?  [location.state.message] : []);
+    const [selectedSection, setSelectedSection] = useState([]);
+    const [selectedArea, setSelectedArea] = useState([]);
     const [ type, setType ] = useState(location.state && location.state.type ?  location.state.type : "warning");
     const navigate = useNavigate("");
+
     const handleSignUp = async(data) => {
         setMessage([]);
         try {
@@ -62,7 +65,13 @@ export const SignUp = () => {
                     <p><label>パスワード(確認)</label></p>
                     <input type="password" {...register("passwordConfirmation",{ required: true })} />
                     {errors.passwordConfirmation?.type === "required" && <ErrorMessage>パスワードをもう一度入力して下さい。</ErrorMessage>}
-                    <SectionSelector sections={sections} secName={"civil"} />
+                    <SectionSelector
+                    sections={sections}
+                    secName={"civil"}
+                    selectedSection={selectedSection}
+                    setSelectedSection={setSelectedSection}
+                    selectedArea={selectedArea}
+                    setSelectedArea={setSelectedArea}/>
                     <p><button type="submit" >登録</button></p>
                 </form>
                 <p id="signInGuide">アカウントをお持ちの方は<Link to="/">ログイン</Link></p>

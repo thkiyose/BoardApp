@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from "styled-components";
 
 export const SectionSelector = (props) => {
-    const {sections} = props;
-    const [selectedSection, setSelectedSection] = useState([]);
-    const [selectedArea, setSelectedArea] = useState([]);
+    const {sections, selectedSection, setSelectedSection, selectedArea, setSelectedArea} = props;
 
     const handleSelectSection = (e) => {
         if (selectedSection.includes(e.target.value)) {

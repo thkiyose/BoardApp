@@ -16,10 +16,10 @@ export const MyPageInfo = () => {
                 <li>{currentUser.user.admin ? "管理者": "一般"}</li>
                 <label>所属セクション</label>
                     {Object.keys(currentUser.sections).map((key,value) => {
-                    const tags = [<li className="sectionName">{key}</li>]
+                    const tags = [<li className="sectionName">{key}:</li>]
                     currentUser.sections[key].forEach((sec)=> tags.push(<span className="areaName">{sec.areas}</span>))
                     tags.push(<br/>)
-                    return <div key={key}>{tags}</div>
+                    return <div>{tags}</div>
                 })}
             </ul>
         </InfoDiv>
@@ -34,12 +34,10 @@ const InfoDiv = styled.div`
         }
     }
     .sectionName {
-        color: green;
-        min-width: 70px;
-        text-align: center;
-        border: solid 1px;
-        padding: 5px;
-        display: inline-block;
-        margin-right: 10px;
+        display: inline;
+        margin-right: 5px;
+    }
+    .areaName {
+        margin: 0px 3px;
     }
 `

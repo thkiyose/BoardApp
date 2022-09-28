@@ -28,7 +28,7 @@ export const SignIn = () => {
               Cookies.set("_uid", res.headers["uid"]) 
               setIsSignedIn(true);
               setCurrentUser({user: res.data.data, sections: sectionRes.data.sections })
-              navigate("/news", { state: { message: "ログインしました。"}})
+              navigate("/news/index", { state: { message: "ログインしました。"}})
             } else {
               console.log(res)
             }

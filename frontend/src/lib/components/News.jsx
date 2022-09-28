@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate, Link } from "react-router-dom"
 import { FlashMessage } from './common/FlashMessage';
@@ -6,7 +6,7 @@ import Color from '../components/common/Color';
 
 export const News = (props) => {
     const location = useLocation();
-    const [ message ] = useState(location.state ?  [location.state.message] : []);
+    const [ message, setMessage ] = useState([]);
     const navigate = useNavigate();
     
     return (<Div>

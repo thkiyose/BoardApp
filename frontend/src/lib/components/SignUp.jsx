@@ -75,11 +75,11 @@ export const SignUp = () => {
                     {errors.passwordConfirmation?.type === "required" && <ErrorMessage>パスワードをもう一度入力して下さい。</ErrorMessage>}
                     <SectionSelector
                     sections={sections}
-                    secName={"civil"}
                     selectedSection={selectedSection}
                     setSelectedSection={setSelectedSection}
                     selectedArea={selectedArea}
-                    setSelectedArea={setSelectedArea}/>
+                    setSelectedArea={setSelectedArea}
+                    showLabel={true}/>
                     <p><button type="submit" >登録</button></p>
                 </form>
                 <p id="signInGuide">アカウントをお持ちの方は<Link to="/">ログイン</Link></p>

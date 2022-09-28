@@ -6,13 +6,18 @@ import Color from './Color';
 import { createNews } from '../../api/news';
 import { FlashMessage } from './FlashMessage';
 import { AuthContext } from '../../../App.jsx';
+import { SectionSelector } from './SectionSelector';
 
 export const NewsForm = () => {
     const [ message,setMessage ] = useState([]);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const navigate = useNavigate();
-    const { currentUser } = useContext(AuthContext)
+    const { currentUser, sections } = useContext(AuthContext)
     const [ type, setType ] = useState("warning");
+    const [selectedSectionFrom, setSelectedSectionFrom] = useState([]);
+    const [selectedAreaFrom, setSelectedAreaFrom] = useState([]);
+    const [selectedSectionTo, setSelectedSectionTo] = useState([]);
+    const [selectedAreaTo, setSelectedAreaTo] = useState([]);
 
     const handleCreateNews = async(data) => {
         setMessage([]);
@@ -48,6 +53,20 @@ export const NewsForm = () => {
             <p><label>本文</label></p>
             <textarea className="contentForm" {...register("content",{ required: true })} />
             {errors.content?.type === "required" && <ErrorMessage>本文を入力して下さい。</ErrorMessage>}
+            <p><label>From: Newsの発信源</label></p>
+            <SectionSelector
+                    sections={currentUser.sections}
+                    selectedSection={selectedSectionFrom}
+                    setSelectedSection={setSelectedSectionFrom}
+                    selectedArea={selectedAreaFrom}
+                    setSelectedArea={setSelectedAreaFrom}/>
+            <p><label>To: Newsの配信先セクション/エリア</label></p>
+            <SectionSelector
+                sections={sections}
+                selectedSection={selectedSectionTo}
+                setSelectedSection={setSelectedSectionTo}
+                selectedArea={selectedAreaTo}
+                setSelectedArea={setSelectedAreaTo}/>
             <p><button type="submit" >投稿</button></p>
             </form>
         </FormDiv>
@@ -62,7 +81,7 @@ const FormDiv = styled.div`
         padding: 10px;
     }
     p {
-        margin: 3px;
+        margin-top: 10px;
     }
     h1 {
         text-align: center;

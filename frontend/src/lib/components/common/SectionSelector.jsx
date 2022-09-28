@@ -2,7 +2,7 @@ import React from 'react'
 import styled from "styled-components";
 
 export const SectionSelector = (props) => {
-    const {sections, selectedSection, setSelectedSection, selectedArea, setSelectedArea} = props;
+    const {sections, selectedSection, setSelectedSection, selectedArea, setSelectedArea, showLabel} = props;
 
     const handleSelectSection = (e) => {
         if (selectedSection.includes(e.target.value)) {
@@ -23,12 +23,12 @@ export const SectionSelector = (props) => {
     return (
         <>
             <SectionDiv>
-            <p><label>所属セクション</label></p>
+            {showLabel ? <p><label>所属セクション</label></p>: ""}
             {Object.keys(sections).map((key,value) => {
             return <React.Fragment key={key}><label><input onChange={(e)=>handleSelectSection(e)} type="checkbox" value={key} name={key}/><span>{key}</span></label></React.Fragment>
             })}
             </SectionDiv>
-            { selectedSection.length > 0 && <p><label>所属エリア</label></p>}
+            { selectedSection.length > 0 && showLabel ? <p><label>所属エリア</label></p> : <p><label></label></p>}
             { selectedSection.map((secName) => {
                 return (
                     <AreaDiv key={secName}>
@@ -57,21 +57,18 @@ export const SectionSelector = (props) => {
 }
 
 const SectionDiv = styled.div`
-    border-top: solid 1px gray;
-    margin-top: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     label {
         margin-right: 5px;
         padding-bottom: 10px;
     }
     label input {
         display: none;
-
     }
     label span {
         color: #333;
         font-size: 0.8rem;
-        border: 1px solid black;
+        border: 1px solid gray;
         border-radius: 20px;
         padding: 6px;
         cursor: pointer;

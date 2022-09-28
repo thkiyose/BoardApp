@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
+import { ShowNews } from '../api/news';
 
 export const NewsIndex = () => {
     const [ news, setNews ] = useState({});
-
-    const LoadNews = async() => {
+    const [ to, setTo ] = useState([])
+    const [ from, setFrom ] = useState([])
+console.log(from)
+    const ShowNews = async() => {
         try {
-            const res = await IndexNews(); 
+            const res = await ShowNews(); 
             if (res.status === 200) {
                 setNews(res.data.news);
+                setTo(res.data.to);
+                setFrom(res.data.from);
             } else {
               console.log(res)
             }
@@ -16,7 +21,7 @@ export const NewsIndex = () => {
             console.log(e)
           }
     }
-    useEffect(()=>{LoadNews()},[setNews]);
+    useEffect(()=>{ShowNews()},[setNews]);
 
     return (
         <Div>

@@ -4,6 +4,22 @@ class Api::V1::NewsController < ApplicationController
 
   def create
     news = News.new(news_params)
+    selected_from = params[:selected_area_from]
+    selected_to = params[:selected_area_to]
+    selected_from.each do |x|
+        split = x.split(",")
+        section = Section.find_by(sections: Section.sections[split[0].capitalize], areas: Section.areas[split[1]])
+        if section
+          news.news_from_sections.build(section_id: section.id)
+        end
+    end
+    selected_to.each do |x|
+      split = x.split(",")
+      section = Section.find_by(sections: Section.sections[split[0].capitalize], areas: Section.areas[split[1]])
+      if section
+        news.news_to_sections.build(section_id: section.id)
+      end
+  end
     if news.save
       render json: { status:"success" }
     else
@@ -14,6 +30,6 @@ class Api::V1::NewsController < ApplicationController
   private
 
   def news_params
-    params.require(:news).permit(:title,:content,:user_id)
+    params.require(:news).permit(:title,:content,:user_id,:selected_area_from,:selected_area_to)
   end
 end

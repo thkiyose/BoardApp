@@ -21,7 +21,7 @@ export const NewsForm = () => {
 
     const handleCreateNews = async(data) => {
         setMessage([]);
-        const params = { title: watch("title"), content: watch("content"), userId: currentUser.user.id}
+        const params = { title: watch("title"), content: watch("content"), userId: currentUser.user.id, selectedAreaFrom: selectedAreaFrom, selectedAreaTo: selectedAreaTo}
         try {
             const res = await createNews(params) 
             if (res.status === 200) {

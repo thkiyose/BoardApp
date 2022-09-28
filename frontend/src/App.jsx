@@ -7,6 +7,7 @@ import { MyPage } from './lib/components/MyPage';
 import { MyPageInfo } from './lib/components/MyPageInfo';
 import { News } from './lib/components/News';
 import { NewsIndex } from './lib/components/NewsIndex';
+import { NewsInfo } from './lib/components/NewsInfo';
 import { CreateNews } from './lib/components/CreateNews';
 import { Calendar } from './lib/components/Calendar';
 import { getCurrentUser } from "./lib/api/session.js"
@@ -94,6 +95,7 @@ export const App = () => {
               </Route>
               <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} >
                 <Route path={"index"} element={<LoggedInRoute><NewsIndex/></LoggedInRoute>} />
+                <Route path={":id"} element={<LoggedInRoute ><NewsInfo /></LoggedInRoute>} />
                 <Route path={"create"} element={<AdminProtectedRoute><CreateNews/></AdminProtectedRoute>} />
               </Route>
             </Route>

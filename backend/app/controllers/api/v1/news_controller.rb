@@ -4,6 +4,13 @@ class Api::V1::NewsController < ApplicationController
     render json: { news: news }
   end
 
+  def show
+    news = News.find_by(id: params[:id]);
+    to = news.to_sections
+    from = news.from_sections
+    render json: { news: news, to: to, from: from}
+  end
+
   def create
     news = News.new(news_params)
     selected_from = params[:selected_area_from]

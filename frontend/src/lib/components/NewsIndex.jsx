@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import { IndexNews } from '../api/news';
+import { NewsCard } from './common/NewsCard';
 
 export const NewsIndex = () => {
     const [ news, setNews ] = useState([]);
@@ -23,7 +24,7 @@ export const NewsIndex = () => {
         <Div>
             {news.map((n)=>{
                 return (
-                    <p>{n.title}</p>
+                    <NewsCard news={n}/>
                 )
             })}
         </Div>

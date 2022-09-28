@@ -27,6 +27,7 @@ export const Header = () => {
 
   const HeaderDiv = styled.div`
     background-color: ${Color.primary};
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     z-index: 1000;
     height: 40px;
     position: fixed;

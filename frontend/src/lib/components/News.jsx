@@ -37,6 +37,7 @@ const Div = styled.div`
 `
 
 const CreateLink = styled(Link)`
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     border-radius: 50%;
     line-height: 70px;
     text-align: center;

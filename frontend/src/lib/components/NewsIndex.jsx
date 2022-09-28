@@ -32,6 +32,7 @@ export const NewsIndex = () => {
 }
 
 const Div = styled.div`
-    width: 60%;
-    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-wrap : wrap;
 `

@@ -7,3 +7,7 @@ export const IndexNews = () => {
 export const createNews = (params) => {
     return client.post('/news', params);
 };
+
+export const ShowNews = (id) => {
+    return client.get(`/news/${id}`);
+};

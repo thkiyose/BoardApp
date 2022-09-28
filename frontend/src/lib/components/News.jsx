@@ -9,11 +9,14 @@ export const News = (props) => {
     const [ message ] = useState(location.state ?  [location.state.message] : []);
     const navigate = useNavigate();
     
-    return (<Div>
-        <FlashMessage message={message} type={"success"} />
-        <CreateButton/>
-        <Outlet/>
-    </Div>)
+    return (
+        <>
+            <Div>
+                <CreateButton/>
+            </Div>
+            <Outlet/>
+        </>
+    )
 }
 
 const CreateButton = () => {
@@ -26,7 +29,10 @@ const CreateButton = () => {
 }
 
 const Div = styled.div`
-    margin-top: 10px;
+    margin: 0;
+    float: left;
+    width: 20%;
+    height: 100vh;
 `
 
 const CreateLink = styled(Link)`

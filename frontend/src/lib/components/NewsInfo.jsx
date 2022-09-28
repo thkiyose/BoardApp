@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import { ShowNews } from '../api/news';
+import { BackButton } from './common/BackButton';
 
 export const NewsInfo = () => {
     const [ news, setNews ] = useState({});
@@ -29,17 +30,19 @@ export const NewsInfo = () => {
             );
           });
         return (
-            <Div>
-                <h1>{news.news.title}</h1>
-                <p className="dayTime">{news.news.createdAt}</p>
-                <p>{content}</p>
-            </Div>
+                <Div>
+                    <BackButton/>
+                    <h1>{news.news.title}</h1>
+                    <p className="dayTime">{news.news.createdAt}</p>
+                    <p>{content}</p>
+                </Div>
         )
     }
 }
 
 const Div = styled.div`
     padding: 20px 30px;
+    background: white;
     float: left;
     width: 70%;
     font-size: 0.8rem;
@@ -47,7 +50,7 @@ const Div = styled.div`
     margin: 15px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     h1 {
-        margin: 0;
+        margin-top: 20px;
     }
     .dayTime {
         color:gray;

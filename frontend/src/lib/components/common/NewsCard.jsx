@@ -8,7 +8,7 @@ export const NewsCard = (props) => {
     const navigate = useNavigate();
 
     return (
-        <Card onClick={()=>navigate("/")}>
+        <Card onClick={()=>navigate(`/news/${news.id}`)}>
             <Image/>
             <Text>
                 <h3>{news.title}</h3>

@@ -17,7 +17,7 @@ export const Header = () => {
           { isSignedIn &&
           <>
             <li><Link to="/mypage/info">マイページ</Link></li>
-            <li><Link to="/news">News</Link></li>
+            <li><Link to="/news/index">News</Link></li>
           </>
           }
         </RightMenu>

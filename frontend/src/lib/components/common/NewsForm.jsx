@@ -25,7 +25,7 @@ export const NewsForm = () => {
         try {
             const res = await createNews(params) 
             if (res.status === 200) {
-                navigate("/news", {state: { message: "Newsを投稿しました。"}})
+                navigate("/news/index", {state: { message: "Newsを投稿しました。"}})
             } else {
                 console.log(res)
             }

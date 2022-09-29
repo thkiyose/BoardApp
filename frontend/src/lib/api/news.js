@@ -11,3 +11,7 @@ export const createNews = (params) => {
 export const ShowNews = (id) => {
     return client.get(`/news/${id}`);
 };
+
+export const UpdateNews = (id) => {
+    return client.put(`/news/${id}`);
+};

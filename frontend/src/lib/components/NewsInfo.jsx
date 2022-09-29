@@ -136,6 +136,7 @@ const SectionArea = styled.span`
 `
 const Menu = styled.div`
     float: right; 
+    height: 20px;
     ul {
         list-style: none;
         display:flex;

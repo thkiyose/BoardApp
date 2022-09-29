@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../src/lib/style/App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LayOut } from './lib/components/LayOut';
 import { SignUp } from './lib/components/SignUp';

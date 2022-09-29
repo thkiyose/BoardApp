@@ -35,4 +35,6 @@ const Div = styled.div`
     padding: 0;
     display: flex;
     flex-wrap : wrap;
+    width: 80%;
+    justify-content: stretch; 
 `

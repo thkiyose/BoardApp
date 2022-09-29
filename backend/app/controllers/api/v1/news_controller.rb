@@ -7,9 +7,9 @@ class Api::V1::NewsController < ApplicationController
   def show
     news = News.find_by(id: params[:id]);
     puts params
-    to = news.to_sections
-    from = news.from_sections
-    render json: { news: news, to: to, from: from}
+    to = news.to_sections.group_by{ |s| s.sections }
+    from = news.from_sections.group_by{ |s| s.sections }
+    render json: { news: news, to: to.values, from: from.values}
   end
 
   def create

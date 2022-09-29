@@ -15,3 +15,7 @@ export const ShowNews = (id) => {
 export const UpdateNews = (id,params) => {
     return client.put(`/news/${id}`,params);
 };
+
+export const DestroyNews = (id) => {
+    return client.delete(`/news/${id}`);
+};

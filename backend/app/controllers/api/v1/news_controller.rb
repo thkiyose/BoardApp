@@ -45,13 +45,14 @@ class Api::V1::NewsController < ApplicationController
   end
 
   def update
+    p params
     news = News.find_by_id(params[:id])
     selected_from = params[:selected_area_from]
     selected_to = params[:selected_area_to]
     to = news.news_to_sections
     from = news.news_from_sections
     to.destroy_all
-    from.detryoy_all
+    from.destroy_all
 
     selected_from.each do |x|
       split = x.split(",")

@@ -37,7 +37,7 @@ export const NewsEdit = () => {
     return (
         <Div>
             <BackButton/>
-            <NewsForm initialTitle={title} initialContent={content} newsId={newsId} update={true} initialTo={initialTo} initialFrom={initialFrom} />
+            <NewsForm initialTitle={title} initialContent={content} newsId={newsId.id} update={true} initialTo={initialTo} initialFrom={initialFrom} />
         </Div>
     )
 }

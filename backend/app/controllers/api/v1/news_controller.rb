@@ -37,6 +37,13 @@ class Api::V1::NewsController < ApplicationController
     end
   end
 
+  def edit
+    news = news.find_by_id(params[:id])
+    to = news.to_sections.group_by{ |s| s.sections }
+    from = news.from_sections.group_by{ |s| s.sections }
+    render json: { news: news, to: to, from: from}}
+  end
+
   def update
     news = News.find_by_id(params[:id])
     selected_from = params[:selected_area_from]

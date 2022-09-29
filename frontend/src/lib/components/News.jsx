@@ -1,14 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { AuthContext  } from '../../App';
-import { useLocation, useNavigate, Link, Outlet } from "react-router-dom"
-import { FlashMessage } from './common/FlashMessage';
+import { Link, Outlet } from "react-router-dom"
 import Color from '../components/common/Color';
 
 export const News = (props) => {
-    const location = useLocation();
+    // const location = useLocation();
     const { currentUser } = useContext(AuthContext);
-    const [ message ] = useState(location.state ?  [location.state.message] : []);
+    // const [ message ] = useState(location.state ?  [location.state.message] : []);
     
     return (
         <>

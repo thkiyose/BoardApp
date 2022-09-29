@@ -10,6 +10,7 @@ import { News } from './lib/components/News';
 import { NewsIndex } from './lib/components/NewsIndex';
 import { NewsInfo } from './lib/components/NewsInfo';
 import { CreateNews } from './lib/components/CreateNews';
+import { NewsEdit } from './lib/components/NewsEdit';
 import { Calendar } from './lib/components/Calendar';
 import { getCurrentUser } from "./lib/api/session.js"
 import { fetchSections } from "./lib/api/section.js"
@@ -98,6 +99,7 @@ export const App = () => {
                 <Route path={"index"} element={<LoggedInRoute><NewsIndex/></LoggedInRoute>} />
                 <Route path={":id"} element={<LoggedInRoute ><NewsInfo /></LoggedInRoute>} />
                 <Route path={"create"} element={<AdminProtectedRoute><CreateNews/></AdminProtectedRoute>} />
+                <Route path={":id/edit"} element={<AdminProtectedRoute><CreateNews/></AdminProtectedRoute>} />
               </Route>
             </Route>
           </Routes>

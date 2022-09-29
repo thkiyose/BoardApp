@@ -41,7 +41,7 @@ class Api::V1::NewsController < ApplicationController
     news = news.find_by_id(params[:id])
     to = news.to_sections.group_by{ |s| s.sections }
     from = news.from_sections.group_by{ |s| s.sections }
-    render json: { news: news, to: to, from: from}}
+    render json: { news: news, to: to, from: from}
   end
 
   def update
@@ -66,6 +66,7 @@ class Api::V1::NewsController < ApplicationController
       if section
         news.news_to_sections.create!(section_id: section.id)
       end
+    end
     if news.update(news_params)
       render json: { status: "SUCCESS"}
     else

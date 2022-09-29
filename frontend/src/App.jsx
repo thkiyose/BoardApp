@@ -99,7 +99,7 @@ export const App = () => {
                 <Route path={"index"} element={<LoggedInRoute><NewsIndex/></LoggedInRoute>} />
                 <Route path={":id"} element={<LoggedInRoute ><NewsInfo /></LoggedInRoute>} />
                 <Route path={"create"} element={<AdminProtectedRoute><CreateNews/></AdminProtectedRoute>} />
-                <Route path={":id/edit"} element={<AdminProtectedRoute><CreateNews/></AdminProtectedRoute>} />
+                <Route path={":id/edit"} element={<AdminProtectedRoute><NewsEdit/></AdminProtectedRoute>} />
               </Route>
             </Route>
           </Routes>

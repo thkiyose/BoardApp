@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -8,9 +8,10 @@ import { FlashMessage } from './FlashMessage';
 import { AuthContext } from '../../../App.jsx';
 import { SectionSelector } from './SectionSelector';
 
-export const NewsForm = () => {
+export const NewsForm = (props) => {
     const [ message,setMessage ] = useState([]);
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm();
+    const { initialContent, initialTitle, initialTo, initialFrom, newsId, update } = props;
     const navigate = useNavigate();
     const { currentUser, sections } = useContext(AuthContext)
     const [ type, setType ] = useState("warning");
@@ -18,6 +19,23 @@ export const NewsForm = () => {
     const [selectedAreaFrom, setSelectedAreaFrom] = useState([]);
     const [selectedSectionTo, setSelectedSectionTo] = useState([]);
     const [selectedAreaTo, setSelectedAreaTo] = useState([]);
+
+   
+    const setInitialValue = useCallback((initialContent,initialTitle,initialTo,initialFrom)=>{
+        setValue("title",initialTitle);
+        setValue("content",initialContent);
+        const toSec = [...initialTo].map((x)=> {return x.section.toLowerCase()})
+        const newToSec = toSec.filter((element, index) => toSec.indexOf(element) === index);
+        const toAr = [...initialTo].map((x)=> {return `${x.section.toLowerCase()},${x.area}`})
+        setSelectedSectionTo(newToSec)
+        setSelectedAreaTo(toAr)
+        const fromSec = [...initialFrom].map((x)=> {return x.section.toLowerCase()})
+        const newFromSec = fromSec.filter((element, index) => fromSec.indexOf(element) === index);
+        const fromAr = [...initialFrom].map((x)=> {return `${x.section.toLowerCase()},${x.area}`})
+        setSelectedSectionFrom(newFromSec)
+        setSelectedAreaFrom(fromAr)
+    },[setValue]);
+    useEffect(()=>{setInitialValue(initialContent,initialTitle,initialTo, initialFrom)},[setInitialValue,initialContent,initialTitle,initialTo, initialFrom]);
 
     const handleCreateNews = async(data) => {
         setMessage([]);
@@ -55,11 +73,11 @@ export const NewsForm = () => {
             {errors.content?.type === "required" && <ErrorMessage>本文を入力して下さい。</ErrorMessage>}
             <p><label>From: Newsの発信源</label></p>
             <SectionSelector
-                    sections={currentUser.sections}
-                    selectedSection={selectedSectionFrom}
-                    setSelectedSection={setSelectedSectionFrom}
-                    selectedArea={selectedAreaFrom}
-                    setSelectedArea={setSelectedAreaFrom}/>
+                sections={currentUser.sections}
+                selectedSection={selectedSectionFrom}
+                setSelectedSection={setSelectedSectionFrom}
+                selectedArea={selectedAreaFrom}
+                setSelectedArea={setSelectedAreaFrom}/>
             <p><label>To: Newsの配信先セクション/エリア</label></p>
             <SectionSelector
                 sections={sections}
@@ -67,7 +85,7 @@ export const NewsForm = () => {
                 setSelectedSection={setSelectedSectionTo}
                 selectedArea={selectedAreaTo}
                 setSelectedArea={setSelectedAreaTo}/>
-            <p><button type="submit" >投稿</button></p>
+            { update === true ? <p><button></button></p> : <p><button type="submit" >投稿</button></p> }
             </form>
         </FormDiv>
         );

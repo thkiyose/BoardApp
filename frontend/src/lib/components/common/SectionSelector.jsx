@@ -25,7 +25,9 @@ export const SectionSelector = (props) => {
             <SectionDiv>
             {showLabel ? <p><label>所属セクション</label></p>: ""}
             {Object.keys(sections).map((key,value) => {
-            return <React.Fragment key={key}><label><input onChange={(e)=>handleSelectSection(e)} type="checkbox" value={key} name={key}/><span>{key}</span></label></React.Fragment>
+            return <React.Fragment key={key}>
+                   { selectedSection.includes(key)? <label><input onClick={(e)=>handleSelectSection(e)} defaultChecked type="checkbox" value={key} name={key}/><span>{key}</span></label> : <label><input onChange={(e)=>handleSelectSection(e)} type="checkbox" value={key} name={key}/><span>{key}</span></label>}
+                    </React.Fragment>
             })}
             </SectionDiv>
             { selectedSection.length > 0 && showLabel ? <p><label>所属エリア</label></p> : <p><label></label></p>}
@@ -40,7 +42,7 @@ export const SectionSelector = (props) => {
                             {sections[secName].map((sec,index)=> {
                                     return (
                                         <React.Fragment key={index}>
-                                        <label><input onChange={(e)=>{handleSelectArea(e)}} type="checkbox" value={[secName, sec.areas]} /><span>{sec.areas}</span></label>
+                                            { selectedArea.includes(`${secName},${sec.areas}`) ? <label><input onChange={(e)=>{handleSelectArea(e)}} defaultChecked type="checkbox" value={[secName, sec.areas]} /><span>{sec.areas}</span></label> : <label><input onChange={(e)=>{handleSelectArea(e)}} type="checkbox" value={[secName, sec.areas]} /><span>{sec.areas}</span></label> }
                                         </React.Fragment>
                                        )                            
                                     })}

@@ -26,7 +26,7 @@ export const NewsInfo = () => {
           setIsLoading(false);
     }
     useEffect(()=>{FetchNews(newsId.id)},[newsId.id]);
-    
+
     if ( !isLoading && news.news ) {
         const content = news.news.content.split("\n").map((item, index) => {
             return (
@@ -40,7 +40,8 @@ export const NewsInfo = () => {
                         <>
                             <Menu>
                                 <ul>
-                                    <li><Link to={`/${newsId.id}/edit`}>編集</Link></li>
+                                    <li><Link to={`/news/${newsId.id}/edit`}
+                                        state={{ title: news.news.title, content: news.news.content, to: news.to, from: news.from}}>編集</Link></li>
                                     <li>削除</li>
                                 </ul>
                             </Menu>

@@ -1,5 +1,6 @@
-import React, { useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { AuthContext  } from '../../App';
 import styled from 'styled-components'
 import { ShowNews } from '../api/news';
 import { BackButton } from './common/BackButton';
@@ -8,6 +9,7 @@ import Color from './common/Color';
 export const NewsInfo = () => {
     const [ news, setNews ] = useState({});
     const [ isLoading, setIsLoading ] = useState(true);
+    const { currentUser } = useContext(AuthContext);
     const newsId = useParams();
 
     const FetchNews = async(newsId) => {
@@ -34,6 +36,17 @@ export const NewsInfo = () => {
         return (
                 <Div>
                     <BackButton/>
+                    { currentUser.user.id === news.news.userId &&
+                        <>
+                            <Menu>
+                                <ul>
+                                    <li><Link to={`/${newsId.id}/edit`}>編集</Link></li>
+                                    <li>削除</li>
+                                </ul>
+                            </Menu>
+                            <ClearFix/>
+                        </>
+                    }
                     <h1>{news.news.title}</h1>
                     <p className="dayTime">{news.news.createdAt}</p>
                     <p>
@@ -78,7 +91,6 @@ const Div = styled.div`
     margin: 15px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     h1 {
-        margin-top: 20px;
         margin-bottom: 0;
         font-size: 1.1rem;
     }
@@ -104,4 +116,22 @@ const SectionArea = styled.span`
         padding: 5px;
         border-radius: 10px;
     }
+`
+const Menu = styled.div`
+    float: right; 
+    ul {
+        list-style: none;
+        display:flex;
+        li {
+            padding: 10px;
+        }
+        margin-right: 10px;
+    }
+`
+
+const ClearFix = styled.div`
+    ::after {
+        content: "";
+        display: block;
+        clear: both;
 `

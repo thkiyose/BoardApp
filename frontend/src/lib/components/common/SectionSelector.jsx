@@ -7,6 +7,7 @@ export const SectionSelector = (props) => {
     const handleSelectSection = (e) => {
         if (selectedSection.includes(e.target.value)) {
             setSelectedSection(selectedSection.filter((item)=> item !== e.target.value));
+            setSelectedArea(selectedArea.filter(area => area.split(",")[0] !== e.target.value ))
         } else {
             setSelectedSection([...selectedSection,e.target.value]);
         }

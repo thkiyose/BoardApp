@@ -71,7 +71,17 @@ class Api::V1::NewsController < ApplicationController
     if news.update(news_params)
       render json: { status: "SUCCESS"}
     else
-      render json:  review.errors, status: 422
+      render json:  news.errors, status: 422
+    end
+  end
+
+  def destroy
+    news = News.find_by_id(params[:id])
+    p params
+    if news.destroy
+      render json: { status: "SUCCESS"}
+    else
+      render json: news.errors, status: 422
     end
   end
 

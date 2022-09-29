@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { AuthContext  } from '../../App';
 import styled from 'styled-components'
 import { ShowNews } from '../api/news';
+import { DestroyNews } from '../api/news';
 import { BackButton } from './common/BackButton';
 import Color from './common/Color';
 
@@ -11,6 +12,7 @@ export const NewsInfo = () => {
     const [ isLoading, setIsLoading ] = useState(true);
     const { currentUser } = useContext(AuthContext);
     const newsId = useParams();
+    const navigate = useNavigate();
 
     const FetchNews = async(newsId) => {
         try {
@@ -25,6 +27,20 @@ export const NewsInfo = () => {
           }
           setIsLoading(false);
     }
+
+    const handleDestroyNews = async(newsId) => {
+        try {
+            const res = await DestroyNews(newsId); 
+            if (res.status === 200) {
+                navigate("/news/index", { state:{ message: "Newsを削除しました。" }})
+            } else {
+              console.log(res)
+            }
+          } catch (e) {
+            console.log(e)
+          }
+    }
+
     useEffect(()=>{FetchNews(newsId.id)},[newsId.id]);
 
     if ( !isLoading && news.news ) {
@@ -42,7 +58,7 @@ export const NewsInfo = () => {
                                 <ul>
                                     <li><Link to={`/news/${newsId.id}/edit`}
                                         state={{ title: news.news.title, content: news.news.content, to: news.to, from: news.from}}>編集</Link></li>
-                                    <li>削除</li>
+                                    <li><button onClick={()=>{handleDestroyNews(newsId.id)}}>削除</button></li>
                                 </ul>
                             </Menu>
                             <ClearFix/>

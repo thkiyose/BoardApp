@@ -1,44 +1,53 @@
-import React, { useContext } from 'react';
-import { useOutletContext } from "react-router-dom";
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { signIn } from "../api/session.js"
+import { fetchUserSections } from "../api/section.js"
 import Color from './common/Color';
+import { FlashMessage } from './common/FlashMessage';
 import { AuthContext } from '../../App.jsx';
 
 export const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const location = useLocation();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
-    const [ setMessage, setShowFlag ] = useOutletContext();
+    const [ message, setMessage ] = useState(location.state ?  [location.state.message] : []);
+    const [ type, setType ] = useState(location.state && location.state.type ?  location.state.type : "warning");
+    const navigate = useNavigate("");
 
     const handleSignIn = async(data) => {
         setMessage([]);
         try {
-            const res = await signIn(data)
-            console.log(res)
-      
+            const res = await signIn(data) 
             if (res.status === 200) {
+              const sectionRes = await fetchUserSections(res.data.data.id)
               Cookies.set("_access_token", res.headers["access-token"])
               Cookies.set("_client", res.headers["client"])
               Cookies.set("_uid", res.headers["uid"]) 
               setIsSignedIn(true);
-              setCurrentUser(res.data.data)
+              setCurrentUser({user: res.data.data, sections: sectionRes.data.sections })
+              navigate("/news/index", { state: { message: "ログインしました。"}})
             } else {
               console.log(res)
             }
           } catch (e) {
             console.log(e)
             if (e.response?.data?.errors?.fullMessages) {
+                setType("warning");
                 setMessage(e.response?.data?.errors?.fullMessages)
+              } else if (e.message) {
+                setType("warning");
+                setMessage([e.message])
               }
           }
     }
 
     return (
         <Div>
-            <h1>サインイン</h1>
+            <h1>ログイン</h1>
+            <FlashMessage message={message} type={type} />
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignIn)}>
                     <p><label>メールアドレス</label></p>
@@ -48,7 +57,7 @@ export const SignIn = () => {
                     <p><label>パスワード</label></p>
                     <input type="password" {...register("password",{required: true})} />
                     {errors.password?.type === "required" && <ErrorMessage>パスワードを入力して下さい。</ErrorMessage>}
-                    <p><button type="submit" >サインイン</button></p>
+                    <p><button type="submit" >ログイン</button></p>
                 </form>
                 <p id="signUpGuide">アカウントをお持ちでない方は:<Link to="signup">アカウントを作成する</Link></p>
             </FormDiv>

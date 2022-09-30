@@ -1,44 +1,59 @@
-import React, { useContext } from 'react';
-import { useOutletContext } from "react-router-dom";
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components'
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { signUp } from "../api/session.js"
+import { createUserSections } from "../api/section.js"
+import { SectionSelector } from './common/SectionSelector.jsx';
 import Color from './common/Color';
+import { FlashMessage } from './common/FlashMessage';
 import { AuthContext } from '../../App.jsx';
 
 export const SignUp = () => {
     const { register, handleSubmit, formState: { errors }  } = useForm();
-    const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
-    const [ setMessage, setShowFlag ] = useOutletContext();
-
+    const location = useLocation();
+    const { setCurrentUser, setIsSignedIn,sections} = useContext(AuthContext)
+    const [ message, setMessage ] = useState(location.state ?  [location.state.message] : []);
+    const [selectedSection, setSelectedSection] = useState([]);
+    const [selectedArea, setSelectedArea] = useState([]);
+    const [ type, setType ] = useState(location.state && location.state.type ?  location.state.type : "warning");
+    const navigate = useNavigate("");
 
     const handleSignUp = async(data) => {
         setMessage([]);
+        if (selectedArea.length === 0) {
+            setType("warning");
+            setMessage(["所属するエリアを選択して下さい。"]);
+            return;
+        }
         try {
             const res = await signUp(data)
-      
             if (res.status === 200) {
-              Cookies.set("_access_token", res.headers["access-token"])
-              Cookies.set("_client", res.headers["client"])
-              Cookies.set("_uid", res.headers["uid"]) 
-              setIsSignedIn(true);
-              setCurrentUser(res.data.data)
+              const sectionRes = await createUserSections( {id:res.data.data.id, selected: selectedArea})
+              if ( sectionRes.status === 200 ) {
+                Cookies.set("_access_token", res.headers["access-token"])
+                Cookies.set("_client", res.headers["client"])
+                Cookies.set("_uid", res.headers["uid"]) 
+                setIsSignedIn(true);
+                setCurrentUser({user: res.data.data ,sections: sectionRes.data.sections})
+                navigate("/news/index", { state: { message: "アカウントを作成しました。"}})
+              }
             } else {
               console.log(res)
             }
           } catch (e) {
             console.log(e)
             if (e.response?.data?.errors?.fullMessages) {
-                setShowFlag(true);
-                setMessage(e.response?.data?.errors?.fullMessages)
+                setType("warning");
+                setMessage(e.response?.data?.errors?.fullMessages);
               }
           }
     }
 
     return (
         <Div>
+            <FlashMessage message={message} type={type} />
             <h1>アカウント登録</h1>
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignUp)}>
@@ -58,9 +73,16 @@ export const SignUp = () => {
                     <p><label>パスワード(確認)</label></p>
                     <input type="password" {...register("passwordConfirmation",{ required: true })} />
                     {errors.passwordConfirmation?.type === "required" && <ErrorMessage>パスワードをもう一度入力して下さい。</ErrorMessage>}
+                    <SectionSelector
+                    sections={sections}
+                    selectedSection={selectedSection}
+                    setSelectedSection={setSelectedSection}
+                    selectedArea={selectedArea}
+                    setSelectedArea={setSelectedArea}
+                    showLabel={true}/>
                     <p><button type="submit" >登録</button></p>
                 </form>
-                <p id="signInGuide">アカウントをお持ちの方は<Link to="/">サインイン</Link></p>
+                <p id="signInGuide">アカウントをお持ちの方は<Link to="/">ログイン</Link></p>
             </FormDiv>
         </Div>
     )

@@ -20,22 +20,43 @@ class News < ApplicationRecord
     joins(:from_sections).where(sections:{id: id})
   }
 
+  scope :search_with_title, -> (title){
+    return if title.blank?
+    where(['title like ?',"%#{title}%"])
+  }
+
+  scope :search_with_content, -> (content){
+    return if content.blank?
+    where(['content like ?',"%#{content}%"])
+  }
+
+  scope :search_with_date, -> (startdate,enddate){
+    return if startdate.blank? && enddate.blank?
+    if startdate && enddate.blank?
+      where('created_at >= ?', startdate)
+    elsif startdate.blank? && enddate
+      where('created_at <= ?', enddate.to_date + 1)
+    else
+      where(created_at: startdate..(enddate.to_date + 1))
+    end
+  }
+
   scope :search_with_section_only, -> (section,type){
     return if section.blank? || type.blank?
     if type === "to"
-      joins(:to_sections).where(sections:{sections: section})
+      joins(:to_sections).where(sections:{sections: section.capitalize } )
     elsif type === "from"
-      joins(:from_sections).where(sections:{sections: section})
+      joins(:from_sections).where(sections:{sections: section.capitalize})
     end
   }
 
 
-  scope :search_with_area_only, -> (section,type){
-    return if section.blank? || type.blank?
+  scope :search_with_area_only, -> (area,type){
+    return if area.blank? || type.blank?
     if type === "to"
-      joins(:to_sections).where(sections:{areas: area})
+      joins(:to_sections).where(sections:{areas: area.capitalize })
     elsif type === "from"
-      joins(:from_sections).where(sections:{areas: area})
+      joins(:from_sections).where(sections:{areas: area.capitalize})
     end
   }
 end

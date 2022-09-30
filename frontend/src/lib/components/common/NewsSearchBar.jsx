@@ -41,7 +41,7 @@ export const NewsSearchBar = (props) => {
                 <tbody>
                     <tr><th></th><td><label>タイトル</label><input onChange={(e)=>{onChange(e.target.value,"title")}} className="title"></input></td></tr>
                     <tr><th></th><td><label>本文</label><input onChange={(e)=>{onChange(e.target.value,"content")}} className="content"></input></td></tr>
-                   <tr><th><span>作成日:</span></th><td><label>開始</label><input onChange={(e)=>{onChange(e.target.value,"start")}} type="date" className="date"></input><label>終了</label><input type="date" className="date" onChange={(e)=>{onChange(e.target.value,"end")}}></input></td></tr>
+                   <tr><th><span>作成日:</span></th><td><label>以降</label><input onChange={(e)=>{onChange(e.target.value,"start")}} type="date" className="date"></input><label>以前</label><input type="date" className="date" onChange={(e)=>{onChange(e.target.value,"end")}}></input></td></tr>
                    <tr><th><span>To:</span></th><td>
                     <label>セクション</label>
                    <select className="section" onChange={(e)=>{onChange(e.target.value,"toSection")}}>

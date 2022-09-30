@@ -21,5 +21,5 @@ export const DestroyNews = (id) => {
 };
 
 export const SearchNews = (query) => {
-    return client.delete(`/news/search`,{ params: query})
+    return client.get(`/news/search`,{ params: query})
 };

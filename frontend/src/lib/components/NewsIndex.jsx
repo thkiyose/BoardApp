@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Color from './common/Color';
 import styled from 'styled-components'
 import { IndexNews } from '../api/news';
+import { SearchNews } from '../api/news';
+import { AuthContext  } from '../../App';
 import { NewsCard } from './common/NewsCard';
 
 export const NewsIndex = () => {
     const [ news, setNews ] = useState([]);
+    const { currentUser } = useContext(AuthContext);
 
-    const LoadNews = async() => {
+    const loadNews = async() => {
         try {
             const res = await IndexNews(); 
             if (res.status === 200) {
@@ -19,11 +22,24 @@ export const NewsIndex = () => {
             console.log(e)
           }
     }
-    useEffect(()=>{LoadNews()},[setNews]);
+    useEffect(()=>{loadNews()},[setNews]);
+
+    const handleSearch = async(params) => {
+        try {
+            const res = await SearchNews(params); 
+            if (res.status === 200) {
+                setNews(res.data.news);
+            } else {
+              console.log(res)
+            }
+          } catch (e) {
+            console.log(e)
+          }
+    }
 
     return (
         <>
-            <Tab/>
+            <Tab loadNews={loadNews} handleSearch={handleSearch} currentUser={currentUser}/>
             <Div>
                 {news.map((n,index)=>{
                     return (
@@ -44,13 +60,22 @@ const Div = styled.div`
     justify-content: stretch; 
 `
 
-const Tab = () => {
+const Tab = (props) => {
+    const { currentUser } = props;
+    const userSectionParams = Object.values(currentUser.sections).map((x)=>{
+        return (
+                x.map((child)=>{
+                    return (child.id)
+                  })
+                )
+        }
+    )
 
     return (
         <TabDiv className="tabs">
-            <label className="tab_item">全て</label>
-            <label className="tab_item">自分の所属</label>
-            <label className="tab_item">検索</label>
+            <label className="tab_item" onClick={()=>props.loadNews()}>全て</label>
+            <label className="tab_item" onClick={()=>{props.handleSearch({id:[userSectionParams.flat(), "to"]})}}>To:自分の所属</label>
+            <label className="tab_item">From:自分の所属</label>
         </TabDiv>
     )
 }

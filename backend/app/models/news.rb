@@ -12,9 +12,9 @@ class News < ApplicationRecord
 
   scope :search_with_section_id, -> (id,type){
     return if id.blank? || type.blank?
-    if type === "to"
+    if type == "to"
       joins(:to_sections).where(sections:{id: id})
-    elsif type === "from"
+    elsif type == "from"
       joins(:from_sections).where(sections:{id: id})
     end
   }

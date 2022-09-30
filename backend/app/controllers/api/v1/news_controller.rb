@@ -77,7 +77,6 @@ class Api::V1::NewsController < ApplicationController
 
   def destroy
     news = News.find_by_id(params[:id])
-    p params
     if news.destroy
       render json: { status: "SUCCESS"}
     else
@@ -86,7 +85,8 @@ class Api::V1::NewsController < ApplicationController
   end
 
   def search
-    news = News.order(created_at: :desc)
+    news = News.search_with_section_id(params[:id][0].gsub("[" ,"").gsub("]" ,"").split(",").map{|x| x.to_i},params[:id][1])
+    .order(created_at: :desc)
     render json: { news: news }
   end
 

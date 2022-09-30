@@ -85,6 +85,11 @@ class Api::V1::NewsController < ApplicationController
     end
   end
 
+  def search
+    news = News.order(created_at: :desc)
+    render json: { news: news }
+  end
+
   private
 
   def news_params

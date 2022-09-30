@@ -46,7 +46,7 @@ export const NewsIndex = () => {
     var renderIt = null;
 
     if (showSearch) {
-        renderIt = <NewsSearchBar sections={sections} areas={areas}/>
+        renderIt = <NewsSearchBar sections={sections} areas={areas} handleSearch={handleSearch} setShowSearch={setShowSearch} />
     } else if (news.length === 0) {
         renderIt = <NoNews>表示する記事がありません。</NoNews>
     } else {

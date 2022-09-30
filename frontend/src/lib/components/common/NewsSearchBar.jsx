@@ -34,7 +34,7 @@ export const NewsSearchBar = (props) => {
           setSearchParam({...searchParam,date:[searchParam.date[0],param]})
         }
       }
-      
+
     return (
         <SearchBar>
             <table>
@@ -76,6 +76,7 @@ export const NewsSearchBar = (props) => {
                    </tr>
                 </tbody>
             </table>
+            <button className="searchButton" onClick={()=>{props.handleSearch(searchParam) && props.setShowSearch(false)}}>検索</button>
         </SearchBar>
     )
 }
@@ -121,5 +122,15 @@ const SearchBar = styled.div`
     }
     .area {
         width: 30%;
+    }
+    .searchButton {
+        width: 50%;
+        margin: 0 auto;
+        background-color: navy;
+        color: white;
+        border: none;
+        display: block;
+        padding: 10px;
+        cursor: pointer;
     }
 `

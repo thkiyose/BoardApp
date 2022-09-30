@@ -9,6 +9,8 @@ import { NewsCard } from './common/NewsCard';
 
 export const NewsIndex = () => {
     const [ news, setNews ] = useState([]);
+    const [ sections, setSections ] = useState([])
+    const [ areas, setAreas ] = useState([])
     const [ showSearch, setShowSearch ] = useState(false);
     const { currentUser } = useContext(AuthContext);
 
@@ -17,6 +19,8 @@ export const NewsIndex = () => {
             const res = await IndexNews(); 
             if (res.status === 200) {
                 setNews(res.data.news);
+                setSections(res.data.sections)
+                setAreas(res.data.areas)
             } else {
               console.log(res)
             }
@@ -24,7 +28,7 @@ export const NewsIndex = () => {
             console.log(e)
           }
     }
-    useEffect(()=>{loadNews()},[setNews]);
+    useEffect(()=>{loadNews()},[setNews,setSections]);
 
     const handleSearch = async(params) => {
         try {
@@ -42,7 +46,7 @@ export const NewsIndex = () => {
     var renderIt = null;
 
     if (showSearch) {
-        renderIt = <NewsSearchBar/>
+        renderIt = <NewsSearchBar sections={sections} areas={areas}/>
     } else if (news.length === 0) {
         renderIt = <NoNews>表示する記事がありません。</NoNews>
     } else {

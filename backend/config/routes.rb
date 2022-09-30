@@ -8,7 +8,9 @@ Rails.application.routes.draw do
         resources :sessions, only: [:index]
       end
       resources :sections, only:[:index, :create,:show]
-      resources :news, only: [:index, :create, :show, :edit, :update, :destroy]
+      resources :news, only: [:index, :create, :show, :edit, :update, :destroy] do
+        get :search, on: :collection
+      end
     end
   end
 end

@@ -10,13 +10,14 @@ class News < ApplicationRecord
   accepts_nested_attributes_for :news_to_sections, allow_destroy: true
   accepts_nested_attributes_for :news_from_sections, allow_destroy: true
 
-  scope :search_with_section_id, -> (id,type){
-    return if id.blank? || type.blank?
-    if type == "to"
-      joins(:to_sections).where(sections:{id: id})
-    elsif type == "from"
-      joins(:from_sections).where(sections:{id: id})
-    end
+  scope :search_to_with_section_id, -> (id){
+    return if id.blank?
+    joins(:to_sections).where(sections:{id: id})
+  }
+
+  scope :search_from_with_section_id, -> (id){
+    return if id.blank?
+    joins(:from_sections).where(sections:{id: id})
   }
 
   scope :search_with_section_only, -> (section,type){

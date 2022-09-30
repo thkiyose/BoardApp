@@ -85,7 +85,7 @@ class Api::V1::NewsController < ApplicationController
   end
 
   def search
-    news = News.search_with_section_id(params[:id][0].gsub("[" ,"").gsub("]" ,"").split(",").map{|x| x.to_i},params[:id][1])
+    news = News.search_to_with_section_id(params[:to_ids]).search_from_with_section_id(params[:from_ids])
     .order(created_at: :desc)
     render json: { news: news }
   end

@@ -41,11 +41,12 @@ export const NewsIndex = () => {
         <>
             <Tab loadNews={loadNews} handleSearch={handleSearch} currentUser={currentUser}/>
             <Div>
-                {news.map((n,index)=>{
-                    return (
-                        <NewsCard key={index} news={n}/>
-                    )
-                })}
+                {news.length > 0 ? news.map((n,index)=>{
+                        return (
+                            <NewsCard key={index} news={n}/>
+                        )
+                    })
+                : <NoNews>表示出来る記事がありません。</NoNews>}
             </Div>
         </>
     )
@@ -74,8 +75,8 @@ const Tab = (props) => {
     return (
         <TabDiv className="tabs">
             <label className="tab_item" onClick={()=>props.loadNews()}>全て</label>
-            <label className="tab_item" onClick={()=>{props.handleSearch({id:[userSectionParams.flat(), "to"]})}}>To:自分の所属</label>
-            <label className="tab_item" onClick={()=>{props.handleSearch({id:[userSectionParams.flat(), "from"]})}}>From:自分の所属</label>
+            <label className="tab_item" onClick={()=>{props.handleSearch({toIds: userSectionParams.flat()})}}>To:自分の所属</label>
+            <label className="tab_item" onClick={()=>{props.handleSearch({fromIds: userSectionParams.flat()})}}>From:自分の所属</label>
         </TabDiv>
     )
 }
@@ -104,4 +105,10 @@ const TabDiv = styled.div`
   input[name="tab_item"] {
     display: none;
   }
+`
+
+const NoNews = styled.p`
+  margin: 0 auto;
+  color: #fff;
+  font-size: 1rem;
 `

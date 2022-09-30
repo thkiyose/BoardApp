@@ -75,7 +75,7 @@ const Tab = (props) => {
         <TabDiv className="tabs">
             <label className="tab_item" onClick={()=>props.loadNews()}>全て</label>
             <label className="tab_item" onClick={()=>{props.handleSearch({id:[userSectionParams.flat(), "to"]})}}>To:自分の所属</label>
-            <label className="tab_item">From:自分の所属</label>
+            <label className="tab_item" onClick={()=>{props.handleSearch({id:[userSectionParams.flat(), "from"]})}}>From:自分の所属</label>
         </TabDiv>
     )
 }

@@ -78,6 +78,8 @@ const Div = styled.div`
 
 const Tab = (props) => {
     const { currentUser } = props;
+    const [ activeKey, setActiveKey ] = useState("0")
+
     const userSectionParams = Object.values(currentUser.sections).map((x)=>{
         return (
                 x.map((child)=>{
@@ -87,12 +89,38 @@ const Tab = (props) => {
         }
     )
 
+    const changeActive = (e) => {
+        switch (e.target.id) {
+            case "0":
+                setActiveKey(e.target.id);
+                props.loadNews();
+                props.setShowSearch(false)
+                break;
+            case "1":
+                setActiveKey(e.target.id);
+                props.handleSearch({toIds: userSectionParams.flat()})
+                props.setShowSearch(false)
+                break;
+            case "2":
+                setActiveKey(e.target.id);
+                props.handleSearch({fromIds: userSectionParams.flat()})
+                props.setShowSearch(false)
+                break;
+            case "3":
+                setActiveKey(e.target.id);
+                props.setShowSearch(true);
+                break;
+            default:
+        }
+
+    }
+
     return (
         <TabDiv className="tabs">
-            <label className="tab_item" onClick={()=>props.loadNews() && props.setShowSearch(false)}>全て</label>
-            <label className="tab_item" onClick={()=>{props.handleSearch({toIds: userSectionParams.flat()}) && props.setShowSearch(false)}}>To:自分の所属</label>
-            <label className="tab_item" onClick={()=>{props.handleSearch({fromIds: userSectionParams.flat()}) && props.setShowSearch(false)}}>From:自分の所属</label>
-            <label className="tab_item" onClick={()=>props.setShowSearch(true)}>検索</label>
+            <label id="0" className={activeKey === "0" ? "active" : ""} onClick={(e)=>{changeActive(e)}}>全て</label>
+            <label id="1" className={activeKey === "1" ? "active" : ""} onClick={(e)=>{changeActive(e)}}>To:自分の所属</label>
+            <label id="2" className={activeKey === "2" ? "active" : ""} onClick={(e)=>{changeActive(e)}}>From:自分の所属</label>
+            <label id="3" className={activeKey === "3" ? "active" : ""} onClick={(e)=>{changeActive(e)}}>検索</label>
         </TabDiv>
     )
 }
@@ -100,7 +128,7 @@ const Tab = (props) => {
 const TabDiv = styled.div`
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     margin: 0 auto;
-  .tab_item {
+    label {
     width: 10%;
     height: 40px;
     margin-top: 10px;
@@ -117,6 +145,9 @@ const TabDiv = styled.div`
   }
   .tab_item:hover {
     opacity: 0.75;
+  }
+  .active {
+    background: ${Color.secondary};
   }
   input[name="tab_item"] {
     display: none;

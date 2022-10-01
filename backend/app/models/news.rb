@@ -30,14 +30,14 @@ class News < ApplicationRecord
     where(['content like ?',"%#{content}%"])
   }
 
-  scope :search_with_date, -> (startdate,enddate){
-    return if startdate.blank? && enddate.blank?
-    if startdate && enddate.blank?
-      where('created_at >= ?', startdate)
-    elsif startdate.blank? && enddate
-      where('created_at <= ?', enddate.to_date + 1)
+  scope :search_with_date, -> (date_array){
+    return if date_array.nil? || ( date_array[0].blank? && date_array[1].blank? )
+    if date_array[0] && date_array[1].blank?
+      where('created_at >= ?', date_array[0])
+    elsif date_array[0].blank? && date_array[1]
+      where('created_at <= ?', date_array[1].to_date + 1)
     else
-      where(created_at: startdate..(enddate.to_date + 1))
+      where(created_at: date_array[0].to_date..(date_array[1].to_date + 1))
     end
   }
 

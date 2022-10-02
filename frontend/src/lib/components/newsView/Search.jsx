@@ -1,4 +1,4 @@
-import React, { useState,useEffect, useMemo, useCallback } from 'react';
+import React, { useState,useEffect, useCallback } from 'react';
 import { useOutletContext, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components'
 import { SearchNews } from '../../api/news';
@@ -11,18 +11,6 @@ export const Search = () => {
      const [ searched, setSearched ] = useState(false);
      const location = useLocation();
      const navigate = useNavigate();
-
-     const restoreStatus = useCallback(async() => {
-        if (activeKey !== 3) {
-            setActiveKey(3);
-        }
-        if ( location.state?.searchParam ) {
-            handleSearch(location.state.searchParam);
-            setSearched(true)
-        }
-    },[activeKey,setActiveKey])
-
-    useEffect(()=>{restoreStatus()},[activeKey,setActiveKey,restoreStatus]);
 
     const handleSearch = useCallback(async(params) => {
         try {
@@ -37,7 +25,19 @@ export const Search = () => {
         }
         navigate("", {state: { searchParam : params}} )
         setSearched(true);
-    },[setNews])
+    },[setNews,navigate])
+
+    const restoreStatus = useCallback(async() => {
+        if (activeKey !== 3) {
+            setActiveKey(3);
+        }
+        if ( location.state?.searchParam ) {
+            handleSearch(location.state.searchParam);
+            setSearched(true)
+        }
+    },[activeKey,setActiveKey,handleSearch, location.state?.searchParam])
+
+    useEffect(()=>{restoreStatus()},[activeKey,setActiveKey,restoreStatus]);
 
     const BackToForm = () => {
         setSearched(false);

@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import Color from './Color';
 import styled from 'styled-components'
-import { AuthContext  } from '../../../App';
 
 export const NewsSearchBar = (props) => {
     const [ searchParam, setSearchParam ] = useState({
@@ -76,7 +75,7 @@ export const NewsSearchBar = (props) => {
                    </tr>
                 </tbody>
             </table>
-            <button className="searchButton" onClick={()=>{props.handleSearch(searchParam)}}>検索</button>
+            <button className="searchButton" onClick={()=>{handleSearch(searchParam)}}>検索</button>
         </SearchBar>
     )
 }

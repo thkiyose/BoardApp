@@ -7,7 +7,9 @@ Rails.application.routes.draw do
       namespace :auth do
         resources :sessions, only: [:index]
       end
-      resources :sections, only:[:index, :create,:show]
+      resources :sections, only:[:index, :create,:show] do
+        get :raw_sections, on: :collection
+      end
       resources :news, only: [:index, :create, :show, :edit, :update, :destroy] do
         get :search, on: :collection
       end

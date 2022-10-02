@@ -13,7 +13,7 @@ export const NewsSearchBar = (props) => {
         toArea: "",
         date:["",""]
       });
-      const { sections, areas } = props;
+      const { sections, areas, handleSearch } = props;
 
       const onChange = (param,type) => {
         if (type === "title"){
@@ -76,7 +76,7 @@ export const NewsSearchBar = (props) => {
                    </tr>
                 </tbody>
             </table>
-            <button className="searchButton" onClick={()=>{props.handleSearch(searchParam) && props.setShowSearch(false)}}>検索</button>
+            <button className="searchButton" onClick={()=>{props.handleSearch(searchParam)}}>検索</button>
         </SearchBar>
     )
 }

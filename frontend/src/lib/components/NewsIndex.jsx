@@ -1,26 +1,21 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Color from './common/Color';
-import { NewsSearchBar } from './common/NewsSearchBar';
+import { Outlet, useOutletContext, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import { IndexNews } from '../api/news';
-import { SearchNews } from '../api/news';
-import { AuthContext  } from '../../App';
-import { NewsCard } from './common/NewsCard';
+import { fetchAllSectionsAreas  } from '../api/section';
 
 export const NewsIndex = () => {
     const [ news, setNews ] = useState([]);
     const [ sections, setSections ] = useState([])
     const [ areas, setAreas ] = useState([])
-    const [ showSearch, setShowSearch ] = useState(false);
-    const { currentUser } = useContext(AuthContext);
-
-    const loadNews = async() => {
+    const currentUser = useOutletContext();
+    const [ activeKey, setActiveKey ] = useState(0);
+    const loadSections = async() => {
         try {
-            const res = await IndexNews(); 
+            const res = await fetchAllSectionsAreas(); 
             if (res.status === 200) {
-                setNews(res.data.news);
-                setSections(res.data.sections)
-                setAreas(res.data.areas)
+                setSections(res.data.sections);
+                setAreas(res.data.areas);
             } else {
               console.log(res)
             }
@@ -28,40 +23,13 @@ export const NewsIndex = () => {
             console.log(e)
           }
     }
-    useEffect(()=>{loadNews()},[setNews,setSections]);
-
-    const handleSearch = async(params) => {
-        try {
-            const res = await SearchNews(params); 
-            if (res.status === 200) {
-                setNews(res.data.news);
-            } else {
-              console.log(res)
-            }
-          } catch (e) {
-            console.log(e)
-          }
-    }
-
-    var renderIt = null;
-
-    if (showSearch) {
-        renderIt = <NewsSearchBar sections={sections} areas={areas} handleSearch={handleSearch} setShowSearch={setShowSearch} />
-    } else if (news.length === 0) {
-        renderIt = <NoNews>表示する記事がありません。</NoNews>
-    } else {
-        renderIt = news.map((n,index)=>{
-            return (
-                <NewsCard key={index} news={n}/>
-            )
-        })
-        }
+    useEffect(()=>{loadSections()},[setSections,setAreas]);
 
     return (
         <>
-            <Tab loadNews={loadNews} handleSearch={handleSearch} currentUser={currentUser} setShowSearch={setShowSearch}/>
+            <Tab activeKey={activeKey} setActiveKey={setActiveKey} />
             <Div>
-                {renderIt}
+                <Outlet context={{currentUser, news, setNews, sections, areas, activeKey, setActiveKey}}/>
             </Div>
         </>
     )
@@ -77,50 +45,18 @@ const Div = styled.div`
 `
 
 const Tab = (props) => {
-    const { currentUser } = props;
-    const [ activeKey, setActiveKey ] = useState("0")
-
-    const userSectionParams = Object.values(currentUser.sections).map((x)=>{
-        return (
-                x.map((child)=>{
-                    return (child.id)
-                  })
-                )
-        }
-    )
-
-    const changeActive = (e) => {
-        switch (e.target.id) {
-            case "0":
-                setActiveKey(e.target.id);
-                props.loadNews();
-                props.setShowSearch(false)
-                break;
-            case "1":
-                setActiveKey(e.target.id);
-                props.handleSearch({toIds: userSectionParams.flat()})
-                props.setShowSearch(false)
-                break;
-            case "2":
-                setActiveKey(e.target.id);
-                props.handleSearch({fromIds: userSectionParams.flat()})
-                props.setShowSearch(false)
-                break;
-            case "3":
-                setActiveKey(e.target.id);
-                props.setShowSearch(true);
-                break;
-            default:
-        }
-
+    const { activeKey, setActiveKey } = props;
+    const navigate = useNavigate();
+    const onClick = (path,key) => {
+        setActiveKey(key);
+        navigate(path);
     }
-
     return (
         <TabDiv className="tabs">
-            <label id="0" className={activeKey === "0" ? "active" : ""} onClick={(e)=>{changeActive(e)}}>全て</label>
-            <label id="1" className={activeKey === "1" ? "active" : ""} onClick={(e)=>{changeActive(e)}}>To:自分の所属</label>
-            <label id="2" className={activeKey === "2" ? "active" : ""} onClick={(e)=>{changeActive(e)}}>From:自分の所属</label>
-            <label id="3" className={activeKey === "3" ? "active" : ""} onClick={(e)=>{changeActive(e)}}>検索</label>
+            <label className={activeKey === 0 ? "active" : "" } onClick={()=>onClick("all",0)}>全て</label>
+            <label className={activeKey === 1 ? "active" : "" } onClick={()=>onClick("to",1)}>To:自分の所属</label>
+            <label className={activeKey === 2 ? "active" : "" } onClick={()=>onClick("from",2)}>From:自分の所属</label>
+            <label className={activeKey === 3 ? "active" : "" } onClick={()=>onClick("search",3)}>検索</label>
         </TabDiv>
     )
 }
@@ -152,10 +88,4 @@ const TabDiv = styled.div`
   input[name="tab_item"] {
     display: none;
   }
-`
-
-const NoNews = styled.p`
-  margin: 0 auto;
-  color: #fff;
-  font-size: 1rem;
 `

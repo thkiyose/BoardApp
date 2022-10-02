@@ -14,7 +14,7 @@ export const News = (props) => {
             <Div>
                {currentUser.user.admin === true && <CreateButton/> }
             </Div>
-            <Outlet/>
+            <Outlet context={currentUser}/>
         </>
     )
 }

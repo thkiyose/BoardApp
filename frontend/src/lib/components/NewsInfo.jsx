@@ -32,7 +32,7 @@ export const NewsInfo = () => {
         try {
             const res = await DestroyNews(newsId); 
             if (res.status === 200) {
-                navigate("/news/index", { state:{ message: "Newsを削除しました。" }})
+                navigate("/news/index/all", { state:{ message: "Newsを削除しました。" }})
             } else {
               console.log(res)
             }

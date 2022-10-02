@@ -47,14 +47,14 @@ export const NewsForm = (props) => {
             if ( update === true ) {
                 const res = await UpdateNews(newsId,params) 
                 if (res.status === 200) {
-                    navigate("/news/index", {state: { message: "Newsを更新しました。"}})
+                    navigate("/news/index/all", {state: { message: "Newsを更新しました。"}})
                 } else {
                     console.log(res)
                 }
                 } else {
                     const res = await CreateNews(params) 
                     if (res.status === 200) {
-                        navigate("/news/index", {state: { message: "Newsを投稿しました。"}})
+                        navigate("/news/index/all", {state: { message: "Newsを投稿しました。"}})
                     } else {
                         console.log(res)
                     }

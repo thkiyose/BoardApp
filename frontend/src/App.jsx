@@ -69,7 +69,7 @@ export const App = () => {
       if (!isSignedIn) {
         return children ;
       } else {
-        return <Navigate to="/news/index" />;
+        return <Navigate to="/news/index/all" />;
       }
     } else {
       return <></>;
@@ -81,7 +81,7 @@ export const App = () => {
       if (isSignedIn && currentUser.user.admin === true) {
         return children ;
       } else {
-        return <Navigate to="/news/index" />;
+        return <Navigate to="/news/index/all" />;
       }
     } else {
       return <></>;

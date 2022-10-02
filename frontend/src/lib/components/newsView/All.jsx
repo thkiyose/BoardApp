@@ -5,9 +5,12 @@ import { IndexNews } from '../../api/news';
 import { NewsCard } from '../common/NewsCard';
 
 export const All = () => {
-    const { news, setNews } = useOutletContext();
+    const { news, setNews, activeKey, setActiveKey } = useOutletContext();
 
     const loadNews = useCallback(async() => {
+      if (activeKey !== 0) {
+        setActiveKey(0);
+    }
         try {
             const res = await IndexNews(); 
             if (res.status === 200) {

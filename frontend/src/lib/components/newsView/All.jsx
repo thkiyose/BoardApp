@@ -21,7 +21,7 @@ export const All = () => {
           } catch (e) {
             console.log(e)
           }
-    },[setNews])
+    },[setNews,activeKey, setActiveKey])
     useEffect(()=>{loadNews()},[loadNews,setNews]);
 
     return (

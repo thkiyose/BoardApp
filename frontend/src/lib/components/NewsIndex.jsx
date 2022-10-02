@@ -78,6 +78,7 @@ const TabDiv = styled.div`
     float: left;
     text-align: center;
     transition: all 0.2s ease;
+    cursor: pointer;
   }
   .tab_item:hover {
     opacity: 0.75;

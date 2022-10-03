@@ -73,7 +73,7 @@ const TabDiv = styled.div`
     line-height: 40px;
     text-align: center;
     color: #fff;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     display: block;
     float: left;
     text-align: center;

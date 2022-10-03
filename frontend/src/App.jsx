@@ -15,7 +15,7 @@ import { Search } from './lib/components/newsView/Search';
 import { NewsInfo } from './lib/components/NewsInfo';
 import { CreateNews } from './lib/components/CreateNews';
 import { NewsEdit } from './lib/components/NewsEdit';
-import { Calendar } from './lib/components/Calendar';
+import { Schedule } from './lib/components/Schedule';
 import { getCurrentUser } from "./lib/api/session.js"
 import { fetchSections } from "./lib/api/section.js"
 
@@ -95,7 +95,7 @@ export const App = () => {
             <Route path={"/"} element={<LayOut/>}>
               <Route path={"/"} element={<NotLoggedInRoute><SignIn/></NotLoggedInRoute>}/>
               <Route path={"/signup"} element={<NotLoggedInRoute><SignUp/></NotLoggedInRoute>}/>
-              <Route path={"/calendar"} element={<LoggedInRoute><Calendar/></LoggedInRoute>}/>
+              <Route path={"/schedule"} element={<LoggedInRoute><Schedule/></LoggedInRoute>}/>
               <Route path={"/mypage"} element={<LoggedInRoute><MyPage/></LoggedInRoute>}>
                 <Route path={"info"} element={<MyPageInfo/>} />
               </Route>

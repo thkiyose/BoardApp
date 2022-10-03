@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Color from './common/Color.jsx';
 import styled from "styled-components";
 import { Calendar, momentLocalizer } from 'react-big-calendar';
@@ -9,7 +9,14 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 const localizer = momentLocalizer(moment)
 
 export const Schedule = () => {
-    const [events, setEvents] = useState([{start: "2022-09-13T07:00:00.000Z", end: "2022-09-13T07:00:00.000Z", title:"aaa", allDay: true}]);
+    const [events, setEvents] = useState([{
+        "start": "2022-10-11T17:00:00.000Z",
+        "end": "2022-10-11T19:30:00.000Z",
+        "title": "aaa"
+    }]);
+    const formatted = events.map((event)=>{
+        return ({ title: event.title, start: new Date(event.start), end: new Date(event.end), allDay: event.allDay})
+    })
 
     const handleSelectSlot = useCallback(
         ({ start, end }) => {
@@ -25,14 +32,14 @@ export const Schedule = () => {
         (event) => window.alert(event.title),
         []
       )
-console.log(events)
+
     return (
         <Div>
             <button>イベント追加</button>
             <Calendar
             localizer={localizer}
             startAccessor="start"
-            events={events}
+            events={formatted}
             onSelectEvent={handleSelectEvent}
             onSelectSlot={handleSelectSlot}
             selectable

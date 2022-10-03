@@ -3,6 +3,10 @@ class Api::V1::SectionsController < ApplicationController
         render json: { sections: Section.all.group_by { |s| s.sections }} 
     end
 
+    def raw_sections
+        render json: { sections: Section.sections, areas: Section.areas }
+    end
+
     def create
         user = User.find_by(id: params[:id])
         selected = params[:selected]

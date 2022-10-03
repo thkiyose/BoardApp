@@ -1,26 +1,23 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Color from './Color';
 import { CreateNews } from '../../api/news';
 import { UpdateNews } from '../../api/news';
-import { FlashMessage } from './FlashMessage';
 import { AuthContext } from '../../../App.jsx';
 import { SectionSelector } from './SectionSelector';
 
 export const NewsForm = (props) => {
-    const [ message,setMessage ] = useState([]);
     const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm();
     const { initialContent, initialTitle, initialTo, initialFrom, newsId, update } = props;
     const navigate = useNavigate();
     const { currentUser, sections } = useContext(AuthContext)
-    const [ type, setType ] = useState("warning");
     const [selectedSectionFrom, setSelectedSectionFrom] = useState([]);
     const [selectedAreaFrom, setSelectedAreaFrom] = useState([]);
     const [selectedSectionTo, setSelectedSectionTo] = useState([]);
     const [selectedAreaTo, setSelectedAreaTo] = useState([]);
-
+    const { message, setMessage } = useOutletContext();
    
     const setInitialValue = useCallback((initialContent,initialTitle,initialTo,initialFrom)=>{
         setValue("title",initialTitle);
@@ -41,20 +38,20 @@ export const NewsForm = (props) => {
     useEffect(()=>{setInitialValue(initialContent,initialTitle,initialTo, initialFrom)},[setInitialValue,initialContent,initialTitle,initialTo, initialFrom]);
 
     const handleSubmitNews = async(data) => {
-        setMessage([]);
         const params = { title: watch("title"), content: watch("content"), userId: currentUser.user.id, selectedAreaFrom: selectedAreaFrom, selectedAreaTo: selectedAreaTo}
         try {
             if ( update === true ) {
                 const res = await UpdateNews(newsId,params) 
                 if (res.status === 200) {
-                    navigate("/news/index", {state: { message: "Newsを更新しました。"}})
+                    navigate("/news/index/all")
+                    setMessage(["Newsを更新しました。"])
                 } else {
                     console.log(res)
                 }
                 } else {
                     const res = await CreateNews(params) 
                     if (res.status === 200) {
-                        navigate("/news/index", {state: { message: "Newsを投稿しました。"}})
+                        navigate("/news/index/all", {state: { message: "Newsを投稿しました。"}})
                     } else {
                         console.log(res)
                     }
@@ -62,10 +59,8 @@ export const NewsForm = (props) => {
             } catch (e) {
             console.log(e)
             if (e.response?.data?.errors?.fullMessages) {
-                setType("warning");
                 setMessage(e.response?.data?.errors?.fullMessages)
                 } else if (e.message) {
-                setType("warning");
                 setMessage([e.message])
                 }
             }
@@ -73,7 +68,6 @@ export const NewsForm = (props) => {
 
     return (
         <FormDiv>
-            <FlashMessage message={message} type={type} />
             <h1>Newsを投稿する</h1>
             <form onSubmit={handleSubmit(handleSubmitNews)}>
             <p><label>タイトル</label></p>

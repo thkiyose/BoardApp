@@ -19,3 +19,7 @@ export const UpdateNews = (id,params) => {
 export const DestroyNews = (id) => {
     return client.delete(`/news/${id}`);
 };
+
+export const SearchNews = (query) => {
+    return client.get(`/news/search`,{ params: query})
+};

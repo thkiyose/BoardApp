@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Color from './common/Color';
+import { Outlet, useOutletContext, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import { IndexNews } from '../api/news';
-import { NewsCard } from './common/NewsCard';
+import { fetchAllSectionsAreas  } from '../api/section';
 
 export const NewsIndex = () => {
     const [ news, setNews ] = useState([]);
-
-    const LoadNews = async() => {
+    const [ sections, setSections ] = useState([])
+    const [ areas, setAreas ] = useState([])
+    const currentUser = useOutletContext();
+    const [ activeKey, setActiveKey ] = useState(0);
+    const loadSections = async() => {
         try {
-            const res = await IndexNews(); 
+            const res = await fetchAllSectionsAreas(); 
             if (res.status === 200) {
-                setNews(res.data.news);
+                setSections(res.data.sections);
+                setAreas(res.data.areas);
             } else {
               console.log(res)
             }
@@ -19,17 +23,13 @@ export const NewsIndex = () => {
             console.log(e)
           }
     }
-    useEffect(()=>{LoadNews()},[setNews]);
+    useEffect(()=>{loadSections()},[setSections,setAreas]);
 
     return (
         <>
-            <Tab/>
+            <Tab activeKey={activeKey} setActiveKey={setActiveKey} />
             <Div>
-                {news.map((n,index)=>{
-                    return (
-                        <NewsCard key={index} news={n}/>
-                    )
-                })}
+                <Outlet context={{currentUser, news, setNews, sections, areas, activeKey, setActiveKey}}/>
             </Div>
         </>
     )
@@ -44,13 +44,19 @@ const Div = styled.div`
     justify-content: stretch; 
 `
 
-const Tab = () => {
-
+const Tab = (props) => {
+    const { activeKey, setActiveKey } = props;
+    const navigate = useNavigate();
+    const onClick = (path,key) => {
+        setActiveKey(key);
+        navigate(path);
+    }
     return (
         <TabDiv className="tabs">
-            <label className="tab_item">全て</label>
-            <label className="tab_item">自分の所属</label>
-            <label className="tab_item">検索</label>
+            <label className={activeKey === 0 ? "active" : "" } onClick={()=>onClick("all",0)}>全て</label>
+            <label className={activeKey === 1 ? "active" : "" } onClick={()=>onClick("to",1)}>To:自分の所属</label>
+            <label className={activeKey === 2 ? "active" : "" } onClick={()=>onClick("from",2)}>From:自分の所属</label>
+            <label className={activeKey === 3 ? "active" : "" } onClick={()=>onClick("search",3)}>検索</label>
         </TabDiv>
     )
 }
@@ -58,7 +64,7 @@ const Tab = () => {
 const TabDiv = styled.div`
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     margin: 0 auto;
-  .tab_item {
+    label {
     width: 10%;
     height: 40px;
     margin-top: 10px;
@@ -72,9 +78,13 @@ const TabDiv = styled.div`
     float: left;
     text-align: center;
     transition: all 0.2s ease;
+    cursor: pointer;
   }
   .tab_item:hover {
     opacity: 0.75;
+  }
+  .active {
+    background: ${Color.secondary};
   }
   input[name="tab_item"] {
     display: none;

@@ -8,6 +8,10 @@ import { MyPage } from './lib/components/MyPage';
 import { MyPageInfo } from './lib/components/MyPageInfo';
 import { News } from './lib/components/News';
 import { NewsIndex } from './lib/components/NewsIndex';
+import { All } from './lib/components/newsView/All';
+import { To } from './lib/components/newsView/To';
+import { From } from './lib/components/newsView/From';
+import { Search } from './lib/components/newsView/Search';
 import { NewsInfo } from './lib/components/NewsInfo';
 import { CreateNews } from './lib/components/CreateNews';
 import { NewsEdit } from './lib/components/NewsEdit';
@@ -65,7 +69,7 @@ export const App = () => {
       if (!isSignedIn) {
         return children ;
       } else {
-        return <Navigate to="/news/index" />;
+        return <Navigate to="/news/index/all" />;
       }
     } else {
       return <></>;
@@ -77,7 +81,7 @@ export const App = () => {
       if (isSignedIn && currentUser.user.admin === true) {
         return children ;
       } else {
-        return <Navigate to="/news/index" />;
+        return <Navigate to="/news/index/all" />;
       }
     } else {
       return <></>;
@@ -96,7 +100,12 @@ export const App = () => {
                 <Route path={"info"} element={<MyPageInfo/>} />
               </Route>
               <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} >
-                <Route path={"index"} element={<LoggedInRoute><NewsIndex/></LoggedInRoute>} />
+                <Route path={"index"} element={<LoggedInRoute><NewsIndex/></LoggedInRoute>} >
+                  <Route path={"all"} element={<LoggedInRoute><All/></LoggedInRoute>}/>
+                  <Route path={"to"} element={<LoggedInRoute><To/></LoggedInRoute>}/>
+                  <Route path={"from"} element={<LoggedInRoute><From/></LoggedInRoute>}/>
+                  <Route path={"search"} element={<LoggedInRoute><Search/></LoggedInRoute>}/>
+                </Route>
                 <Route path={":id"} element={<LoggedInRoute ><NewsInfo /></LoggedInRoute>} />
                 <Route path={"create"} element={<AdminProtectedRoute><CreateNews/></AdminProtectedRoute>} />
                 <Route path={":id/edit"} element={<AdminProtectedRoute><NewsEdit/></AdminProtectedRoute>} />

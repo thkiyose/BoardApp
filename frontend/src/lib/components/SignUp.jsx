@@ -37,7 +37,7 @@ export const SignUp = () => {
                 Cookies.set("_uid", res.headers["uid"]) 
                 setIsSignedIn(true);
                 setCurrentUser({user: res.data.data ,sections: sectionRes.data.sections})
-                navigate("/news/index", { state: { message: "アカウントを作成しました。"}})
+                navigate("/news/index/all", { state: { message: "アカウントを作成しました。"}})
               }
             } else {
               console.log(res)

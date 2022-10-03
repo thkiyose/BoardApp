@@ -1,4 +1,7 @@
 class Api::V1::EventsController < ApplicationController
+    def index
+        render json: { events: Event.all}
+    end
 
     def create
         event = Event.new(event_params)
@@ -12,6 +15,6 @@ class Api::V1::EventsController < ApplicationController
     private
 
     def event_params
-        params.require(:events).permit(:title,:start,:end,:description,:all_day)
+        params.require(:event).permit(:title,:start,:end,:description,:all_day)
     end
 end

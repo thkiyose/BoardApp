@@ -1,9 +1,9 @@
 import { client } from './client';
 
-export const IndexNews = () => {
+export const FetchEvents = () => {
     return client.get('/events');
 };
 
-export const CreateNews = (params) => {
+export const CreateEvent = (params) => {
     return client.post('/events', params);
 };

@@ -5,24 +5,29 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment'
 import 'moment/locale/ja';
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { CreateEvent } from '../api/event'
 
 const localizer = momentLocalizer(moment)
 
 export const Schedule = () => {
-    const [events, setEvents] = useState([{
-        "start": "2022-10-11T17:00:00.000Z",
-        "end": "2022-10-11T19:30:00.000Z",
-        "title": "aaa"
-    }]);
-    const formatted = events.map((event)=>{
-        return ({ title: event.title, start: new Date(event.start), end: new Date(event.end), allDay: event.allDay})
-    })
+    const [events, setEvents] = useState([{}]);
+
+    const formatted = useMemo(()=>{
+        events.map((event)=>{
+            return ({ title: event.title, start: new Date(event.start), end: new Date(event.end), allDay: event.allDay})
+       })
+    },[events,setEvents])
 
     const handleSelectSlot = useCallback(
-        ({ start, end }) => {
+        async({ start, end }) => {
           const title = window.prompt('New Event Name')
           if (title) {
-            setEvents((prev) => [...prev, { start, end, title }])
+            const res = await CreateEvent({title: title, start: start, end: end}) 
+            if (res.status === 200) {
+                setEvents((prev) => [...prev, { start, end, title }])
+            } else {
+                console.log(res)
+            }
           }
         },
         [setEvents]

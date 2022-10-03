@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {  useOutletContext } from 'react-router-dom';
 import styled from 'styled-components'
 import { IndexNews } from '../../api/news';
@@ -6,6 +6,7 @@ import { NewsCard } from '../common/NewsCard';
 
 export const All = () => {
     const { news, setNews, activeKey, setActiveKey } = useOutletContext();
+    const [ isLoading, setIsLoading ] = useState(true);
 
     const loadNews = useCallback(async() => {
       if (activeKey !== 0) {
@@ -21,9 +22,10 @@ export const All = () => {
           } catch (e) {
             console.log(e)
           }
+          setIsLoading(false)
     },[setNews,activeKey, setActiveKey])
     useEffect(()=>{loadNews()},[loadNews,setNews]);
-
+    if (!isLoading) {
     return (
         <>
             {news.length > 0 ?
@@ -32,6 +34,7 @@ export const All = () => {
                 }) : <NoNews>まだ記事がありません。</NoNews>}
         </>
     )
+              }
 }
 
 const NoNews = styled.p`

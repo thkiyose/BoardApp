@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Color from './common/Color.jsx';
 import styled from "styled-components";
 import { Calendar, momentLocalizer } from 'react-big-calendar';
@@ -6,17 +6,34 @@ import moment from 'moment'
 import 'moment/locale/ja';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { CreateEvent } from '../api/event'
+import { FetchEvents } from '../api/event'
 
 const localizer = momentLocalizer(moment)
 
 export const Schedule = () => {
-    const [events, setEvents] = useState([{}]);
+    const [events, setEvents] = useState([]);
+
+    const loadEvents = async() => {
+        try {
+            const res = await FetchEvents()
+            if (res.status === 200) {
+                setEvents(res.data.events)
+            } else {
+              console.log(res)
+            }
+          } catch (e) {
+            console.log(e)
+          }
+    }
+    useEffect(()=>{loadEvents()},[setEvents])
 
     const formatted = useMemo(()=>{
+        const arr = []
         events.map((event)=>{
-            return ({ title: event.title, start: new Date(event.start), end: new Date(event.end), allDay: event.allDay})
+            return (arr.push({ title: event.title, start: new Date(event.start), end: new Date(event.end), allDay: event.allDay}))
        })
-    },[events,setEvents])
+       return arr;
+    },[events])
 
     const handleSelectSlot = useCallback(
         async({ start, end }) => {
@@ -33,6 +50,7 @@ export const Schedule = () => {
         [setEvents]
       )
 
+console.log(formatted)
       const handleSelectEvent = useCallback(
         (event) => window.alert(event.title),
         []

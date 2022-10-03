@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       resources :news, only: [:index, :create, :show, :edit, :update, :destroy] do
         get :search, on: :collection
       end
+      resources :events, only: [:index, :create]
     end
   end
 end

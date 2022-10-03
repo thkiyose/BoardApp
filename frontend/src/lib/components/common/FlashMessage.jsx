@@ -1,23 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components";
 
 export const FlashMessage = (props) => {
-    const { message, type } = props;
+    const { message } = props;
+
+    let renderIt = null;
+
+    if ( message.length > 0) {
+        renderIt = message.map((msg,key)=> {
+            return (
+                <Display key={key}>
+                    <p>{msg}</p>
+                </Display>)
+        })
+    }
 
     return (
         message.map((msg,key)=> {
             return (
-                <Display key={key} type={type}>
-                    <p>{msg}</p>
-                </Display>
+                <>{renderIt}</>
             )
         })
-    );
-
+    )
+    
 }
 
 const Display = styled.div`
-
     p {
         background-color: ${props => props.type === "warning" && '#f9b9be'};
         border: ${props => props.type === "warning" && "solid 1px red" };

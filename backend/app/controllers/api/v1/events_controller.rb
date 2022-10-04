@@ -4,7 +4,7 @@ class Api::V1::EventsController < ApplicationController
     end
 
     def create
-        p Time.zone
+        user= User.find_by(id: params[:id])
         event = Event.new()
         event.title = params[:title]
         event.start = ActiveSupport::TimeZone[Time.zone].parse(params[:start_date] + " " + params[:start_time])

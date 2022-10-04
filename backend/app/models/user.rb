@@ -8,4 +8,5 @@ class User < ActiveRecord::Base
   has_many :user_sections, dependent: :destroy
   has_many :sections, through: :user_sections
   has_many :news
+  has_many :events, dependent: :destroy
 end

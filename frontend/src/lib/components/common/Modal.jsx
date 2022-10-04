@@ -40,6 +40,9 @@ const ModalContent = styled.div`
     .title,.description {
         width: 85%;
     }
+    .description {
+      min-height: 150px;
+    }
     .date, .time {
         width: 40%;
     }

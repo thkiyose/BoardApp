@@ -1,6 +1,7 @@
 class Api::V1::EventsController < ApplicationController
     def index
-        render json: { events: Event.all}
+        events = Event.all
+        render json: { events: events }
     end
 
     def create
@@ -22,6 +23,6 @@ class Api::V1::EventsController < ApplicationController
 
     def show
         event = Event.find_by(id: params[:id])
-        render json: { event: event }
+        render json: { event: { event: event, user: event&.user } }
     end
 end

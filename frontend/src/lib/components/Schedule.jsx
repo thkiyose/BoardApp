@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo, useContext } from 're
 import Color from './common/Color.jsx';
 import styled from "styled-components";
 import { AuthContext  } from '../../App.jsx';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { Calendar, momentLocalizer, eventPropGetter } from 'react-big-calendar';
 import moment from 'moment'
 import 'moment/locale/ja';
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -16,7 +16,7 @@ const localizer = momentLocalizer(moment)
 export const Schedule = () => {
     const { currentUser } = useContext(AuthContext);
     const [events, setEvents] = useState([]);
-    const [ targetId, setTargetId ] = useState();
+    const [ targetId, setTargetId ] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
     const [params, setParams] = useState({
@@ -48,7 +48,7 @@ export const Schedule = () => {
     const formatted = useMemo(()=>{
         const arr = []
         events.map((event)=>{
-            return (arr.push({ title: event.title, start: new Date(event.start), end: new Date(event.end), allDay: event.allDay}))
+            return (arr.push({ id: event.id, title: event.title, start: new Date(event.start), end: new Date(event.end), allDay: event.allDay}))
        })
        return arr;
     },[events])
@@ -78,7 +78,7 @@ export const Schedule = () => {
     const handleSelectEvent = useCallback(
         (event) => {
             setShowInfo(true);
-            setTargetId(event.id)
+            setTargetId(event.id);
         },
         []
     )
@@ -122,7 +122,8 @@ export const Schedule = () => {
             console.log(e);
         }
     }
-
+    const accessor = (event) => {
+    }
     return (
         <>
             <Div id="calendar">

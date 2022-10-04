@@ -3,7 +3,7 @@ class Event < ApplicationRecord
     validates :start, presence: true
     validates :end, presence: true
     validate :date_check
-    belong_to :user
+    belongs_to :user
 
     def date_check
         if self.start >= self.end

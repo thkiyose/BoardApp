@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useContext } from 'react';
 import Color from './common/Color.jsx';
 import styled from "styled-components";
+import { AuthContext  } from '../../App.jsx';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment'
 import 'moment/locale/ja';
@@ -12,9 +13,11 @@ import { Modal } from './common/Modal';
 const localizer = momentLocalizer(moment)
 
 export const Schedule = () => {
+    const { currentUser } = useContext(AuthContext);
     const [events, setEvents] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [params, setParams] = useState({
+        userId: currentUser.user.id,
         title: "",
         startDate: "",
         startTime: "",
@@ -46,9 +49,12 @@ export const Schedule = () => {
        })
        return arr;
     },[events])
-console.log(params)
+
     const handleSelectSlot = useCallback(
         async({ start, end }) => {
+          if (currentUser.user.admin === false) {
+            return
+          }
           setErrors([]);
           setShowModal(true);
           setParams({...params,
@@ -60,6 +66,11 @@ console.log(params)
         },
         [params]
       )
+
+    const openModal = () => {
+        setErrors([]);
+        setShowModal(true);
+    }
 
     const handleSelectEvent = useCallback(
     (event) => window.alert(event.title),
@@ -109,7 +120,7 @@ console.log(params)
     return (
         <>
             <Div id="calendar">
-                <button>イベント追加</button>
+                { currentUser.user.admin && <button onClick={()=>{openModal()}}>イベント追加</button> }
                 <Calendar
                 localizer={localizer}
                 startAccessor="start"

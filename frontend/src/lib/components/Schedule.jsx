@@ -9,13 +9,16 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { CreateEvent } from '../api/event'
 import { FetchEvents } from '../api/event'
 import { Modal } from './common/Modal';
+import { ShowEvent } from './ShowEvent'
 
 const localizer = momentLocalizer(moment)
 
 export const Schedule = () => {
     const { currentUser } = useContext(AuthContext);
     const [events, setEvents] = useState([]);
+    const [ targetId, setTargetId ] = useState();
     const [showModal, setShowModal] = useState(false);
+    const [showInfo, setShowInfo] = useState(false);
     const [params, setParams] = useState({
         userId: currentUser.user.id,
         title: "",
@@ -73,8 +76,11 @@ export const Schedule = () => {
     }
 
     const handleSelectEvent = useCallback(
-    (event) => window.alert(event.title),
-    []
+        (event) => {
+            setShowInfo(true);
+            setTargetId(event.id)
+        },
+        []
     )
 
     const handleChange=(value,type) => {
@@ -152,6 +158,7 @@ export const Schedule = () => {
                 <textarea value={params.description} onChange={(e)=>handleChange(e.target.value,"description")} className="description" />
                 <button className="submit" type="button" onClick={(e)=>handleSubmit(e)}>作成</button>
             </Modal>
+            <ShowEvent eventId={targetId} showModal={showInfo} setShowModal={setShowInfo}/>
     </>
     )
 }

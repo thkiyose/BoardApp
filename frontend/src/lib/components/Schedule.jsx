@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Color from './common/Color.jsx';
-import { useForm } from 'react-hook-form';
 import styled from "styled-components";
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment'
@@ -24,6 +23,7 @@ export const Schedule = () => {
         allDay: false,
         description: ""
     })
+    const [errors, setErrors] = useState([])
 
     const loadEvents = async() => {
         try {
@@ -46,11 +46,11 @@ export const Schedule = () => {
        })
        return arr;
     },[events])
-
+console.log(params.title)
     const handleSelectSlot = useCallback(
         async({ start, end }) => {
+          setErrors([]);
           setShowModal(true);
-          console.log(start,end);
           setParams({...params,
             startDate: `${start.getFullYear()}-${start.getMonth() + 1}-${('0' + start.getDate()).slice( -2 )}`,
             startTime: `${('0' +start.getHours()).slice(-2)}:${('0' + start.getMinutes()).slice(-2)}`,
@@ -58,7 +58,7 @@ export const Schedule = () => {
             endTime: `${('0' + end.getHours()).slice(-2)}:${('0' + end.getMinutes()).slice(-2)}`
           })
         },
-        [setEvents,params]
+        [params]
       )
 
     const handleSelectEvent = useCallback(
@@ -90,10 +90,22 @@ export const Schedule = () => {
         }
     }
 
-    const handleSubmit = (e) => {
-        e.stopPropagation();
-        console.log(e)
+    const handleSubmit = async(e) => {
+        e.stopPropagation()
+        const res = await CreateEvent(params) 
+        try {
+            if (res.data.status === "success") {
+                setShowModal(false)
+                loadEvents();
+                setParams({title: "", startDate: "", startTime: "", endDate: "", endTime: "", allDay: false, description: ""})
+            } else {
+                setErrors(res.data.errors)
+            }
+        } catch (e) {
+            console.log(e);
+        }
     }
+    console.log(showModal)
 
     return (
         <>
@@ -110,24 +122,25 @@ export const Schedule = () => {
                 style={{ height: 600 }}
                 />
             </Div>
-            <Modal showFlag={showModal} setShowModal={setShowModal}>
+            <Modal onClick={(e)=>e.stopPropagation()} showFlag={showModal} setShowModal={setShowModal}>
                 <h2>イベント作成</h2>
-                <form>
-                    <label>タイトル</label>
-                    <input onChange={(e)=>handleChange(e.target.value,"title")} className="title" />
-                    <label>開始</label>
-                    <p>
-                     <input onChange={(e)=>handleChange(e.target.value,"startDate")} value={params.startDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"startTime")} className="time" value={params.startTime} type="time" disabled={params.allDay} />
-                    </p>
-                    <label>終了</label>
-                    <p>
-                     <input onChange={(e)=>handleChange(e.target.value,"endDate")}  value={params.endDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"endTime")} className="time" value={params.endTime} type="time" disabled={params.allDay} />
-                    </p>
-                    <input type="checkBox" name="allDay" value="true" onChange={(e)=>handleCheck(e)} /><span>終日</span>
-                    <label>説明</label>
-                    <textarea checked={params.allDay} onChange={(e)=>handleChange(e.target.value,"description")} className="description" />
-                    <button className="submit" onClick={()=>handleSubmit(params)}>作成</button>
-                </form>
+                { [...new Set(errors)].map((error)=> {
+                    return <ErrorMessage>{error}</ErrorMessage>
+                })}
+                <label>タイトル</label>
+                <input value={params.title} onChange={(e)=>handleChange(e.target.value,"title")} className="title" />
+                <label>開始</label>
+                <p>
+                    <input onChange={(e)=>handleChange(e.target.value,"startDate")} value={params.startDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"startTime")} className="time" value={params.startTime} type="time" disabled={params.allDay} />
+                </p>
+                <label>終了</label>
+                <p>
+                    <input onChange={(e)=>handleChange(e.target.value,"endDate")}  value={params.endDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"endTime")} className="time" value={params.endTime} type="time" disabled={params.allDay} />
+                </p>
+                <input type="checkBox" name="allDay" checked={params.allDay} value="true" onChange={(e)=>handleCheck(e)} /><span>終日</span>
+                <label>説明</label>
+                <textarea value={params.description} onChange={(e)=>handleChange(e.target.value,"description")} className="description" />
+                <button className="submit" type="button" onClick={(e)=>handleSubmit(e)}>作成</button>
             </Modal>
     </>
     )

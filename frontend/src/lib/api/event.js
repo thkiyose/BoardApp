@@ -7,3 +7,7 @@ export const FetchEvents = () => {
 export const CreateEvent = (params) => {
     return client.post('/events', params);
 };
+
+export const ShowEvent = (id) => {
+    return client.get('/events/${id}');
+};

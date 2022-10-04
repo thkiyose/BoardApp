@@ -19,4 +19,9 @@ class Api::V1::EventsController < ApplicationController
             end
         end
     end
+
+    def show
+        event = Event.find_by(id: params[:id])
+        render json: { event: event }
+    end
 end

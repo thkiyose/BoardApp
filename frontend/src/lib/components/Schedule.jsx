@@ -1,20 +1,29 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Color from './common/Color.jsx';
+import { useForm } from 'react-hook-form';
 import styled from "styled-components";
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment'
 import 'moment/locale/ja';
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import Modal from "react-modal";
 import { CreateEvent } from '../api/event'
 import { FetchEvents } from '../api/event'
+import { Modal } from './common/Modal';
 
 const localizer = momentLocalizer(moment)
 
 export const Schedule = () => {
     const [events, setEvents] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [params, setParams] = useState({});
+    const [params, setParams] = useState({
+        title: "",
+        startDate: "",
+        startTime: "",
+        endDate: "",
+        endTime: "",
+        allDay: false,
+        description: ""
+    })
 
     const loadEvents = async() => {
         try {
@@ -41,38 +50,86 @@ export const Schedule = () => {
     const handleSelectSlot = useCallback(
         async({ start, end }) => {
           setShowModal(true);
-        //   if (title) {
-        //     const res = await CreateEvent({title: title, start: start, end: end}) 
-        //     if (res.status === 200) {
-        //         setEvents((prev) => [...prev, { start, end, title }])
-        //     } else {
-        //         console.log(res)
-        //     }
-        //   }
+          console.log(start,end);
+          setParams({...params,
+            startDate: `${start.getFullYear()}-${start.getMonth() + 1}-${('0' + start.getDate()).slice( -2 )}`,
+            startTime: `${('0' +start.getHours()).slice(-2)}:${('0' + start.getMinutes()).slice(-2)}`,
+            endDate: `${end.getFullYear()}-${end.getMonth() + 1}-${('0' + end.getDate()).slice( -2 )}`,
+            endTime: `${('0' + end.getHours()).slice(-2)}:${('0' + end.getMinutes()).slice(-2)}`
+          })
         },
-        [setEvents]
+        [setEvents,params]
       )
 
-      const handleSelectEvent = useCallback(
-        (event) => window.alert(event.title),
-        []
-      )
+    const handleSelectEvent = useCallback(
+    (event) => window.alert(event.title),
+    []
+    )
+
+    const handleChange=(value,type) => {
+        if (type === "title"){
+            setParams({...params, title: value})
+          } else if (type === "startDate") {
+            setParams({...params, startDate: value})
+          } else if (type === "startTime") {
+            setParams({...params, startTime: value})
+          } else if (type === "endDate") {
+            setParams({...params, endDate: value})
+          } else if (type === "endTime") {
+            setParams({...params, endTime: value})
+          } else if (type === "description") {
+            setParams({...params, description : value})
+          }
+    }
+
+    const handleCheck = (e) => {
+        if (e.target.checked) {
+            setParams({...params, allDay : true,  startTime: "", endTime: ""})
+        } else if (!e.target.checked) {
+            setParams({...params, allDay : false});
+        }
+    }
+
+    const handleSubmit = (e) => {
+        e.stopPropagation();
+        console.log(e)
+    }
 
     return (
-        <Div id="calendar">
-            <button>イベント追加</button>
-            <Calendar
-            localizer={localizer}
-            startAccessor="start"
-            events={formatted}
-            onSelectEvent={handleSelectEvent}
-            onSelectSlot={handleSelectSlot}
-            selectable
-            endAccessor="end"
-            style={{ height: 600 }}
-            />
-            <ScheduleModal showModal={showModal} setShowModal={setShowModal}/>
-      </Div>
+        <>
+            <Div id="calendar">
+                <button>イベント追加</button>
+                <Calendar
+                localizer={localizer}
+                startAccessor="start"
+                events={formatted}
+                onSelectEvent={handleSelectEvent}
+                onSelectSlot={handleSelectSlot}
+                selectable
+                endAccessor="end"
+                style={{ height: 600 }}
+                />
+            </Div>
+            <Modal showFlag={showModal} setShowModal={setShowModal}>
+                <h2>イベント作成</h2>
+                <form>
+                    <label>タイトル</label>
+                    <input onChange={(e)=>handleChange(e.target.value,"title")} className="title" />
+                    <label>開始</label>
+                    <p>
+                     <input onChange={(e)=>handleChange(e.target.value,"startDate")} value={params.startDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"startTime")} className="time" value={params.startTime} type="time" disabled={params.allDay} />
+                    </p>
+                    <label>終了</label>
+                    <p>
+                     <input onChange={(e)=>handleChange(e.target.value,"endDate")}  value={params.endDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"endTime")} className="time" value={params.endTime} type="time" disabled={params.allDay} />
+                    </p>
+                    <input type="checkBox" name="allDay" value="true" onChange={(e)=>handleCheck(e)} /><span>終日</span>
+                    <label>説明</label>
+                    <textarea checked={params.allDay} onChange={(e)=>handleChange(e.target.value,"description")} className="description" />
+                    <button className="submit" onClick={()=>handleSubmit(params)}>作成</button>
+                </form>
+            </Modal>
+    </>
     )
 }
 
@@ -147,75 +204,8 @@ const Div = styled.div`
     }
 }
 `
-
-const ScheduleModal = (props) => {
-    const { showModal, setShowModal } = props;
-    const customStyles = {
-        content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          minWidth: '80%',
-          background: `${Color.bg}`,
-          transform: 'translate(-50%, -50%)'
-        },
-        overlay: {
-            background: 'rgb(0,0,0,0.5)'
-        }
-      };
-  
-    const closeModal = () => {
-      setShowModal(false);
-    }
-
-    return (
-        <Modal
-            isOpen={showModal}
-            onRequestClose={closeModal}
-            contentLabel="Example Modal"
-            style={customStyles}
-            areaHideApp={false}
-        >
-            <InsideMordal>
-                <h2>イベント作成</h2>
-                <form>
-                <label>タイトル</label>
-                <input />
-                <label>開始</label>
-                <input />
-                <label>終了</label>
-                <input />
-                <input type="checkBox" name="allDay" />
-                <span>終日</span>
-                </form>
-            </InsideMordal>
-        </Modal>
-    );
-}
-
-const InsideMordal = styled.div`
-    font-size: 0.8rem;
-    h2 {
-        text-align: center;
-    }
-    label {
-        display: block;
-        margin-left: 10%;
-        margin-top: 20px;
-    }
-    input {
-        margin-left: 10%;
-        width: 80%;
-        background: none;
-        box-sizing: border-box;
-        border: none;
-        border-bottom: solid 1px gray;
-        padding: 8px;
-    }
-    input[type="checkBox"] {
-        width: 20px;
-        margin-top: 20px;
-        margin-bottom: 30px;
-    }
+const ErrorMessage = styled.span`
+  font-size: 0.8rem;
+  display: block;
+  background-color: ${Color.form};
 `

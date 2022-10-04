@@ -46,7 +46,7 @@ export const Schedule = () => {
        })
        return arr;
     },[events])
-console.log(params.title)
+console.log(params)
     const handleSelectSlot = useCallback(
         async({ start, end }) => {
           setErrors([]);
@@ -105,7 +105,6 @@ console.log(params.title)
             console.log(e);
         }
     }
-    console.log(showModal)
 
     return (
         <>

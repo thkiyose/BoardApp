@@ -4,10 +4,11 @@ class Api::V1::EventsController < ApplicationController
     end
 
     def create
+        p Time.zone
         event = Event.new()
         event.title = params[:title]
-        event.start = DateTime.parse(params[:start_date] + " " + params[:start_time])
-        event.end = DateTime.parse(params[:end_date] + " " + params[:end_time])
+        event.start = ActiveSupport::TimeZone[Time.zone].parse(params[:start_date] + " " + params[:start_time])
+        event.end = ActiveSupport::TimeZone[Time.zone].parse(params[:end_date] + " " + params[:end_time])
         event.all_day = params[:all_day]
         event.description = params[:description]
         if event.save

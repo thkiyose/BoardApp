@@ -3,7 +3,7 @@ import Color from './common/Color.jsx';
 import styled from "styled-components";
 import { SectionSelector } from './common/SectionSelector.jsx';
 import { AuthContext  } from '../../App.jsx';
-import { Calendar, momentLocalizer, eventPropGetter } from 'react-big-calendar';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment'
 import 'moment/locale/ja';
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -91,7 +91,7 @@ export const Schedule = () => {
             endTime: `${('0' + end.getHours()).slice(-2)}:${('0' + end.getMinutes()).slice(-2)}`
           })
         },
-        [params]
+        [params,currentUser.user.admin]
       )
 
     const openModal = () => {
@@ -232,7 +232,7 @@ export const Schedule = () => {
                         <input min="2022-09-20" max="2025-09-19" onChange={(e)=>handleChange(e.target.value,"startDate")} value={params.startDate} className="date" type="date" />
                         <select onChange={(e)=>handleChange(e.target.value,"startTime")} className="time" value={params.startTime} type="time" disabled={params.allDay} >
                             {hourArray.map((arr) => {
-                                return <option value={("0" + arr).slice(-2) + ":00"}>{("0" + arr).slice(-2)}:00</option>
+                                return <option key={arr} value={("0" + arr).slice(-2) + ":00"}>{("0" + arr).slice(-2)}:00</option>
                             })}
                         </select>
                     </p>
@@ -241,7 +241,7 @@ export const Schedule = () => {
                         <input min="2022-09-20" max="2025-09-19" onChange={(e)=>handleChange(e.target.value,"endDate")}  value={params.endDate} className="date" type="date" />
                         <select onChange={(e)=>handleChange(e.target.value,"endTime")} className="time" value={params.endTime} type="time" disabled={params.allDay} >
                             {hourArray.map((arr) => {
-                                return <option value={("0" + arr).slice(-2) + ":00"}>{("0" + arr).slice(-2)}:00</option>
+                                return <option key={arr} value={("0" + arr).slice(-2) + ":00"}>{("0" + arr).slice(-2)}:00</option>
                             })}
                         </select>
                     </p>

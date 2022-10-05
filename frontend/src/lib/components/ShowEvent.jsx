@@ -25,13 +25,7 @@ export const ShowEvent = (props) => {
     },[eventId])
 
     useEffect(()=>{loadEvent()},[setEvent,loadEvent])
-    if (event?.event) {
-        const description = event.event.description.split("\n").map((item, index) => {
-            return (
-              <React.Fragment key={index}>{item}<br /></React.Fragment>
-            );
-          });
-    }
+
     const description = event?.event ?
         event.event.description.split("\n").map((item, index) => {
             return (

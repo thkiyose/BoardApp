@@ -8,7 +8,6 @@ const ModalContent = styled.div`
     max-height: 500px;
     background: ${Color.bg};
     width: 50%;
-    z-index: 1000;
     padding: 20px;
     position: relative;
     font-size: 0.8rem;

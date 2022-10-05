@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { SortEvents  } from '../../api/event';
 import Color from './Color';
 import styled from 'styled-components'
 
@@ -8,7 +9,7 @@ export const EventSortBar = (props) => {
         section: "",
         area: "",
       });
-      const { sections, areas, handleSort } = props;
+      const { sections, areas, setEvents } = props;
 
       const onChange = (param,type) => {
         if (type === "title"){
@@ -19,6 +20,19 @@ export const EventSortBar = (props) => {
           setSearchParam({...searchParam,area:param})
         }
       }
+
+    const handleSort = useCallback(async(params) => {
+        try {
+            const res = await SortEvents(params); 
+            if (res.status === 200) {
+                setEvents(res.data.events);
+            } else {
+            console.log(res)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    },[setEvents])
 
     return (
         <SortBar>

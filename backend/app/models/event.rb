@@ -22,14 +22,12 @@ class Event < ApplicationRecord
     
     scope :search_with_section_only, -> (section){
         return if section.blank?
-           joins(:sections).where(sections:{sections: section.capitalize } )
-        end
+        joins(:sections).where(sections:{sections: section.capitalize } )
     }
 
 
     scope :search_with_area_only, -> (area){
         return if area.blank?
-            joins(:sections).where(sections:{areas: area.capitalize })
-        end
+        joins(:sections).where(sections:{areas: area.capitalize })
     }
 end

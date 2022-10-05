@@ -15,3 +15,7 @@ export const FetchEvent = (id) => {
 export const DestroyEvent = (id) => {
     return client.delete(`/events/${id}`);
 };
+
+export const SortEvents = (query) => {
+    return client.get(`/events/search`,{ params: query})
+};

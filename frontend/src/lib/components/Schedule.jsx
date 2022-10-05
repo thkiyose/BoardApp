@@ -172,7 +172,7 @@ export const Schedule = () => {
         <>
             <Div id="calendar">
                 { currentUser.user.admin && <AddButton onClick={()=>{openModal()}}>イベント追加</AddButton> }
-                <EventSortBar sections={rawSections} areas={rawAreas} />
+                <EventSortBar sections={rawSections} areas={rawAreas} setEvents={setEvents} />
                 <Calendar
                 localizer={localizer}
                 startAccessor="start"

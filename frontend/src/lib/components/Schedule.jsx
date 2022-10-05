@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useContext } from 'react';
 import Color from './common/Color.jsx';
 import styled from "styled-components";
+import { SectionSelector } from './common/SectionSelector.jsx';
 import { AuthContext  } from '../../App.jsx';
 import { Calendar, momentLocalizer, eventPropGetter } from 'react-big-calendar';
 import moment from 'moment'
@@ -16,7 +17,9 @@ import RBCToolbar from './common/Toolbar';
 const localizer = momentLocalizer(moment)
 
 export const Schedule = () => {
-    const { currentUser } = useContext(AuthContext);
+    const { currentUser, sections } = useContext(AuthContext);
+    const [selectedSection, setSelectedSection] = useState([]);
+    const [selectedArea, setSelectedArea] = useState([]);
     const [events, setEvents] = useState([]);
     const [ targetId, setTargetId ] = useState(0);
     const [showModal, setShowModal] = useState(false);
@@ -188,34 +191,46 @@ export const Schedule = () => {
                 />
             </Div>
             <Modal onClick={(e)=>e.stopPropagation()} showFlag={showModal} setShowModal={setShowModal}>
-                <h2>イベント作成</h2>
-                { [...new Set(errors)].map((error)=> {
-                    return <ErrorMessage>{error}</ErrorMessage>
-                })}
-                <label>タイトル</label>
-                <input value={params.title} onChange={(e)=>handleChange(e.target.value,"title")} className="title" />
-                <label>開始</label>
-                <p>
-                    <input min="2022-09-20" max="2025-09-19" onChange={(e)=>handleChange(e.target.value,"startDate")} value={params.startDate} className="date" type="date" />
-                    <select onChange={(e)=>handleChange(e.target.value,"startTime")} className="time" value={params.startTime} type="time" disabled={params.allDay} >
-                        {hourArray.map((arr) => {
-                            return <option value={("0" + arr).slice(-2) + ":00"}>{("0" + arr).slice(-2)}:00</option>
-                        })}
-                    </select>
-                </p>
-                <label>終了</label>
-                <p>
-                    <input min="2022-09-20" max="2025-09-19" onChange={(e)=>handleChange(e.target.value,"endDate")}  value={params.endDate} className="date" type="date" />
-                    <select onChange={(e)=>handleChange(e.target.value,"endTime")} className="time" value={params.endTime} type="time" disabled={params.allDay} >
-                        {hourArray.map((arr) => {
-                            return <option value={("0" + arr).slice(-2) + ":00"}>{("0" + arr).slice(-2)}:00</option>
-                        })}
-                    </select>
-                </p>
-                <input type="checkBox" name="allDay" checked={params.allDay} value="true" onChange={(e)=>handleCheck(e)} /><span>終日</span>
-                <label>説明</label>
-                <textarea value={params.description} onChange={(e)=>handleChange(e.target.value,"description")} className="description" />
-                <button className="submit" type="button" onClick={(e)=>handleSubmit(e)}>作成</button>
+                <Inputs>
+                    <h2>イベント作成</h2>
+                    { [...new Set(errors)].map((error)=> {
+                        return <ErrorMessage>{error}</ErrorMessage>
+                    })}
+                    <label>タイトル</label>
+                    <input value={params.title} onChange={(e)=>handleChange(e.target.value,"title")} className="title" />
+                    <label>開始</label>
+                    <p>
+                        <input min="2022-09-20" max="2025-09-19" onChange={(e)=>handleChange(e.target.value,"startDate")} value={params.startDate} className="date" type="date" />
+                        <select onChange={(e)=>handleChange(e.target.value,"startTime")} className="time" value={params.startTime} type="time" disabled={params.allDay} >
+                            {hourArray.map((arr) => {
+                                return <option value={("0" + arr).slice(-2) + ":00"}>{("0" + arr).slice(-2)}:00</option>
+                            })}
+                        </select>
+                    </p>
+                    <label>終了</label>
+                    <p>
+                        <input min="2022-09-20" max="2025-09-19" onChange={(e)=>handleChange(e.target.value,"endDate")}  value={params.endDate} className="date" type="date" />
+                        <select onChange={(e)=>handleChange(e.target.value,"endTime")} className="time" value={params.endTime} type="time" disabled={params.allDay} >
+                            {hourArray.map((arr) => {
+                                return <option value={("0" + arr).slice(-2) + ":00"}>{("0" + arr).slice(-2)}:00</option>
+                            })}
+                        </select>
+                    </p>
+                    <input type="checkBox" name="allDay" checked={params.allDay} value="true" onChange={(e)=>handleCheck(e)} /><span>終日</span>
+                    <label>説明</label>
+                    <textarea value={params.description} onChange={(e)=>handleChange(e.target.value,"description")} className="description" />
+                </Inputs>
+                <SectionDiv>
+                    <p>所属セクション・エリア</p>
+                    <SectionSelector
+                        sections={sections}
+                        selectedSection={selectedSection}
+                        setSelectedSection={setSelectedSection}
+                        selectedArea={selectedArea}
+                        setSelectedArea={setSelectedArea}
+                        showLabel={false}/>
+                </SectionDiv>
+                <Submit className="submit" type="button" onClick={(e)=>handleSubmit(e)}>作成</Submit>
             </Modal>
             <ShowEvent eventId={targetId} showModal={showInfo} setShowModal={setShowInfo} handleDestroyEvent={handleDestroyEvent}/>
     </>
@@ -262,4 +277,79 @@ const ErrorMessage = styled.span`
   font-size: 0.8rem;
   display: block;
   background-color: ${Color.form};
+`
+
+const Inputs = styled.div`
+    h2 {
+        text-align: center;
+    }
+    label {
+        display: block;
+        margin-left: 5%;
+        margin-top: 20px;
+    }
+    input {
+        margin-left: 5%;
+        background: none;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: solid 1px gray;
+        padding: 8px;
+    }
+
+    select {
+    margin-left: 5%;
+    background: none;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: solid 1px gray;
+    padding: 8px;
+    }
+    textarea {
+        margin-left: 5%;
+        background: none;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: solid 1px gray;
+        padding: 8px;
+    }
+    input[type="checkBox"] {
+        width: 20px;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+    .title,.description {
+        width: 85%;
+    }
+    .description {
+    min-height: 100px;
+    }
+    .date, .time {
+        width: 40%;
+    }
+`
+
+const Submit = styled.button`
+    display: block;
+    background-color: ${Color.primary};
+    color: white;
+    border: none;
+    margin: 0 auto;
+    width: 50%;
+    padding: 15px;
+    cursor: pointer;
+`
+
+const SectionDiv = styled.div`
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 20px;
+`
+const CloseButton = styled.button`
+    background-color: ${Color.primary};
+    font-size: 1.3rem;
+    border: none;
+    color: #fff;
+    position: fixed;
+    left: 100;
 `

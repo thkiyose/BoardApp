@@ -4,69 +4,14 @@ import Color from "./Color"
 
 
 const ModalContent = styled.div`
+    overflow: scroll;
+    max-height: 500px;
     background: ${Color.bg};
     width: 50%;
     z-index: 1000;
-    position: relative;
     padding: 20px;
+    position: relative;
     font-size: 0.8rem;
-    h2 {
-        text-align: center;
-    }
-    label {
-        display: block;
-        margin-left: 5%;
-        margin-top: 20px;
-    }
-    input {
-        margin-left: 5%;
-        background: none;
-        box-sizing: border-box;
-        border: none;
-        border-bottom: solid 1px gray;
-        padding: 8px;
-    }
-
-    select {
-      margin-left: 5%;
-      background: none;
-      box-sizing: border-box;
-      border: none;
-      border-bottom: solid 1px gray;
-      padding: 8px;
-    }
-    textarea {
-        margin-left: 5%;
-        background: none;
-        box-sizing: border-box;
-        border: none;
-        border-bottom: solid 1px gray;
-        padding: 8px;
-    }
-    input[type="checkBox"] {
-        width: 20px;
-        margin-top: 20px;
-        margin-bottom: 30px;
-    }
-    .title,.description {
-        width: 85%;
-    }
-    .description {
-      min-height: 150px;
-    }
-    .date, .time {
-        width: 40%;
-    }
-    .submit {
-        display: block;
-        background-color: ${Color.primary};
-        color: white;
-        border: none;
-        margin: 0 auto;
-        width: 50%;
-        padding: 15px;
-        cursor: pointer;
-    }
 `
 
 const OverLay = styled.div`
@@ -83,9 +28,12 @@ const OverLay = styled.div`
 const CloseButton = styled.button`
     background-color: ${Color.primary};
     font-size: 1.3rem;
-    float: right;
     border: none;
     color: #fff;
+    position: fixed;
+    left: 70%;
+    cursor: pointer;
+    marign-left:500px;
 `
 
 export const Modal = (props) => {

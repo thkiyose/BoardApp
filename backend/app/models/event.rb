@@ -4,6 +4,8 @@ class Event < ApplicationRecord
     validates :end, presence: true
     validate :date_check
     belongs_to :user
+    has_many :event_sections, dependent: :destroy
+    has_many :sections, through: :event_sections
 
     def date_check
         if self.start >= self.end

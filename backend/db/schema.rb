@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_04_071515) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_05_040208) do
+  create_table "event_sections", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "section_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_sections_on_event_id"
+    t.index ["section_id"], name: "index_event_sections_on_section_id"
+  end
+
   create_table "events", charset: "utf8mb4", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "start", precision: nil, null: false
@@ -80,6 +89,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_04_071515) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "event_sections", "events"
+  add_foreign_key "event_sections", "sections"
   add_foreign_key "events", "users"
   add_foreign_key "news", "users"
   add_foreign_key "news_from_sections", "news"

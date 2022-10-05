@@ -10,6 +10,7 @@ import { CreateEvent } from '../api/event'
 import { FetchEvents } from '../api/event'
 import { Modal } from './common/Modal';
 import { ShowEvent } from './ShowEvent'
+import { DestroyEvent  } from '../api/event';
 import RBCToolbar from './common/Toolbar';
 
 const localizer = momentLocalizer(moment)
@@ -20,7 +21,6 @@ export const Schedule = () => {
     const [ targetId, setTargetId ] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
-    const [ onScreenDate, setOnScreenDate ] = useState();
     const [params, setParams] = useState({
         userId: currentUser.user.id,
         title: "",
@@ -55,6 +55,19 @@ export const Schedule = () => {
        })
        return arr;
     },[events])
+
+    const handleDestroyEvent = async(eventId) => {
+        const result = window.confirm("このイベントを削除しますか？")
+        if (result) {
+            const res = await DestroyEvent(eventId)
+            if (res.status === 200) {
+                setShowInfo(false);
+                loadEvents();
+            } else {
+                console.log(res)
+            }
+        }
+    }
 
     const minMaxChecker = () => {
         const minDate = document.getElementsByClassName("minDate")
@@ -204,7 +217,7 @@ export const Schedule = () => {
                 <textarea value={params.description} onChange={(e)=>handleChange(e.target.value,"description")} className="description" />
                 <button className="submit" type="button" onClick={(e)=>handleSubmit(e)}>作成</button>
             </Modal>
-            <ShowEvent eventId={targetId} showModal={showInfo} setShowModal={setShowInfo}/>
+            <ShowEvent eventId={targetId} showModal={showInfo} setShowModal={setShowInfo} handleDestroyEvent={handleDestroyEvent}/>
     </>
     )
 }

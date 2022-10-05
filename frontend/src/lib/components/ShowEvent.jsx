@@ -8,7 +8,7 @@ import { FetchEvent  } from '../api/event.js';
 import moment from 'moment';
 
 export const ShowEvent = (props) => {
-    const { eventId, showModal, setShowModal } = props;
+    const { eventId, showModal, setShowModal, handleDestroyEvent } = props;
     const [ event, setEvent ] = useState();
     const { currentUser } = useContext(AuthContext);
 
@@ -34,16 +34,17 @@ export const ShowEvent = (props) => {
           });
     }
     const description = event?.event ?
-    event.event.description.split("\n").map((item, index) => {
-        return (
-            <React.Fragment key={index}>{item}<br /></React.Fragment>
-        );
+        event.event.description.split("\n").map((item, index) => {
+            return (
+                <React.Fragment key={index}>{item}<br /></React.Fragment>
+            );
         }) : ""
+
     return (
         <Modal showFlag={showModal} setShowModal={setShowModal}>
             {event?.event &&
                 <>
-                    <User><Label>作成者</Label>{event.user.name}:{event.user.email}</User>{event.user.id === currentUser.user.id && <Menu><button>編集</button><button>削除</button></Menu>}
+                    <User><Label>作成者</Label>{event.user.name}:{event.user.email}</User>{event.user.id === currentUser.user.id && <Menu><button>編集</button><button onClick={()=>{handleDestroyEvent(eventId)}}>削除</button></Menu>}
                     <InfoTable>
                         <tbody>
                             <tr><th>タイトル</th><td>{event.event.title}</td></tr>

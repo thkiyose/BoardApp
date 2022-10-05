@@ -44,7 +44,6 @@ class Api::V1::NewsController < ApplicationController
   end
 
   def update
-    p params
     news = News.find_by_id(params[:id])
     selected_from = params[:selected_area_from]
     selected_to = params[:selected_area_to]

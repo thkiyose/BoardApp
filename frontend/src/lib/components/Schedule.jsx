@@ -55,7 +55,7 @@ export const Schedule = () => {
     const formatted = useMemo(()=>{
         const arr = []
         events.map((event)=>{
-            return (arr.push({ id: event.id, title: event.title, start: new Date(event.start), end: new Date(event.end), allDay: event.allDay}))
+            return (arr.push({ id: event.id, title: event.title, start: new Date(event.start), end: new Date(event.end), allDay: event.allDay, section: event.section}))
        })
        return arr;
     },[events])
@@ -155,7 +155,7 @@ export const Schedule = () => {
             console.log(e);
         }
     }
-    const accessor = (date) => {
+    const dateAccessor = (date) => {
         if (date < new Date(2022,8,20) || date >= new Date(2025,8,20)) {
             return {
                 style: {
@@ -166,6 +166,34 @@ export const Schedule = () => {
         if (moment(date).diff(new Date(2022,9,20), "days") === 0) {
         }
 
+    }
+
+    const eventPropGetter = (event) => {
+        let bgColor;
+        switch (event.section) {
+            case "Civil":
+                bgColor = "#f43a7b";
+                break;
+            case "Building":
+                bgColor = "#14b4ff";
+                break;
+            case "Mechanical":
+                bgColor = "#39b269";
+                break;
+            case "Piping":
+                bgColor = "#c1a14f";
+                break;
+            case "Electrical":
+                bgColor = "#8d76a8";
+                break;
+            default:
+                break;
+        }
+        return {
+            style: {
+                backgroundColor : bgColor
+            }
+        }
     }
 
     return (
@@ -182,7 +210,8 @@ export const Schedule = () => {
                 selectable
                 endAccessor="end"
                 style={{ height: 600 }}
-                dayPropGetter={(date)=>accessor(date)}
+                dayPropGetter={(date)=>dateAccessor(date)}
+                eventPropGetter={(event)=>eventPropGetter(event)}
                 step="60"
                 length="30"
                 components={{

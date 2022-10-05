@@ -1,6 +1,6 @@
 class Api::V1::EventsController < ApplicationController
     def index
-        events = Event.all
+        events = Event.includes(:sections).map{|event|{ id: event.id, title: event.title, start: event.start, end: event.end, section: event.sections ? event.sections[0].sections : null }}
         render json: { events: events }
     end
 
@@ -48,6 +48,8 @@ class Api::V1::EventsController < ApplicationController
     def search
         events = Event.search_with_title(params[:title])
         .search_with_section_only(params[:section]).search_with_area_only(params[:area])
+        .includes(:sections).map{|event|{ id: event.id, title: event.title, start: event.start, end: event.end, section: event.sections ? event.sections[0].sections : null }}
+
         render json: { events: events }
     end
 end

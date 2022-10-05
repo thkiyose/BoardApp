@@ -26,6 +26,15 @@ const ModalContent = styled.div`
         border-bottom: solid 1px gray;
         padding: 8px;
     }
+
+    select {
+      margin-left: 5%;
+      background: none;
+      box-sizing: border-box;
+      border: none;
+      border-bottom: solid 1px gray;
+      padding: 8px;
+    }
     textarea {
         margin-left: 5%;
         background: none;

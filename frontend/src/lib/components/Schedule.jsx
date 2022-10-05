@@ -31,6 +31,8 @@ export const Schedule = () => {
         allDay: false,
         description: ""
     })
+
+    console.log(params)
     const [errors, setErrors] = useState([])
 
     const loadEvents = async() => {
@@ -57,7 +59,6 @@ export const Schedule = () => {
 
     const minMaxChecker = () => {
         const minDate = document.getElementsByClassName("minDate")
-        console.log(minDate)
         const collection = document.getElementsByClassName("rbc-btn-group");
         const target = collection[0].children[1]
         if (minDate.length > 0) {
@@ -66,6 +67,7 @@ export const Schedule = () => {
             target.disabled = false;
         }
     }
+    const hourArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
 
     const handleSelectSlot = useCallback(
         async({ start, end }) => {
@@ -131,7 +133,7 @@ export const Schedule = () => {
             if (res.data.status === "success") {
                 setShowModal(false)
                 loadEvents();
-                setParams({title: "", startDate: "", startTime: "", endDate: "", endTime: "", allDay: false, description: ""})
+                setParams({userId: currentUser.user.id,title: "", startDate: "", startTime: "", endDate: "", endTime: "", allDay: false, description: ""})
             } else {
                 setErrors(res.data.errors)
             }
@@ -151,8 +153,7 @@ export const Schedule = () => {
         }
 
     }
-
-
+console.log(params.startTime)
     return (
         <>
             <Div id="calendar">
@@ -183,11 +184,21 @@ export const Schedule = () => {
                 <input value={params.title} onChange={(e)=>handleChange(e.target.value,"title")} className="title" />
                 <label>開始</label>
                 <p>
-                    <input min="2022-09-20" max="2025-09-19" onChange={(e)=>handleChange(e.target.value,"startDate")} value={params.startDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"startTime")} className="time" value={params.startTime} type="time" disabled={params.allDay} />
+                    <input min="2022-09-20" max="2025-09-19" onChange={(e)=>handleChange(e.target.value,"startDate")} value={params.startDate} className="date" type="date" />
+                    <select onChange={(e)=>handleChange(e.target.value,"startTime")} className="time" value={params.startTime} type="time" disabled={params.allDay} >
+                        {hourArray.map((arr) => {
+                            return <option value={("0" + arr).slice(-2) + ":00"}>{("0" + arr).slice(-2)}:00</option>
+                        })}
+                    </select>
                 </p>
                 <label>終了</label>
                 <p>
-                    <input min="2022-09-20" max="2025-09-19" onChange={(e)=>handleChange(e.target.value,"endDate")}  value={params.endDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"endTime")} className="time" step="1800" value={params.endTime} type="time" disabled={params.allDay} />
+                    <input min="2022-09-20" max="2025-09-19" onChange={(e)=>handleChange(e.target.value,"endDate")}  value={params.endDate} className="date" type="date" />
+                    <select onChange={(e)=>handleChange(e.target.value,"endTime")} className="time" value={params.endTime} type="time" disabled={params.allDay} >
+                        {hourArray.map((arr) => {
+                            return <option value={("0" + arr).slice(-2) + ":00"}>{("0" + arr).slice(-2)}:00</option>
+                        })}
+                    </select>
                 </p>
                 <input type="checkBox" name="allDay" checked={params.allDay} value="true" onChange={(e)=>handleCheck(e)} /><span>終日</span>
                 <label>説明</label>

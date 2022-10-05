@@ -11,3 +11,7 @@ export const CreateEvent = (params) => {
 export const FetchEvent = (id) => {
     return client.get(`/events/${id}`);
 };
+
+export const DestroyEvent = (id) => {
+    return client.delete(`/events/${id}`);
+};

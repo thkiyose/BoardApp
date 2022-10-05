@@ -13,11 +13,12 @@ import { Modal } from './common/Modal';
 import { ShowEvent } from './ShowEvent'
 import { DestroyEvent  } from '../api/event';
 import RBCToolbar from './common/Toolbar';
+import { EventSortBar } from './common/EventSortBar';
 
 const localizer = momentLocalizer(moment)
 
 export const Schedule = () => {
-    const { currentUser, sections } = useContext(AuthContext);
+    const { currentUser, sections, rawSections,rawAreas } = useContext(AuthContext);
     const [selectedSection, setSelectedSection] = useState([]);
     const [selectedArea, setSelectedArea] = useState([]);
     const [events, setEvents] = useState([]);
@@ -170,7 +171,8 @@ export const Schedule = () => {
     return (
         <>
             <Div id="calendar">
-                { currentUser.user.admin && <button onClick={()=>{openModal()}}>イベント追加</button> }
+                { currentUser.user.admin && <AddButton onClick={()=>{openModal()}}>イベント追加</AddButton> }
+                <EventSortBar sections={rawSections} areas={rawAreas} />
                 <Calendar
                 localizer={localizer}
                 startAccessor="start"
@@ -342,4 +344,8 @@ const SectionDiv = styled.div`
     width: 90%;
     margin: 0 auto;
     padding-bottom: 20px;
+`
+
+const AddButton = styled.button`
+    float: right;
 `

@@ -54,7 +54,7 @@ export const ShowEvent = (props) => {
                         </tbody>
                     </InfoTable>
                     <p>
-                        <span>セクション</span>
+                        <span>セクション・エリア</span>
                         {event?.sections.map((x,index) => {
                             return (
                             <SectionArea key={index}>

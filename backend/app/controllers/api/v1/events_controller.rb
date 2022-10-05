@@ -44,4 +44,10 @@ class Api::V1::EventsController < ApplicationController
             render json: { errors: event.errors.full_messages }
         end
     end
+
+    def search
+        events = Event.search_with_title(params[:title])
+        .search_with_section_only(params[:section]).search_with_area_only(params[:area])
+        render json: { news: news }
+      end
 end

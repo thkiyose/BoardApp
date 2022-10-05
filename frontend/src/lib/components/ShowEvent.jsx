@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import Color from './common/Color.jsx';
-import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import { AuthContext  } from '../../App.jsx';
 import { Modal } from './common/Modal';
@@ -42,7 +41,7 @@ export const ShowEvent = (props) => {
 
     return (
         <Modal showFlag={showModal} setShowModal={setShowModal}>
-            {event?.event &&
+            {event?.sections &&
                 <>
                     <User><Label>作成者</Label>{event.user.name}:{event.user.email}</User>{event.user.id === currentUser.user.id && <Menu><button>編集</button><button onClick={()=>{handleDestroyEvent(eventId)}}>削除</button></Menu>}
                     <InfoTable>
@@ -54,6 +53,19 @@ export const ShowEvent = (props) => {
                             <tr><th>メモ</th><td className='description'>{description}</td></tr>
                         </tbody>
                     </InfoTable>
+                    <p>
+                        <span>セクション</span>
+                        {event?.sections.map((x,index) => {
+                            return (
+                            <SectionArea key={index}>
+                                <span>{x[0].sections}:</span>
+                                {x.map((child,index) => {
+                                return <span className="area" key={index}>{child.areas}</span>;
+                                })}
+                            </SectionArea>
+                            );
+                        })}
+                    </p>
                 </>
             }
         </Modal>
@@ -77,8 +89,7 @@ const InfoTable = styled.table`
     }
 
     .description {
-        text-align: left;
-        padding-left: 10%;
+        text-align: center;
     }
 `
 const Label = styled.span`
@@ -97,5 +108,18 @@ const Menu = styled.p`
     text-align :center;
     button {
         margin-left: 9px;
+    }
+`
+const SectionArea = styled.span`
+    background: ${Color.secondary};
+    color: white;
+    padding: 5px;
+    margin-left: 5px;
+    border-radius: 5px;
+    .area {
+        margin-left: 3px;
+        background: ${Color.primary};
+        padding: 5px;
+        border-radius: 10px;
     }
 `

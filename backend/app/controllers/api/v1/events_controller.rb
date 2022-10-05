@@ -32,7 +32,8 @@ class Api::V1::EventsController < ApplicationController
 
     def show
         event = Event.find_by(id: params[:id])
-        render json: { event: { event: event, user: event&.user } }
+        sections = (event ? event.sections.group_by{ |s| s.sections } : nil)
+        render json: { event: { event: event, user: event&.user, sections: sections&.values } }
     end
 
     def destroy

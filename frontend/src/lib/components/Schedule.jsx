@@ -135,6 +135,10 @@ export const Schedule = () => {
 
     const handleSubmit = async(e) => {
         e.stopPropagation()
+        if (selectedArea.length === 0) {
+            setErrors(["セクション・エリアを選んで下さい。"])
+            return;
+        }
         const res = await CreateEvent({id: currentUser.user.id, event: params, sections: selectedArea}) 
         try {
             if (res.data.status === "success") {

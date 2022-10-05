@@ -25,4 +25,13 @@ class Api::V1::EventsController < ApplicationController
         event = Event.find_by(id: params[:id])
         render json: { event: { event: event, user: event&.user } }
     end
+
+    def destroy
+        event = Event.find_by(id: params[:id])
+        if event.destroy
+            render json: { status: "success" }
+        else
+            render json: { errors: event.errors.full_messages }
+        end
+    end
 end

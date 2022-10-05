@@ -75,9 +75,9 @@ export const Schedule = () => {
           setErrors([]);
           setShowModal(true);
           setParams({...params,
-            startDate: `${start.getFullYear()}-${start.getMonth() + 1}-${('0' + start.getDate()).slice( -2 )}`,
+            startDate: `${start.getFullYear()}-${('0' + (start.getMonth() + 1)).slice(-2)}-${('0' + start.getDate()).slice( -2 )}`,
             startTime: `${('0' +start.getHours()).slice(-2)}:${('0' + start.getMinutes()).slice(-2)}`,
-            endDate: `${end.getFullYear()}-${end.getMonth() + 1}-${('0' + end.getDate()).slice( -2 )}`,
+            endDate: `${end.getFullYear()}-${('0' + (end.getMonth() + 1)).slice(-2)}-${('0' + end.getDate()).slice( -2 )}`,
             endTime: `${('0' + end.getHours()).slice(-2)}:${('0' + end.getMinutes()).slice(-2)}`
           })
         },
@@ -181,11 +181,11 @@ export const Schedule = () => {
                 <input value={params.title} onChange={(e)=>handleChange(e.target.value,"title")} className="title" />
                 <label>開始</label>
                 <p>
-                    <input onChange={(e)=>handleChange(e.target.value,"startDate")} value={params.startDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"startTime")} className="time" value={params.startTime} type="time" disabled={params.allDay} />
+                    <input min="2022-09-20" max="2025-09-19" onChange={(e)=>handleChange(e.target.value,"startDate")} value={params.startDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"startTime")} className="time" value={params.startTime} type="time" disabled={params.allDay} />
                 </p>
                 <label>終了</label>
                 <p>
-                    <input onChange={(e)=>handleChange(e.target.value,"endDate")}  value={params.endDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"endTime")} className="time" step="1800" value={params.endTime} type="time" disabled={params.allDay} />
+                    <input min="2022-09-20" max="2025-09-19" onChange={(e)=>handleChange(e.target.value,"endDate")}  value={params.endDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"endTime")} className="time" step="1800" value={params.endTime} type="time" disabled={params.allDay} />
                 </p>
                 <input type="checkBox" name="allDay" checked={params.allDay} value="true" onChange={(e)=>handleCheck(e)} /><span>終日</span>
                 <label>説明</label>

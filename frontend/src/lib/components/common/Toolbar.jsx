@@ -4,7 +4,7 @@ import moment from "moment";
 
 
 function RBCToolbar(props) {
-  const { label, date, view, views, onView, onNavigate, localizer } = props;
+  const { label, date, view, onView, onNavigate　} = props;
   const [month, setMonth] = useState("January");
   const mMonth = moment(date).format("MMMM");
   const months = moment.months();

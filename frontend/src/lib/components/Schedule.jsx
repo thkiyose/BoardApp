@@ -71,6 +71,8 @@ export const Schedule = () => {
         async({ start, end }) => {
           if (currentUser.user.admin === false) {
             return
+          } else if (start < new Date(2022,8,20) || end > new Date(2025,8,20)) {
+            return
           }
           setErrors([]);
           setShowModal(true);

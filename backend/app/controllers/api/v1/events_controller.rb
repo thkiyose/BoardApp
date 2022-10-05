@@ -5,14 +5,23 @@ class Api::V1::EventsController < ApplicationController
     end
 
     def create
-        user= User.find_by(id: params[:user_id])
+        user= User.find_by(id: params[:id])
         if user.admin === true
             event = user.events.build
-            event.title = params[:title]
-            event.start = ActiveSupport::TimeZone[Time.zone].parse(params[:start_date] + " " + params[:start_time])
-            event.end = ActiveSupport::TimeZone[Time.zone].parse(params[:end_date] + " " + params[:end_time])
-            event.all_day = params[:all_day]
-            event.description = params[:description]
+            event.title = params[:event][:title]
+            event.start = ActiveSupport::TimeZone[Time.zone].parse(params[:event][:start_date] + " " + params[:event][:start_time])
+            event.end = ActiveSupport::TimeZone[Time.zone].parse(params[:event][:end_date] + " " + params[:event][:end_time])
+            event.all_day = params[:event][:all_day]
+            event.description = params[:event][:description]
+
+            selected = params[:sections]
+            selected.each do |x|
+                split = x.split(",")
+                section = Section.find_by(sections: Section.sections[split[0].capitalize], areas: Section.areas[split[1]])
+                if section
+                  event.event_sections.build(section_id: section.id)
+                end
+            end
             if event.save
                 render json: { status: "success" }
             else

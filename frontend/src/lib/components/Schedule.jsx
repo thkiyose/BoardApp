@@ -24,8 +24,8 @@ export const Schedule = () => {
     const [ targetId, setTargetId ] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
+    const hourArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
     const [params, setParams] = useState({
-        userId: currentUser.user.id,
         title: "",
         startDate: "",
         startTime: "",
@@ -72,18 +72,6 @@ export const Schedule = () => {
         }
     }
 
-    const minMaxChecker = () => {
-        const minDate = document.getElementsByClassName("minDate")
-        const collection = document.getElementsByClassName("rbc-btn-group");
-        const target = collection[0].children[1]
-        if (minDate.length > 0) {
-            target.disabled = true;
-        } else {
-            target.disabled = false;
-        }
-    }
-    const hourArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
-
     const handleSelectSlot = useCallback(
         async({ start, end }) => {
           if (currentUser.user.admin === false) {
@@ -92,6 +80,8 @@ export const Schedule = () => {
             return
           }
           setErrors([]);
+          setSelectedArea([]);
+          setSelectedSection([]);
           setShowModal(true);
           setParams({...params,
             startDate: `${start.getFullYear()}-${('0' + (start.getMonth() + 1)).slice(-2)}-${('0' + start.getDate()).slice( -2 )}`,
@@ -105,6 +95,8 @@ export const Schedule = () => {
 
     const openModal = () => {
         setErrors([]);
+        setSelectedArea([]);
+        setSelectedSection([]);
         setShowModal(true);
     }
 
@@ -143,12 +135,14 @@ export const Schedule = () => {
 
     const handleSubmit = async(e) => {
         e.stopPropagation()
-        const res = await CreateEvent(params) 
+        const res = await CreateEvent({id: currentUser.user.id, event: params, sections: selectedArea}) 
         try {
             if (res.data.status === "success") {
                 setShowModal(false)
                 loadEvents();
-                setParams({userId: currentUser.user.id,title: "", startDate: "", startTime: "", endDate: "", endTime: "", allDay: false, description: ""})
+                setParams({title: "", startDate: "", startTime: "", endDate: "", endTime: "", allDay: false, description: ""})
+                setSelectedArea([]);
+                setSelectedSection([]);
             } else {
                 setErrors(res.data.errors)
             }
@@ -344,12 +338,4 @@ const SectionDiv = styled.div`
     width: 90%;
     margin: 0 auto;
     padding-bottom: 20px;
-`
-const CloseButton = styled.button`
-    background-color: ${Color.primary};
-    font-size: 1.3rem;
-    border: none;
-    color: #fff;
-    position: fixed;
-    left: 100;
 `

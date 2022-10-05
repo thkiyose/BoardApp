@@ -31,7 +31,7 @@ const CloseButton = styled.button`
     border: none;
     color: #fff;
     position: fixed;
-    left: 70%;
+    left: 73%;
     cursor: pointer;
     marign-left:500px;
 `

@@ -32,7 +32,6 @@ export const Schedule = () => {
         description: ""
     })
 
-    console.log(params)
     const [errors, setErrors] = useState([])
 
     const loadEvents = async() => {
@@ -153,7 +152,7 @@ export const Schedule = () => {
         }
 
     }
-console.log(params.startTime)
+
     return (
         <>
             <Div id="calendar">

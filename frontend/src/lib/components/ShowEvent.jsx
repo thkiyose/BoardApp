@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import Color from './common/Color.jsx';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
+import { AuthContext  } from '../../App.jsx';
 import { Modal } from './common/Modal';
 import { FetchEvent  } from '../api/event.js';
 import moment from 'moment';
@@ -8,6 +10,7 @@ import moment from 'moment';
 export const ShowEvent = (props) => {
     const { eventId, showModal, setShowModal } = props;
     const [ event, setEvent ] = useState();
+    const { currentUser } = useContext(AuthContext);
 
     const loadEvent = useCallback(async() => {
         try {
@@ -40,7 +43,7 @@ export const ShowEvent = (props) => {
         <Modal showFlag={showModal} setShowModal={setShowModal}>
             {event?.event &&
                 <>
-                    <p><Label>作成者</Label>{event.user.name}:{event.user.email}</p>
+                    <User><Label>作成者</Label>{event.user.name}:{event.user.email}</User>{event.user.id === currentUser.user.id && <Menu><button>編集</button><button>削除</button></Menu>}
                     <InfoTable>
                         <tbody>
                             <tr><th>タイトル</th><td>{event.event.title}</td></tr>
@@ -82,4 +85,16 @@ const Label = styled.span`
     padding: 5px;
     border-radius: 20px;
     color: #fff;
+`
+
+const User = styled.p`
+    width: 70%;
+    float: left;
+`
+
+const Menu = styled.p`
+    text-align :center;
+    button {
+        margin-left: 9px;
+    }
 `

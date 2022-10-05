@@ -15,4 +15,21 @@ class Event < ApplicationRecord
         end
     end
 
+    scope :search_with_title, -> (title){
+        return if title.blank?
+        where(['title like ?',"%#{title}%"])
+      }
+    
+    scope :search_with_section_only, -> (section){
+        return if section.blank?
+           joins(:sections).where(sections:{sections: section.capitalize } )
+        end
+    }
+
+
+    scope :search_with_area_only, -> (area){
+        return if area.blank?
+            joins(:sections).where(sections:{areas: area.capitalize })
+        end
+    }
 end

@@ -6,6 +6,8 @@ import Color from "./Color"
 const ModalContent = styled.div`
     background: ${Color.bg};
     width: 50%;
+    z-index: 1000;
+    position: relative;
     padding: 20px;
     font-size: 0.8rem;
     h2 {

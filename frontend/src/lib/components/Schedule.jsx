@@ -10,6 +10,7 @@ import { CreateEvent } from '../api/event'
 import { FetchEvents } from '../api/event'
 import { Modal } from './common/Modal';
 import { ShowEvent } from './ShowEvent'
+import RBCToolbar from './common/Toolbar';
 
 const localizer = momentLocalizer(moment)
 
@@ -19,6 +20,7 @@ export const Schedule = () => {
     const [ targetId, setTargetId ] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
+    const [ onScreenDate, setOnScreenDate ] = useState();
     const [params, setParams] = useState({
         userId: currentUser.user.id,
         title: "",
@@ -53,6 +55,18 @@ export const Schedule = () => {
        return arr;
     },[events])
 
+    const minMaxChecker = () => {
+        const minDate = document.getElementsByClassName("minDate")
+        console.log(minDate)
+        const collection = document.getElementsByClassName("rbc-btn-group");
+        const target = collection[0].children[1]
+        if (minDate.length > 0) {
+            target.disabled = true;
+        } else {
+            target.disabled = false;
+        }
+    }
+
     const handleSelectSlot = useCallback(
         async({ start, end }) => {
           if (currentUser.user.admin === false) {
@@ -82,6 +96,7 @@ export const Schedule = () => {
         },
         []
     )
+    
 
     const handleChange=(value,type) => {
         if (type === "title"){
@@ -122,8 +137,20 @@ export const Schedule = () => {
             console.log(e);
         }
     }
-    const accessor = (event) => {
+    const accessor = (date) => {
+        if (date < new Date(2022,8,20) || date >= new Date(2025,8,20)) {
+            return {
+                style: {
+                    background: "gray"
+                }
+            }
+        }
+        if (moment(date).diff(new Date(2022,9,20), "days") === 0) {
+        }
+
     }
+
+
     return (
         <>
             <Div id="calendar">
@@ -137,6 +164,12 @@ export const Schedule = () => {
                 selectable
                 endAccessor="end"
                 style={{ height: 600 }}
+                dayPropGetter={(date)=>accessor(date)}
+                step="60"
+                length="30"
+                components={{
+                    toolbar: RBCToolbar
+                }}
                 />
             </Div>
             <Modal onClick={(e)=>e.stopPropagation()} showFlag={showModal} setShowModal={setShowModal}>
@@ -152,7 +185,7 @@ export const Schedule = () => {
                 </p>
                 <label>終了</label>
                 <p>
-                    <input onChange={(e)=>handleChange(e.target.value,"endDate")}  value={params.endDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"endTime")} className="time" value={params.endTime} type="time" disabled={params.allDay} />
+                    <input onChange={(e)=>handleChange(e.target.value,"endDate")}  value={params.endDate} className="date" type="date" /><input onChange={(e)=>handleChange(e.target.value,"endTime")} className="time" step="1800" value={params.endTime} type="time" disabled={params.allDay} />
                 </p>
                 <input type="checkBox" name="allDay" checked={params.allDay} value="true" onChange={(e)=>handleCheck(e)} /><span>終日</span>
                 <label>説明</label>
@@ -165,6 +198,9 @@ export const Schedule = () => {
 }
 
 const Div = styled.div`
+    .rbc-current-time-indicator {
+        z-index: 0;
+    }
     .rbc-calendar {
         background: #fff;
     }
@@ -194,44 +230,6 @@ const Div = styled.div`
     }
     .rbc-date-cell {
         color: black;
-    }
-
-    .rbc-btn-group > button{
-        font-size: 0px;
-    }
-
-    .rbc-btn-group:nth-child(1) > button:nth-child(1)::before{
-        font-size: 14px;
-        content: '今日';
-    }  
-
-    .rbc-btn-group:nth-child(1) > button:nth-child(2)::before{
-        font-size: 14px;
-        content: '←';
-    }
-    .rbc-btn-group:nth-child(1) > button:nth-child(3)::before{
-        font-size: 14px;
-        content: '→';
-    }
-    .rbc-btn-group:nth-child(3) > button:nth-child(1)::before{
-        font-size: 14px;
-        content: '月';
-    }
-    .rbc-btn-group:nth-child(3) > button:nth-child(2)::before{
-        font-size: 14px;
-        content: '週';
-    }
-    .rbc-btn-group:nth-child(3) > button:nth-child(3)::before{
-        font-size: 14px;
-        content: '日';
-    }
-    .rbc-btn-group:nth-child(3) > button:nth-child(4)::before{
-        font-size: 14px;
-        content: 'スケジュール';
-    }
-    .rbc-btn-group:nth-child(3) > button:nth-child(4)::before{
-        font-size: 14px;
-        content: 'スケジュール';
     }
 }
 `

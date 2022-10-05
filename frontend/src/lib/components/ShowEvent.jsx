@@ -23,11 +23,19 @@ export const ShowEvent = (props) => {
     },[eventId])
 
     useEffect(()=>{loadEvent()},[setEvent,loadEvent])
-    const description = event.event.description.split("\n").map((item, index) => {
+    if (event?.event) {
+        const description = event.event.description.split("\n").map((item, index) => {
+            return (
+              <React.Fragment key={index}>{item}<br /></React.Fragment>
+            );
+          });
+    }
+    const description = event?.event ?
+    event.event.description.split("\n").map((item, index) => {
         return (
-          <React.Fragment key={index}>{item}<br /></React.Fragment>
+            <React.Fragment key={index}>{item}<br /></React.Fragment>
         );
-      });
+        }) : ""
     return (
         <Modal showFlag={showModal} setShowModal={setShowModal}>
             {event?.event &&

@@ -217,6 +217,7 @@ export const Schedule = () => {
                 components={{
                     toolbar: RBCToolbar
                 }}
+                dayLayoutAlgorithm="no-overlap"
                 />
             </Div>
             <Modal onClick={(e)=>e.stopPropagation()} showFlag={showModal} setShowModal={setShowModal}>

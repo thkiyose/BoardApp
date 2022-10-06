@@ -3,7 +3,7 @@ import moment from "moment";
 import Color from './common/Color';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components'
-import { UserNews } from '../api/news';
+import { UserArchiveList } from '../api/news';
 import { DestroyNews } from '../api/news';
 
 export const Archive = () => {
@@ -12,7 +12,7 @@ export const Archive = () => {
 
     const loadArchive = useCallback(async() => {
         try {
-            const res = await UserNews(location.state?.id); 
+            const res = await UserArchiveList(location.state?.id); 
             if (res.status === 200) {
                 setNews(res.data.news);
             } else {
@@ -64,7 +64,7 @@ export const Archive = () => {
     } else if ( location.state === null ) {
         return <Error>ユーザー情報がありません。</Error>
     } else {
-        return <Error>投稿したNewsはありません</Error>
+        return <Error>アーカイブしたNewsはありません</Error>
     }
 
 }

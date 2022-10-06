@@ -98,6 +98,22 @@ class Api::V1::NewsController < ApplicationController
     render json: { news: news }
   end
 
+  def user_archive_list
+    user = User.find_by(id: params[:id])
+    news = user.news.where(is_archived: true).order(created_at: :desc)
+    render json: { news: news }
+  end
+
+  def archive
+    news = News.find_by(id:params[:id])
+    if news.update(is_archived: !news.is_archived )
+      render json: { status: "SUCCESS" }
+    else
+      render json:  news.errors, status: 422
+    end
+  end
+
+
   private
 
   def news_params

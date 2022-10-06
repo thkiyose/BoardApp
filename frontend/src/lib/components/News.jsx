@@ -17,7 +17,7 @@ export const News = (props) => {
                     <MenuList>
                     <li><Link to="index/all">ブラウズ</Link></li>
                     <li><Link to="history" state={{ id: currentUser.user.id }}>投稿履歴</Link></li>
-                    <li><Link to="archive">アーカイブ</Link></li>
+                    <li><Link to="archive" state={{ id: currentUser.user.id }}>アーカイブ</Link></li>
                     </MenuList>
                 </Wrapper>
             </Div>

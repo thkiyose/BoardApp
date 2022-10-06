@@ -6,11 +6,11 @@ import styled from 'styled-components'
 import { UserNews } from '../api/news';
 import { DestroyNews } from '../api/news';
 
-export const NewsHistory = () => {
+export const Archive = () => {
     const [ news, setNews ] = useState([]);
     const location = useLocation();
 
-    const loadNews = useCallback(async() => {
+    const loadArchive = useCallback(async() => {
         try {
             const res = await UserNews(location.state?.id); 
             if (res.status === 200) {
@@ -23,14 +23,14 @@ export const NewsHistory = () => {
           }
     },[location.state?.id])
 
-    useEffect(()=>{loadNews()},[loadNews]);
+    useEffect(()=>{loadArchive()},[loadArchive]);
 
     const handleDestroyNews = async(newsId) => {
         const result = window.confirm("本当に削除しますか？")
         if (result) {
             const res = await DestroyNews(newsId)
             if (res.status === 200) {
-                loadNews()
+                loadArchive()
             } else {
                 console.log(res)
             }
@@ -41,7 +41,7 @@ export const NewsHistory = () => {
         return (
             <>
                 <Div>
-                    <h1>過去の投稿</h1>
+                    <h1>アーカイブした記事</h1>
                     <Table>
                         <thead>
                             <tr><th>タイトル</th><th>投稿日時</th><th></th></tr>

@@ -1,6 +1,6 @@
 class Api::V1::NewsController < ApplicationController
   def index
-    news = News.all.order(created_at: :desc)
+    news = News.where(is_archived: false).order(created_at: :desc)
     render json: { news: news }
   end
 
@@ -105,7 +105,7 @@ class Api::V1::NewsController < ApplicationController
   end
 
   def archive
-    news = News.find_by(id:params[:id])
+    news = News.find_by(id: params[:id])
     if news.update(is_archived: !news.is_archived )
       render json: { status: "SUCCESS" }
     else

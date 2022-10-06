@@ -16,7 +16,7 @@ import { Search } from './lib/components/newsView/Search';
 import { NewsInfo } from './lib/components/NewsInfo';
 import { CreateNews } from './lib/components/CreateNews';
 import { NewsEdit } from './lib/components/NewsEdit';
-import { Archive } from './lib/components/Archive';
+import { ArchiveList } from './lib/components/ArchiveList';
 import { Schedule } from './lib/components/Schedule';
 import { getCurrentUser } from "./lib/api/session.js"
 import { fetchSections } from "./lib/api/section.js"
@@ -108,7 +108,7 @@ export const App = () => {
               </Route>
               <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} >
                 <Route path={"history"} element={<LoggedInRoute><NewsHistory/></LoggedInRoute>}/>
-                <Route path={"archive"} element={<LoggedInRoute><Archive/></LoggedInRoute>}/>
+                <Route path={"archive"} element={<LoggedInRoute><ArchiveList/></LoggedInRoute>}/>
                 <Route path={"index"} element={<LoggedInRoute><NewsIndex/></LoggedInRoute>} >
                   <Route path={"all"} element={<LoggedInRoute><All/></LoggedInRoute>}/>
                   <Route path={"to"} element={<LoggedInRoute><To/></LoggedInRoute>}/>

@@ -5,8 +5,9 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components'
 import { UserArchiveList } from '../api/news';
 import { DestroyNews } from '../api/news';
+import { Archive } from '../api/news';
 
-export const Archive = () => {
+export const ArchiveList = () => {
     const [ news, setNews ] = useState([]);
     const location = useLocation();
 
@@ -37,6 +38,18 @@ export const Archive = () => {
         }
     }
 
+    const handleRestore = async(newsId) => {
+        const result = window.confirm("記事を一般公開に戻しますか？")
+        if (result) {
+            const res = await Archive(newsId)
+            if (res.status === 200) {
+                loadArchive()
+            } else {
+                console.log(res)
+            }
+        }
+    }
+
     if ( news.length > 0) {
         return (
             <>
@@ -52,7 +65,7 @@ export const Archive = () => {
                                     <tr key={index}>
                                         <td className="title"><Link to={`../${n.id}`} >{n.title}</Link></td>
                                         <td className="createdAt">{moment(n.createdAt).format('YYYY MM/DD  HH:mm')}</td>
-                                        <td className="menu"><button onClick={()=>handleDestroyNews(n.id)}>削除</button><button>アーカイブ</button></td>
+                                        <td className="menu"><button onClick={()=>handleDestroyNews(n.id)}>削除</button><button onClick={()=>{handleRestore(n.id)}}>復元</button></td>
                                     </tr>
                                 )
                             })}

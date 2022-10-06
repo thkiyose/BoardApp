@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components'
 import { UserNews } from '../api/news';
 import { DestroyNews } from '../api/news';
+import { Archive } from '../api/news'
 
 export const NewsHistory = () => {
     const [ news, setNews ] = useState([]);
@@ -37,6 +38,18 @@ export const NewsHistory = () => {
         }
     }
 
+    const handleArchive = async(newsId) => {
+        const result = window.confirm("記事をアーカイブしますか？\n他のユーザーから見えなくなり、アーカイブリストでのみ確認出来るようになります。")
+        if (result) {
+            const res = await Archive(newsId)
+            if (res.status === 200) {
+                loadNews()
+            } else {
+                console.log(res)
+            }
+        }
+    }
+
     if ( news.length > 0) {
         return (
             <>
@@ -52,7 +65,7 @@ export const NewsHistory = () => {
                                     <tr key={index}>
                                         <td className="title"><Link to={`../${n.id}`} >{n.title}</Link></td>
                                         <td className="createdAt">{moment(n.createdAt).format('YYYY MM/DD  HH:mm')}</td>
-                                        <td className="menu"><button onClick={()=>handleDestroyNews(n.id)}>削除</button><button>アーカイブ</button></td>
+                                        <td className="menu"><button onClick={()=>handleDestroyNews(n.id)}>削除</button><button onClick={()=>{handleArchive(n.id)}}>アーカイブ</button></td>
                                     </tr>
                                 )
                             })}

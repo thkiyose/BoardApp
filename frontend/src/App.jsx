@@ -15,9 +15,10 @@ import { Search } from './lib/components/newsView/Search';
 import { NewsInfo } from './lib/components/NewsInfo';
 import { CreateNews } from './lib/components/CreateNews';
 import { NewsEdit } from './lib/components/NewsEdit';
-import { Calendar } from './lib/components/Calendar';
+import { Schedule } from './lib/components/Schedule';
 import { getCurrentUser } from "./lib/api/session.js"
 import { fetchSections } from "./lib/api/section.js"
+import { fetchAllSectionsAreas } from "./lib/api/section.js"
 
 export const AuthContext = React.createContext("");
 
@@ -26,6 +27,8 @@ export const App = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [sections, setSections] = useState({});
+  const [rawSections, setRawSections] = useState({});
+  const [rawAreas, setRawAreas] = useState({});
 
   const handleGetCurrentUser = async () => {
     try {
@@ -42,6 +45,9 @@ export const App = () => {
     try {
       const res = await fetchSections();
       setSections(res.data.sections)
+      const res2 = await fetchAllSectionsAreas();
+      setRawSections(res2.data.sections)
+      setRawAreas(res2.data.areas)
     } catch (e) {
       console.log(e);
     }
@@ -87,15 +93,14 @@ export const App = () => {
       return <></>;
     }
   };
-
   return (
-    <AuthContext.Provider value={{currentUser,setCurrentUser,setIsSignedIn, isSignedIn, sections}}>
+    <AuthContext.Provider value={{currentUser,setCurrentUser,setIsSignedIn, isSignedIn, sections,rawSections,rawAreas}}>
         <BrowserRouter>
           <Routes>
             <Route path={"/"} element={<LayOut/>}>
               <Route path={"/"} element={<NotLoggedInRoute><SignIn/></NotLoggedInRoute>}/>
               <Route path={"/signup"} element={<NotLoggedInRoute><SignUp/></NotLoggedInRoute>}/>
-              <Route path={"/calendar"} element={<LoggedInRoute><Calendar/></LoggedInRoute>}/>
+              <Route path={"/schedule"} element={<LoggedInRoute><Schedule/></LoggedInRoute>}/>
               <Route path={"/mypage"} element={<LoggedInRoute><MyPage/></LoggedInRoute>}>
                 <Route path={"info"} element={<MyPageInfo/>} />
               </Route>

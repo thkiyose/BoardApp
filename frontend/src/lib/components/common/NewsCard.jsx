@@ -23,7 +23,7 @@ const Card = styled.div`
     cursor: pointer;
     width: 30%;
     height: 200px;
-    margin: 15px;
+    margin: 10px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `
 

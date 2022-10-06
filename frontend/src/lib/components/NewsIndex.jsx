@@ -39,9 +39,11 @@ const Div = styled.div`
     padding: 20px 0px;
     display: flex;
     flex-wrap : wrap;
+    position: relative;
     width: 80%;
+    z-index: 900;
     background: ${Color.secondary};
-    justify-content: stretch; 
+    justify-content: center;
 `
 
 const Tab = (props) => {
@@ -73,7 +75,7 @@ const TabDiv = styled.div`
     line-height: 40px;
     text-align: center;
     color: #fff;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     display: block;
     float: left;
     text-align: center;

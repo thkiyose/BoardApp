@@ -64,6 +64,7 @@ const SectionDiv = styled.div`
     label {
         margin-right: 5px;
         padding-bottom: 10px;
+        display: inline;
     }
     label input {
         display: none;
@@ -87,6 +88,7 @@ const AreaDiv = styled.div`
     font-size: 0.8rem;
     table {
         width: 100%;
+        margin: 0 auto;
     }
     th {
         width: 20%;
@@ -95,6 +97,7 @@ const AreaDiv = styled.div`
     label {
         margin-right: 5px;
         padding-bottom: 10px;
+        display: inline;
     }
     label input {
         display: none;

@@ -6,7 +6,6 @@ class Api::V1::NewsController < ApplicationController
 
   def show
     news = News.find_by(id: params[:id]);
-    puts params
     to = news.to_sections.group_by{ |s| s.sections }
     from = news.from_sections.group_by{ |s| s.sections }
     render json: { news: news, to: to.values, from: from.values}
@@ -45,7 +44,6 @@ class Api::V1::NewsController < ApplicationController
   end
 
   def update
-    p params
     news = News.find_by_id(params[:id])
     selected_from = params[:selected_area_from]
     selected_to = params[:selected_area_to]
@@ -85,7 +83,6 @@ class Api::V1::NewsController < ApplicationController
   end
 
   def search
-    p params
     news = News.search_to_with_section_id(params[:to_ids]).search_from_with_section_id(params[:from_ids])
     .search_with_title(params[:title]).search_with_content(params[:content])
     .search_with_date(params[:date])

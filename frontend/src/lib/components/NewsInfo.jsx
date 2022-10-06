@@ -6,6 +6,7 @@ import { ShowNews } from '../api/news';
 import { DestroyNews } from '../api/news';
 import { BackButton } from './common/BackButton';
 import Color from './common/Color';
+import { Archive } from '../api/news'
 
 export const NewsInfo = () => {
     const [ news, setNews ] = useState({});
@@ -41,6 +42,18 @@ export const NewsInfo = () => {
           }
     }
 
+    const handleArchive = async(newsId) => {
+        const result = window.confirm("記事をアーカイブしますか？\n他のユーザーから見えなくなり、アーカイブリストでのみ確認出来るようになります。")
+        if (result) {
+            const res = await Archive(newsId)
+            if (res.status === 200) {
+                navigate("/news/index/all")
+            } else {
+                console.log(res)
+            }
+        }
+    }
+
     useEffect(()=>{FetchNews(newsId.id)},[newsId.id]);
 
     if ( !isLoading && news.news ) {
@@ -58,6 +71,7 @@ export const NewsInfo = () => {
                                 <ul>
                                     <li><Link to={`/news/edit`} state={{ id: news.news.id, title: news.news.title, content: news.news.content, to: news.to, from: news.from}}>編集</Link></li>
                                     <li><button onClick={()=>{handleDestroyNews(newsId.id)}}>削除</button></li>
+                                    <li><button onClick={()=>{handleArchive(newsId.id)}}>アーカイブ</button></li>
                                 </ul>
                             </Menu>
                             <ClearFix/>

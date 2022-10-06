@@ -31,3 +31,7 @@ export const UserNews = (id) => {
 export const UserArchiveList = (id) => {
     return client.get(`/news/${id}/user_archive_list`)
 };
+
+export const Archive = (id) => {
+    return client.put(`/news/${id}/archive`)
+};

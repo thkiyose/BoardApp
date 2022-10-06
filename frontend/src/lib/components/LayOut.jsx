@@ -33,7 +33,7 @@ const Screen = styled.div`
 `
 
 const Wrapper = styled.div`
-    width: 90%;
+    width: 100%;
     padding-top: 50px;
     margin: 0 auto;
 `

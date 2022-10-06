@@ -68,7 +68,7 @@ export const NewsForm = (props) => {
 
     return (
         <FormDiv>
-            <h1>Newsを投稿する</h1>
+            <h1>{ update ? "Newsを更新する" : "Newsを投稿する" }</h1>
             <form onSubmit={handleSubmit(handleSubmitNews)}>
             <p><label>タイトル</label></p>
             <input className="titleForm" {...register("title",{ required: true, maxLength: 30 })} />

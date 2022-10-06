@@ -56,8 +56,7 @@ export const NewsInfo = () => {
                         <>
                             <Menu>
                                 <ul>
-                                    <li><Link to={`/news/${newsId.id}/edit`}
-                                        state={{ title: news.news.title, content: news.news.content, to: news.to, from: news.from}}>編集</Link></li>
+                                    <li><Link to={`/news/edit`} state={{ id: news.news.id, title: news.news.title, content: news.news.content, to: news.to, from: news.from}}>編集</Link></li>
                                     <li><button onClick={()=>{handleDestroyNews(newsId.id)}}>削除</button></li>
                                 </ul>
                             </Menu>
@@ -101,11 +100,10 @@ export const NewsInfo = () => {
 const Div = styled.div`
     padding: 20px 30px;
     background: white;
-    float: left;
     width: 70%;
     font-size: 0.8rem;
     min-height: 100px;
-    margin: 15px;
+    margin: 0 auto;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     h1 {
         margin-bottom: 0;

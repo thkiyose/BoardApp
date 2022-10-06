@@ -106,7 +106,7 @@ export const App = () => {
                 <Route path={"info"} element={<MyPageInfo/>} />
               </Route>
               <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} >
-                <Route path={"history/:id"} element={<LoggedInRoute><NewsHistory/></LoggedInRoute>}/>
+                <Route path={"history"} element={<LoggedInRoute><NewsHistory/></LoggedInRoute>}/>
                 <Route path={"index"} element={<LoggedInRoute><NewsIndex/></LoggedInRoute>} >
                   <Route path={"all"} element={<LoggedInRoute><All/></LoggedInRoute>}/>
                   <Route path={"to"} element={<LoggedInRoute><To/></LoggedInRoute>}/>
@@ -115,7 +115,7 @@ export const App = () => {
                 </Route>
                 <Route path={":id"} element={<LoggedInRoute ><NewsInfo /></LoggedInRoute>} />
                 <Route path={"create"} element={<AdminProtectedRoute><CreateNews/></AdminProtectedRoute>} />
-                <Route path={":id/edit"} element={<AdminProtectedRoute><NewsEdit/></AdminProtectedRoute>} />
+                <Route path={"edit"} element={<AdminProtectedRoute><NewsEdit/></AdminProtectedRoute>} />
               </Route>
             </Route>
           </Routes>

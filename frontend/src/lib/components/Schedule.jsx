@@ -267,6 +267,7 @@ export const Schedule = () => {
 }
 
 const Div = styled.div`
+    margin-top: 10px;
     .rbc-current-time-indicator {
         z-index: 0;
     }

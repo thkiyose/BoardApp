@@ -32,7 +32,7 @@ const Div = styled.div`
     margin: 0;
     float: left;
     width: 20%;
-    height: 100vh;
+    min-height: 80vh;
 `
 
 const CreateLink = styled(Link)`

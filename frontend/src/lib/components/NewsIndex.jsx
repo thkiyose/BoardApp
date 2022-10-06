@@ -39,9 +39,11 @@ const Div = styled.div`
     padding: 20px 0px;
     display: flex;
     flex-wrap : wrap;
+    position: relative;
     width: 80%;
+    z-index: 900;
     background: ${Color.secondary};
-    justify-content: stretch; 
+    justify-content: center;
 `
 
 const Tab = (props) => {

@@ -92,6 +92,12 @@ class Api::V1::NewsController < ApplicationController
     render json: { news: news }
   end
 
+  def user_news
+    user = User.find_by(id: params[:id])
+    news = user.news.order_by(created_at: :desc)
+    render json: { news: news }
+  end
+
   private
 
   def news_params

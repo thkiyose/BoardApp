@@ -106,7 +106,7 @@ export const App = () => {
                 <Route path={"info"} element={<MyPageInfo/>} />
               </Route>
               <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} >
-                <Route path={"history"} element={<LoggedInRoute><NewsHistory/></LoggedInRoute>}/>
+                <Route path={"history/:id"} element={<LoggedInRoute><NewsHistory/></LoggedInRoute>}/>
                 <Route path={"index"} element={<LoggedInRoute><NewsIndex/></LoggedInRoute>} >
                   <Route path={"all"} element={<LoggedInRoute><All/></LoggedInRoute>}/>
                   <Route path={"to"} element={<LoggedInRoute><To/></LoggedInRoute>}/>

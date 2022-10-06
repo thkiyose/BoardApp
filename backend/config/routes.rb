@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       end
       resources :news, only: [:index, :create, :show, :edit, :update, :destroy] do
         get :search, on: :collection
+        get :user_news, on: :member
       end
       resources :events, only: [:index, :create, :show, :destroy] do
         get :search, on: :collection

@@ -15,7 +15,9 @@ export const News = (props) => {
                 <Wrapper>
                     {currentUser.user.admin === true && <CreateButton/> }
                     <MenuList>
-                    <li><Link to="">自分の投稿</Link></li>
+                    <li><Link to="index/all">ブラウズ</Link></li>
+                    <li><Link to="">投稿履歴</Link></li>
+                    <li><Link to="">アーカイブ</Link></li>
                     </MenuList>
                 </Wrapper>
             </Div>
@@ -36,10 +38,10 @@ const CreateButton = () => {
 }
 
 const Div = styled.div`
-    margin: 0;
+    margin-top: 20px;
     float: left;
     width: 20%;
-    min-height: 80vh;
+    min-height: 75vh;
 `
 
 const Wrapper = styled.div`
@@ -64,6 +66,7 @@ const CreateLink = styled(Link)`
     width: 50%;
     height: 40px;
     padding: 0;
+    margin: 0 auto;
     border: none;
     text-align: center;
     background: ${Color.primary};
@@ -78,13 +81,22 @@ const CreateLink = styled(Link)`
 const MenuList = styled.ul`
       list-style: none;
       padding: 0;
-
+      width: 90%;
+      margin: 0 auto;
       li {
         width: 100%;
-        background: gray;
-        padding: 0;
+        background: #e0e0e0;
+        padding: 15px 0px;
+        text-align: center;
+        margin: 20px 0px;
+      }
+      li:hover {
+        background: #c4c4c4;
       }
       a {
         width: 100%;
+        display: block;
+        text-decoration: none;
+        color:inherit;
       }
 `

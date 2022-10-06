@@ -16,8 +16,8 @@ export const News = (props) => {
                     {currentUser.user.admin === true && <CreateButton/> }
                     <MenuList>
                     <li><Link to="index/all">ブラウズ</Link></li>
-                    <li><Link to="">投稿履歴</Link></li>
-                    <li><Link to="">アーカイブ</Link></li>
+                    <li><Link to="history">投稿履歴</Link></li>
+                    <li><Link to="archive">アーカイブ</Link></li>
                     </MenuList>
                 </Wrapper>
             </Div>

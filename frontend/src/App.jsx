@@ -8,6 +8,7 @@ import { MyPage } from './lib/components/MyPage';
 import { MyPageInfo } from './lib/components/MyPageInfo';
 import { News } from './lib/components/News';
 import { NewsIndex } from './lib/components/NewsIndex';
+import { NewsHistory } from './lib/components/NewsHistory'
 import { All } from './lib/components/newsView/All';
 import { To } from './lib/components/newsView/To';
 import { From } from './lib/components/newsView/From';
@@ -105,6 +106,7 @@ export const App = () => {
                 <Route path={"info"} element={<MyPageInfo/>} />
               </Route>
               <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} >
+                <Route path={"history"} element={<LoggedInRoute><NewsHistory/></LoggedInRoute>}/>
                 <Route path={"index"} element={<LoggedInRoute><NewsIndex/></LoggedInRoute>} >
                   <Route path={"all"} element={<LoggedInRoute><All/></LoggedInRoute>}/>
                   <Route path={"to"} element={<LoggedInRoute><To/></LoggedInRoute>}/>

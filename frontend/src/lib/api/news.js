@@ -23,3 +23,7 @@ export const DestroyNews = (id) => {
 export const SearchNews = (query) => {
     return client.get(`/news/search`,{ params: query})
 };
+
+export const UserhNews = (id) => {
+    return client.get(`/news/${id}/user_news`)
+};

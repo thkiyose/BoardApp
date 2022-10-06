@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_05_040208) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_06_012254) do
   create_table "event_sections", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "event_id", null: false
     t.bigint "section_id", null: false
@@ -38,6 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_040208) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_archived", default: false, null: false
     t.index ["user_id"], name: "index_news_on_user_id"
   end
 

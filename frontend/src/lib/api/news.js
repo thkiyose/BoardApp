@@ -27,3 +27,7 @@ export const SearchNews = (query) => {
 export const UserNews = (id) => {
     return client.get(`/news/${id}/user_news`)
 };
+
+export const UserArchiveList = (id) => {
+    return client.get(`/news/${id}/user_archive_list`)
+};

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resources :events, only: [:index, :create, :show, :destroy] do
         get :search, on: :collection
       end
+      get :search, to: "users#search"
     end
   end
 end

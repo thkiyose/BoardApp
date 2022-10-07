@@ -6,10 +6,14 @@ import { ShowNews } from '../api/news';
 import { DestroyNews } from '../api/news';
 import { BackButton } from './common/BackButton';
 import Color from './common/Color';
+import { Modal } from './common/Modal'
 import { Archive } from '../api/news'
 
 export const NewsInfo = () => {
     const [ news, setNews ] = useState({});
+    const [ visitors, setVisitors ] = useState([]);
+    const [ count, setCount ] = useState();
+    const [ showVisitors, setShowVisitors ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(true);
     const { currentUser } = useContext(AuthContext);
     const newsId = useParams();
@@ -19,7 +23,8 @@ export const NewsInfo = () => {
         try {
             const res = await ShowNews(newsId,userId,admin); 
             if (res.status === 200) {
-                console.log(res)
+                setVisitors(res.data.visitors)
+                setCount(res.data.count)
                 setNews(res.data);
             } else {
               console.log(res)
@@ -79,7 +84,8 @@ export const NewsInfo = () => {
                         </>
                     }
                     <h1>{news.news.title}</h1>
-                    <p className="dayTime">{news.news.createdAt}</p>
+                    <span className="dayTime">{news.news.createdAt}</span>
+                    <span className="visitorCount">{count}人が閲覧しました</span>{visitors && <VisitorButton onClick={()=>{setShowVisitors(true)}}>詳細</VisitorButton>}
                     <p>
                         <span className="toFrom">from</span>
                         {news.from.map((x,index) => {
@@ -107,6 +113,19 @@ export const NewsInfo = () => {
                         })}
                     </p>
                     <p>{content}</p>
+                    <Modal showFlag={showVisitors} setShowModal={setShowVisitors}>
+                        <VisitorTitle>閲覧済みのユーザー</VisitorTitle>
+                        <VisitorDiv>
+                            {visitors.map((visitor)=>{
+                                return (
+                                    <Visitor>
+                                        <p>{visitor.name}</p>
+                                        <p>{visitor.email}</p>
+                                    </Visitor>
+                                )
+                            })}
+                        </VisitorDiv>
+                    </Modal>
                 </Div>
         )
     }
@@ -127,6 +146,12 @@ const Div = styled.div`
     .dayTime {
         color:gray;
         margin: 0;
+    }
+    .visitorCount {
+        margin-left: 20px;
+        background: ${Color.form};
+        padding: 3px;
+        border-radius: 5px;
     }
     .toFrom {
         font-weight: bold;
@@ -165,4 +190,30 @@ const ClearFix = styled.div`
         content: "";
         display: block;
         clear: both;
+`
+
+const VisitorButton = styled.button`
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+`
+const VisitorTitle = styled.h3`
+    font-weight: normal;
+    text-align: center;
+`
+
+const VisitorDiv = styled.div`
+    align-item: strech;
+    display: flex;
+`
+const Visitor = styled.div`
+    margin: 5px;
+    background: #fff;
+    border: solid 2px ${Color.primary};
+    padding: 4px;
+    border-radius: 5px;
+    p {
+        margin: 0;
+    }
 `

@@ -15,10 +15,11 @@ export const NewsInfo = () => {
     const newsId = useParams();
     const navigate = useNavigate();
 
-    const FetchNews = async(newsId) => {
+    const FetchNews = async(newsId,userId,admin) => {
         try {
-            const res = await ShowNews(newsId); 
+            const res = await ShowNews(newsId,userId,admin); 
             if (res.status === 200) {
+                console.log(res)
                 setNews(res.data);
             } else {
               console.log(res)
@@ -54,7 +55,7 @@ export const NewsInfo = () => {
         }
     }
 
-    useEffect(()=>{FetchNews(newsId.id)},[newsId.id]);
+    useEffect(()=>{FetchNews(newsId.id, currentUser.user.id, currentUser.user.admin)},[newsId.id, currentUser.user.id, currentUser.user.admin]);
 
     if ( !isLoading && news.news ) {
         const content = news.news.content.split("\n").map((item, index) => {

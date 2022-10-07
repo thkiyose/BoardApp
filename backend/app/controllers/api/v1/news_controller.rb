@@ -6,10 +6,11 @@ class Api::V1::NewsController < ApplicationController
 
   def show
     news = News.find_by(id: params[:id]);
-    create_footprint(nil, params[:id])
+    create_footprint(params[:user_id], params[:id])
     to = news.to_sections.group_by{ |s| s.sections }
     from = news.from_sections.group_by{ |s| s.sections }
-    render json: { news: news, to: to.values, from: from.values}
+    footprints = params[:admin] ? Footprint.where(news_id: params[:id]) : Footprint.where(news_id: params[:id]).count
+    render json: { news: news, to: to.values, from: from.values, footprints: footprints }
   end
 
   def create

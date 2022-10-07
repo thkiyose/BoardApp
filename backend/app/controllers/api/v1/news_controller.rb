@@ -6,6 +6,7 @@ class Api::V1::NewsController < ApplicationController
 
   def show
     news = News.find_by(id: params[:id]);
+    create_footprint(nil, params[:id])
     to = news.to_sections.group_by{ |s| s.sections }
     from = news.from_sections.group_by{ |s| s.sections }
     render json: { news: news, to: to.values, from: from.values}
@@ -119,5 +120,9 @@ class Api::V1::NewsController < ApplicationController
 
   def news_params
     params.require(:news).permit(:title,:content,:user_id,:selected_area_from,:selected_area_to)
+  end
+
+  def create_footprint(user_id, news_id)
+    Footprint.create(user_id: user_id, news_id: news_id )
   end
 end

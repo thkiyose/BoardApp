@@ -109,6 +109,8 @@ const FormDiv = styled.div`
     }
     p {
         margin-top: 10px;
+        display: inline;
+        margin-right: 10px;
     }
     h1 {
         text-align: center;

@@ -8,6 +8,9 @@ const ModalContent = styled.div`
     max-height: 500px;
     background: ${Color.bg};
     width: 50%;
+    @media screen and (max-width: 425px) {
+      width: 100%;
+   }
     padding: 20px;
     position: relative;
     font-size: 0.8rem;
@@ -24,16 +27,6 @@ const OverLay = styled.div`
   align-items: center;
   justify-content: center;
 `
-const CloseButton = styled.button`
-    background-color: ${Color.primary};
-    font-size: 1.3rem;
-    border: none;
-    color: #fff;
-    position: fixed;
-    left: 73%;
-    cursor: pointer;
-    marign-left:500px;
-`
 
 export const Modal = (props) => {
   const { showFlag, setShowModal } = props;
@@ -44,9 +37,8 @@ export const Modal = (props) => {
   return (
     <>
       { showFlag && <>
-        <OverLay>
-        <ModalContent>
-          <CloseButton onClick={()=>{handleCloseModal()}}>✕</CloseButton>
+        <OverLay onClick={()=>handleCloseModal()}>
+        <ModalContent onClick={(e)=>e.stopPropagation()}>
             {props.children}
         </ModalContent>
       </OverLay>

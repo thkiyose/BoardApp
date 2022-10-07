@@ -13,7 +13,6 @@ export const CreateNews = () => {
 }
 
 const Div = styled.div`
-    float: left;
-    width: 70%;
-    margin-left: 50px;
+    width: 80%;
+    margin: 0 auto;
 `

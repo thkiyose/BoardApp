@@ -36,6 +36,10 @@ export const NewsInfo = () => {
     }
 
     const handleDestroyNews = async(newsId) => {
+        const result = window.confirm("この記事を削除しますか？")
+        if ( result == false ) {
+            return;
+        }
         try {
             const res = await DestroyNews(newsId); 
             if (res.status === 200) {
@@ -116,7 +120,7 @@ export const NewsInfo = () => {
                     <Modal showFlag={showVisitors} setShowModal={setShowVisitors}>
                         <VisitorTitle>閲覧済みのユーザー</VisitorTitle>
                         <VisitorDiv>
-                            {visitors.map((visitor)=>{
+                            {visitors && visitors.map((visitor)=>{
                                 return (
                                     <Visitor>
                                         <p>{visitor.name}</p>

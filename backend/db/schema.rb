@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_07_011422) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_07_042511) do
   create_table "event_sections", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "event_id", null: false
     t.bigint "section_id", null: false
@@ -61,6 +61,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_011422) do
     t.index ["section_id"], name: "index_news_from_sections_on_section_id"
   end
 
+  create_table "news_from_users", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "news_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["news_id"], name: "index_news_from_users_on_news_id"
+    t.index ["user_id"], name: "index_news_from_users_on_user_id"
+  end
+
   create_table "news_to_sections", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "news_id", null: false
     t.bigint "section_id", null: false
@@ -68,6 +77,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_011422) do
     t.datetime "updated_at", null: false
     t.index ["news_id"], name: "index_news_to_sections_on_news_id"
     t.index ["section_id"], name: "index_news_to_sections_on_section_id"
+  end
+
+  create_table "news_to_users", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "news_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["news_id"], name: "index_news_to_users_on_news_id"
+    t.index ["user_id"], name: "index_news_to_users_on_user_id"
   end
 
   create_table "sections", charset: "utf8mb4", force: :cascade do |t|
@@ -108,8 +126,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_011422) do
   add_foreign_key "news", "users"
   add_foreign_key "news_from_sections", "news"
   add_foreign_key "news_from_sections", "sections"
+  add_foreign_key "news_from_users", "news"
+  add_foreign_key "news_from_users", "users"
   add_foreign_key "news_to_sections", "news"
   add_foreign_key "news_to_sections", "sections"
+  add_foreign_key "news_to_users", "news"
+  add_foreign_key "news_to_users", "users"
   add_foreign_key "user_sections", "sections"
   add_foreign_key "user_sections", "users"
 end

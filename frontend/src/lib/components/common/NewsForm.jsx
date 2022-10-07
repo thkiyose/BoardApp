@@ -7,6 +7,7 @@ import { CreateNews } from '../../api/news';
 import { UpdateNews } from '../../api/news';
 import { AuthContext } from '../../../App.jsx';
 import { SectionSelector } from './SectionSelector';
+import { UserSelector  } from './UserSelector';
 
 export const NewsForm = (props) => {
     const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm();
@@ -78,13 +79,15 @@ export const NewsForm = (props) => {
             <textarea className="contentForm" {...register("content",{ required: true })} />
             {errors.content?.type === "required" && <ErrorMessage>本文を入力して下さい。</ErrorMessage>}
             <p><label>From: Newsの発信源</label></p>
+            <UserSelector/>
             <SectionSelector
                 sections={currentUser.sections}
                 selectedSection={selectedSectionFrom}
                 setSelectedSection={setSelectedSectionFrom}
                 selectedArea={selectedAreaFrom}
                 setSelectedArea={setSelectedAreaFrom}/>
-            <p><label>To: Newsの配信先セクション/エリア</label></p>
+            <p><label>To: Newsの配信先</label></p>
+            <UserSelector/>
             <SectionSelector
                 sections={sections}
                 selectedSection={selectedSectionTo}
@@ -120,7 +123,7 @@ const FormDiv = styled.div`
         height: 40vh;
         margin-bottom: 10px;
     }
-    button {
+    button[type="submit"] {
         display: block;
         background-color: ${Color.primary};
         color: white;

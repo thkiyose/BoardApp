@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components'
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Color from './Color';
 import { CreateNews } from '../../api/news';
@@ -40,7 +40,7 @@ export const NewsForm = (props) => {
     useEffect(()=>{setInitialValue(initialContent,initialTitle,initialTo, initialFrom)},[setInitialValue,initialContent,initialTitle,initialTo, initialFrom]);
 
     const handleSubmitNews = async(data) => {
-        const params = { title: watch("title"), content: watch("content"), userId: currentUser.user.id, selectedAreaFrom: selectedAreaFrom, selectedAreaTo: selectedAreaTo}
+        const params = { title: watch("title"), content: watch("content"), userId: currentUser.user.id, selectedAreaFrom: selectedAreaFrom, selectedAreaTo: selectedAreaTo, selectedUserFrom: fromUsers, selectedUserTo: toUsers}
         try {
             if ( update === true ) {
                 const res = await UpdateNews(newsId,params) 

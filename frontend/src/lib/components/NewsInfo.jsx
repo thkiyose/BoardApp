@@ -22,6 +22,10 @@ export const NewsInfo = () => {
     const FetchNews = async(newsId,userId,admin) => {
         try {
             const res = await ShowNews(newsId,userId,admin); 
+            if ( res.data.news.isArchived && userId !== res.data.news.userId ) {
+                navigate("/")
+                return;
+            }
             if (res.status === 200) {
                 setVisitors(res.data.visitors)
                 setCount(res.data.count)
@@ -37,7 +41,7 @@ export const NewsInfo = () => {
 
     const handleDestroyNews = async(newsId) => {
         const result = window.confirm("この記事を削除しますか？")
-        if ( result == false ) {
+        if ( result === false ) {
             return;
         }
         try {

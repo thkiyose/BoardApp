@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :visited_news, through: :footprints, source: :news
 
   scope :search_with_name_or_email, -> (word){
+    return [] if word.blank?
     where(['name like ? or email like ?',"%#{word}%","%#{word}%"])
   }
 

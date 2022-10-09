@@ -29,10 +29,11 @@ const OverLay = styled.div`
 `
 
 export const Modal = (props) => {
-  const { showFlag, setShowModal } = props;
+  const { showFlag, setShowModal, resetState } = props;
 
   const handleCloseModal = () => {
     setShowModal(false);
+    resetState && resetState("");
   };
   return (
     <>

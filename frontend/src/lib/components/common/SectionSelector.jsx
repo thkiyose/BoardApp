@@ -60,11 +60,11 @@ export const SectionSelector = (props) => {
 }
 
 const SectionDiv = styled.div`
-    margin-bottom: 10px;
     label {
         margin-right: 5px;
         padding-bottom: 10px;
         display: inline;
+        line-height: 40px;
     }
     label input {
         display: none;

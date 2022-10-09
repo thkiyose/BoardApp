@@ -117,6 +117,8 @@ class Api::V1::NewsController < ApplicationController
     .search_with_date(params[:date])
     .search_with_section_only(params[:to_section],"to").search_with_area_only(params[:to_area],"to")
     .search_with_section_only(params[:from_section],"from").search_with_area_only(params[:from_area],"from")
+    .search_with_to_users(params[:to_users])
+    .search_with_from_users(params[:from_users])
     .distinct
     .order(created_at: :desc)
     render json: { news: news }

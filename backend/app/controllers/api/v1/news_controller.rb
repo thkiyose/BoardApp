@@ -64,11 +64,9 @@ class Api::V1::NewsController < ApplicationController
     news = News.find_by_id(params[:id])
     selected_from = params[:selected_area_from]
     selected_to = params[:selected_area_to]
-    to = news.news_to_sections
-    from = news.news_from_sections
-    to.destroy_all
-    from.destroy_all
-
+    news.news_to_sections.destroy_all
+    news.news_from_sections.destroy_all
+    
     selected_from.each do |x|
       split = x.split(",")
       section = Section.find_by(sections: Section.sections[split[0].capitalize], areas: Section.areas[split[1]])

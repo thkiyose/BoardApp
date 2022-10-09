@@ -65,4 +65,14 @@ class News < ApplicationRecord
       joins(:from_sections).where(sections:{areas: area.capitalize})
     end
   }
+
+  scope :search_with_to_users, -> ( toId ){
+    return if toId.blank?
+    joins(:to_users).where(users: { id: toId })
+  }
+
+  scope :search_with_from_users, -> ( fromId ){
+    return if fromId.blank?
+    joins(:from_users).where(users: { id: fromId })
+  }
 end

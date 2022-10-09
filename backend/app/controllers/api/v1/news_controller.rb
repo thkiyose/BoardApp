@@ -64,9 +64,13 @@ class Api::V1::NewsController < ApplicationController
     news = News.find_by_id(params[:id])
     selected_from = params[:selected_area_from]
     selected_to = params[:selected_area_to]
+    user_from = params[:selected_user_from]
+    user_to = params[:selected_user_to]
     news.news_to_sections.destroy_all
     news.news_from_sections.destroy_all
-    
+    news.news_to_users.destroy_all
+    news.news_from_users.destroy_all
+
     selected_from.each do |x|
       split = x.split(",")
       section = Section.find_by(sections: Section.sections[split[0].capitalize], areas: Section.areas[split[1]])
@@ -74,6 +78,7 @@ class Api::V1::NewsController < ApplicationController
         news.news_from_sections.create!(section_id: section.id)
       end
     end
+
     selected_to.each do |x|
       split = x.split(",")
       section = Section.find_by(sections: Section.sections[split[0].capitalize], areas: Section.areas[split[1]])
@@ -81,6 +86,15 @@ class Api::V1::NewsController < ApplicationController
         news.news_to_sections.create!(section_id: section.id)
       end
     end
+
+    user_from.each do |x|
+      news.news_from_users.build(user_id: x[:id])
+    end
+
+    user_to.each do |x|
+      news.news_to_users.build(user_id: x[:id])
+    end
+
     if news.update(news_params)
       render json: { status: "SUCCESS"}
     else

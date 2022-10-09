@@ -65,7 +65,7 @@ const SearchResult = (props) => {
 
     const handleSelect = (user) => {
         const targetId = user.id
-        if (!selectedUsers.some((x)=> x.id === targetId)) {
+        if (selectedUsers && !selectedUsers.some((x)=> x.id === targetId)) {
             setSelectedUsers([...selectedUsers, { id: user.id, name: user.name, email: user.email}])
         }
         setShowModal(false);
@@ -75,7 +75,7 @@ const SearchResult = (props) => {
     return (
         <ResultDiv>
             {users && users.map((user,index)=>{
-                return <button onClick={()=>handleSelect(user)} key={index}>{user.name}&lt;{user.email}&gt;</button>
+                return <button type="button" onClick={()=>handleSelect(user)} key={index}>{user.name}&lt;{user.email}&gt;</button>
             })}
         </ResultDiv>
     )

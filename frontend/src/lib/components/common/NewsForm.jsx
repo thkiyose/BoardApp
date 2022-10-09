@@ -11,14 +11,14 @@ import { UserSelector  } from './UserSelector';
 
 export const NewsForm = (props) => {
     const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm();
-    const { initialContent, initialTitle, initialTo, initialFrom, newsId, update } = props;
+    const { initialContent, initialTitle, initialTo, initialFrom, initialToUsers, initialFromUsers, newsId, update } = props;
     const navigate = useNavigate();
     const { currentUser, sections, setMessage } = useContext(AuthContext)
     const [selectedSectionFrom, setSelectedSectionFrom] = useState([]);
     const [selectedAreaFrom, setSelectedAreaFrom] = useState([]);
     const [selectedSectionTo, setSelectedSectionTo] = useState([]);
     const [selectedAreaTo, setSelectedAreaTo] = useState([]);
-    const [toUsers, setToUsers] = useState([]);
+    const [ toUsers, setToUsers ] = useState([]);
     const [ fromUsers, setFromUsers ] = useState([]);
 
     const setInitialValue = useCallback((initialContent,initialTitle,initialTo,initialFrom)=>{
@@ -36,7 +36,9 @@ export const NewsForm = (props) => {
             setSelectedSectionFrom(newFromSec)
             setSelectedAreaFrom(fromAr)
         }
-    },[setValue]);
+        initialToUsers && setToUsers(initialToUsers);
+        initialFromUsers && setFromUsers(initialFromUsers);
+    },[setValue, initialToUsers, initialFromUsers]);
     useEffect(()=>{setInitialValue(initialContent,initialTitle,initialTo, initialFrom)},[setInitialValue,initialContent,initialTitle,initialTo, initialFrom]);
 
     const handleSubmitNews = async(data) => {
@@ -46,7 +48,6 @@ export const NewsForm = (props) => {
                 const res = await UpdateNews(newsId,params) 
                 if (res.status === 200) {
                     navigate(`/news/${newsId}`)
-                    setMessage(["Newsを更新しました。"])
                 } else {
                     console.log(res)
                 }
@@ -89,7 +90,7 @@ export const NewsForm = (props) => {
                <p><ToFromLabel>From: Newsの発信源</ToFromLabel></p>
                 <SelfButton type="button" onClick={()=>{setFromUsers([{id: currentUser.user.id, name: currentUser.user.name, email: currentUser.user.email}])}}>自分(個人)を選択</SelfButton>
                 <Selected>
-                { fromUsers.length > 0 &&
+                { fromUsers && fromUsers.length > 0 &&
                     fromUsers.filter((element, index) => fromUsers.indexOf(element) === index).map((user, index)=>{
                         return <span onClick={()=>{deleteUsers(fromUsers,setFromUsers,user.id)}} key={index}>{user.name}&lt;{user.email}&gt;</span>
                     })

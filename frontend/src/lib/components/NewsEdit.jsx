@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 export const NewsEdit = () => {
     const location = useLocation();
-    const { id, title, content, to, from } = location.state
+    const { id, title, content, to, from, toUsers, fromUsers } = location.state
     const [ initialTo, setInitialTo ] = useState([]);
     const [ initialFrom, setInitialFrom ] = useState([]);
 
@@ -35,7 +35,7 @@ export const NewsEdit = () => {
     return (
         <Div>
             <BackButton/>
-            <NewsForm initialTitle={title} initialContent={content} newsId={id} update={true} initialTo={initialTo} initialFrom={initialFrom} />
+            <NewsForm initialTitle={title} initialContent={content} newsId={id} update={true} initialTo={initialTo} initialFrom={initialFrom} initialToUsers={toUsers} initialFromUsers={fromUsers} />
         </Div>
     )
 }

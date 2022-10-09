@@ -79,7 +79,7 @@ export const NewsInfo = () => {
                         <>
                             <Menu>
                                 <ul>
-                                    <li><Link to={`/news/edit`} state={{ id: news.news.id, title: news.news.title, content: news.news.content, to: news.toSec, from: news.fromSec}}>編集</Link></li>
+                                    <li><Link to={`/news/edit`} state={{ id: news.news.id, title: news.news.title, content: news.news.content, to: news.toSec, from: news.fromSec, toUsers: news.toUsers, fromUsers: news.fromUsers}}>編集</Link></li>
                                     <li><button onClick={()=>{handleDestroyNews(newsId.id)}}>削除</button></li>
                                     <li><button onClick={()=>{handleArchive(newsId.id)}}>アーカイブ</button></li>
                                 </ul>

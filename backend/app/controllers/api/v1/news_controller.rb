@@ -38,11 +38,11 @@ class Api::V1::NewsController < ApplicationController
       end
     end
 
-    user_from.each do |x|
+    user_from&.each do |x|
         news.news_from_users.build(user_id: x[:id])
     end
 
-    user_to.each do |x|
+    user_to&.each do |x|
       news.news_to_users.build(user_id: x[:id])
     end
 

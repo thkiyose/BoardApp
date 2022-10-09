@@ -79,7 +79,7 @@ export const NewsInfo = () => {
                         <>
                             <Menu>
                                 <ul>
-                                    <li><Link to={`/news/edit`} state={{ id: news.news.id, title: news.news.title, content: news.news.content, to: news.to, from: news.from}}>編集</Link></li>
+                                    <li><Link to={`/news/edit`} state={{ id: news.news.id, title: news.news.title, content: news.news.content, to: news.toSec, from: news.fromSec}}>編集</Link></li>
                                     <li><button onClick={()=>{handleDestroyNews(newsId.id)}}>削除</button></li>
                                     <li><button onClick={()=>{handleArchive(newsId.id)}}>アーカイブ</button></li>
                                 </ul>
@@ -90,9 +90,9 @@ export const NewsInfo = () => {
                     <h1>{news.news.title}</h1>
                     <span className="dayTime">{news.news.createdAt}</span>
                     <span className="visitorCount">{count}人が閲覧しました</span>{visitors && <VisitorButton onClick={()=>{setShowVisitors(true)}}>詳細</VisitorButton>}
-                    <p>
+                    <div>
                         <span className="toFrom">from</span>
-                        {news.from.map((x,index) => {
+                        {news.fromSec.map((x,index) => {
                             return (
                             <SectionArea key={index}>
                                 <span>{x[0].sections}:</span>
@@ -102,10 +102,13 @@ export const NewsInfo = () => {
                             </SectionArea>
                             );
                         })}
-                    </p>
+                        {news.fromUsers.map((user,index)=>{
+                            return <User>{user.name}&lt;{user.email}&gt;</User>
+                        })}
+                    </div>
                     <p>
                         <span className="toFrom">to</span>
-                        {news.to.map((x,index) => {
+                        {news.toSec.map((x,index) => {
                             return (
                             <SectionArea key={index}>
                                 <span>{x[0].sections}:</span>
@@ -114,6 +117,9 @@ export const NewsInfo = () => {
                                 })}
                             </SectionArea>
                             );
+                        })}
+                        {news.toUsers.map((user,index)=>{
+                            return <User>{user.name}&lt;{user.email}&gt;</User>
                         })}
                     </p>
                     <p>{content}</p>
@@ -220,4 +226,13 @@ const Visitor = styled.div`
     p {
         margin: 0;
     }
+`
+
+const User = styled.span`
+    background: ${Color.primary};
+    color: white;
+    padding: 3px;
+    margin-left: 5px;
+    border-radius: 5px;
+    display: inline-block;
 `

@@ -7,11 +7,13 @@ class Api::V1::NewsController < ApplicationController
   def show
     news = News.find_by(id: params[:id]);
     create_footprint(params[:user_id], params[:id])
-    to = news.to_sections.group_by{ |s| s.sections }
-    from = news.from_sections.group_by{ |s| s.sections }
+    to_sec = news.to_sections.group_by{ |s| s.sections }
+    from_sec = news.from_sections.group_by{ |s| s.sections }
+    to_users = news.to_users
+    from_users = news.from_users
     visitors = ( params[:admin] === "true" ? news.visitors.select(:name, :email) : nil)
     count = news.visitors.count
-    render json: { news: news, to: to.values, from: from.values, visitors: visitors, count: count }
+    render json: { news: news, to_sec: to_sec.values, from_sec: from_sec.values, to_users: to_users, from_users: from_users, visitors: visitors, count: count }
   end
 
   def create

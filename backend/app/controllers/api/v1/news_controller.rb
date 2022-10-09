@@ -112,13 +112,13 @@ class Api::V1::NewsController < ApplicationController
   end
 
   def search
-    news = News.where(is_archived: false).search_to_with_section_id(params[:to_ids]).search_from_with_section_id(params[:from_ids])
+    news = News.search_to_with_affiliation(params[:to_ids],params[:to_users])
+    .search_from_with_affiliation(params[:from_ids],params[:from_users])
     .search_with_title(params[:title]).search_with_content(params[:content])
     .search_with_date(params[:date])
     .search_with_section_only(params[:to_section],"to").search_with_area_only(params[:to_area],"to")
     .search_with_section_only(params[:from_section],"from").search_with_area_only(params[:from_area],"from")
-    .search_with_to_users(params[:to_users])
-    .search_with_from_users(params[:from_users])
+    .where(is_archived: false)
     .distinct
     .order(created_at: :desc)
     render json: { news: news }

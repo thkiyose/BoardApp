@@ -35,7 +35,7 @@ export const From = () => {
             }
       },[activeKey,setActiveKey,setNews])
   
-      useEffect(()=>{handleSearch({fromIds: memorizedParams})},[handleSearch,memorizedParams]);
+      useEffect(()=>{handleSearch({fromIds: memorizedParams, fromUsers: currentUser.user.id })},[handleSearch,memorizedParams]);
 
     return (
         <>

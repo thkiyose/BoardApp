@@ -16,14 +16,27 @@ class News < ApplicationRecord
   accepts_nested_attributes_for :news_to_sections, allow_destroy: true
   accepts_nested_attributes_for :news_from_sections, allow_destroy: true
 
-  scope :search_to_with_section_id, -> (id){
-    return if id.blank?
-    joins(:to_sections).where(sections:{id: id})
+  scope :search_to_with_affiliation, -> (secIds, userId){
+    return if secIds.blank? && userId.blank?
+    if secIds && userId.blank?
+     joins(:to_sections).where(sections:{id: secIds})
+    elsif secIds.blank? && userId
+      joins(:to_users).where(users: { id: userId })
+    elsif secIds && userId
+      left_joins(:to_sections).left_joins(:to_users).where(sections:{id: secIds}).or(News.where(users: { id: userId }))
+    end
+      
   }
 
-  scope :search_from_with_section_id, -> (id){
-    return if id.blank?
-    joins(:from_sections).where(sections:{id: id})
+  scope :search_from_with_affiliation, -> (secIds, userId){
+    return if secIds.blank? && userId.blank?
+    if secIds && userId.blank?
+     joins(:from_sections).where(sections:{id: secIds})
+    elsif secIds.blank? && userId
+      joins(:from_users).where(users: { id: userId })
+    elsif secIds && userId
+      left_joins(:from_sections).left_joins(:from_users).where(sections:{id: secIds}).or(News.where(users: { id: userId }))
+    end
   }
 
   scope :search_with_title, -> (title){
@@ -68,11 +81,7 @@ class News < ApplicationRecord
 
   scope :search_with_to_users, -> ( toId ){
     return if toId.blank?
-    joins(:to_users).where(users: { id: toId })
-  }
-
-  scope :search_with_from_users, -> ( fromId ){
-    return if fromId.blank?
-    joins(:from_users).where(users: { id: fromId })
+    rel = unscoped.joins(:to_users).where(users: { id: toId })
+    merge(rel)
   }
 end

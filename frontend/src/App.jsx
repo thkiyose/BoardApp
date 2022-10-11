@@ -95,6 +95,7 @@ export const App = () => {
       return <></>;
     }
   };
+
   return (
     <AuthContext.Provider value={{currentUser,setCurrentUser,setIsSignedIn, isSignedIn, sections,rawSections,rawAreas}}>
         <BrowserRouter>

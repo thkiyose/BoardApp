@@ -5,13 +5,14 @@ import Color from './Color';
 import { SignOutButton } from '../SignOutButton';
 import { AuthContext  } from '../../../App';
 
-export const Header = () => {
+export const Header = (props) => {
   const { isSignedIn } = useContext(AuthContext);
+  const { setMessage } = props;
 
     return (
       <HeaderDiv>
         <LeftMenu>
-            <li><SignOutButton /></li>
+            <li><SignOutButton setMessage={setMessage}/></li>
         </LeftMenu>
         <RightMenu>
           { isSignedIn &&

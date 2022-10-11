@@ -13,12 +13,9 @@ export const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const location = useLocation();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
-    const [ message, setMessage ] = useState(location.state ?  [location.state.message] : []);
-    const [ type, setType ] = useState(location.state && location.state.type ?  location.state.type : "warning");
     const navigate = useNavigate("");
 
     const handleSignIn = async(data) => {
-        setMessage([]);
         try {
             const res = await signIn(data) 
             if (res.status === 200) {
@@ -35,11 +32,7 @@ export const SignIn = () => {
           } catch (e) {
             console.log(e)
             if (e.response?.data?.errors?.fullMessages) {
-                setType("warning");
-                setMessage(e.response?.data?.errors?.fullMessages)
               } else if (e.message) {
-                setType("warning");
-                setMessage([e.message])
               }
           }
     }
@@ -47,7 +40,6 @@ export const SignIn = () => {
     return (
         <Div>
             <h1>ログイン</h1>
-            <FlashMessage message={message} type={type} />
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignIn)}>
                     <p><label>メールアドレス</label></p>
@@ -67,9 +59,10 @@ export const SignIn = () => {
 
 const Div = styled.div`
     margin:0 auto; 
-
+    min-height: 80vh;
     h1 {
         margin:0 auto;
+        padding-top: 20px;
         text-align: center;
     }
 

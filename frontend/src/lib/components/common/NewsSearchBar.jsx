@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Color from './Color';
 import styled from 'styled-components'
+import { UserSelectorForSearch } from './UserSelectorForSearch';
 
 export const NewsSearchBar = (props) => {
     const [ searchParam, setSearchParam ] = useState({
@@ -10,7 +11,9 @@ export const NewsSearchBar = (props) => {
         fromArea: "",
         toSection: "",
         toArea: "",
-        date:["",""]
+        date:["",""],
+        toUser: "",
+        fromUser: ""
       });
       const { sections, areas, handleSearch } = props;
 
@@ -27,10 +30,14 @@ export const NewsSearchBar = (props) => {
           setSearchParam({...searchParam,toSection:param})
         } else if ( type === "toArea") {
             setSearchParam({...searchParam,toArea:param})
-        }else if (type === "start") {
+        } else if (type === "start") {
           setSearchParam({...searchParam,date:[param, searchParam.date[1]]})
         } else if (type === "end") {
           setSearchParam({...searchParam,date:[searchParam.date[0],param]})
+        } else if (type === "toUser") {
+            setSearchParam({...searchParam, toUser: param })
+        } else if (type === "fromUser") {
+            setSearchParam({...searchParam, fromUser: param })
         }
       }
 
@@ -41,21 +48,6 @@ export const NewsSearchBar = (props) => {
                     <tr><th></th><td><label>タイトル</label><input onChange={(e)=>{onChange(e.target.value,"title")}} className="title"></input></td></tr>
                     <tr><th></th><td><label>本文</label><input onChange={(e)=>{onChange(e.target.value,"content")}} className="content"></input></td></tr>
                    <tr><th><span>作成日:</span></th><td><label>以降</label><input onChange={(e)=>{onChange(e.target.value,"start")}} type="date" className="date"></input><label>以前</label><input type="date" className="date" onChange={(e)=>{onChange(e.target.value,"end")}}></input></td></tr>
-                   <tr><th><span>To:</span></th><td>
-                    <label>セクション</label>
-                   <select className="section" onChange={(e)=>{onChange(e.target.value,"toSection")}}>
-                       <option hidden></option>
-                        {Object.keys(sections).map((section,index)=> {
-                            return  <option key={index}>{section}</option>
-                        })}
-                    </select>
-                    <label>エリア</label>
-                    <select className="area" onChange={(e)=>{onChange(e.target.value,"toArea")}}>
-                        <option hidden></option>
-                        {Object.keys(areas).map((area, index)=> {
-                            return  <option value={area} key={index}>{area.toUpperCase()}</option>
-                        })}
-                    </select></td></tr>
                    <tr>
                     <th><span>From:</span></th><td>
                         <label>セクション</label>
@@ -72,6 +64,31 @@ export const NewsSearchBar = (props) => {
                                 return  <option value={area} key={index}>{area.toUpperCase()}</option>
                             })}
                         </select></td>
+                   </tr>
+                   <tr>
+                    <th></th><td className="user"><label>ユーザー</label><UserSelectorForSearch selectedUsers={searchParam.fromUser} setSelectedUsers={onChange} type="fromUser"/>
+                       { searchParam.fromUser && <UserLabel onClick={()=>{setSearchParam({...searchParam, fromUser: "" })}}>{searchParam.fromUser[1]}&lt;{searchParam.fromUser[2]}&gt;</UserLabel> }
+                    </td>
+                   </tr>
+                   <tr><th><span>To:</span></th><td>
+                    <label>セクション</label>
+                   <select className="section" onChange={(e)=>{onChange(e.target.value,"toSection")}}>
+                       <option hidden></option>
+                        {Object.keys(sections).map((section,index)=> {
+                            return  <option key={index}>{section}</option>
+                        })}
+                    </select>
+                    <label>エリア</label>
+                    <select className="area" onChange={(e)=>{onChange(e.target.value,"toArea")}}>
+                        <option hidden></option>
+                        {Object.keys(areas).map((area, index)=> {
+                            return  <option value={area} key={index}>{area.toUpperCase()}</option>
+                        })}
+                    </select></td></tr>
+                    <tr>
+                    <th></th><td className="user"><label>ユーザー</label><UserSelectorForSearch selectedUsers={searchParam.toUser} setSelectedUsers={onChange} type="toUser" />
+                    { searchParam.toUser && <UserLabel onClick={()=>{setSearchParam({...searchParam, toUser: "" })}}>{searchParam.toUser[1]}&lt;{searchParam.toUser[2]}&gt;</UserLabel> }
+                    </td>
                    </tr>
                 </tbody>
             </table>
@@ -131,5 +148,21 @@ const SearchBar = styled.div`
         display: block;
         padding: 10px;
         cursor: pointer;
+    }
+    .user button {
+        margin-left: 5px;
+    }
+`
+
+const UserLabel = styled.span`
+    cursor: pointer;
+    color: #000;
+    background: #fff;
+    padding: 5px;
+    margin-left: 5px;
+    :hover {
+        background: ${Color.primary};
+        color: #fff;
+        border: solid 1px ${Color.primary};
     }
 `

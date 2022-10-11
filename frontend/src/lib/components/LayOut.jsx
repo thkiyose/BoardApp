@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Header } from './common/Header';
 import { Footer } from './common/Footer';
 import Color from './common/Color';
-import { FlashMessage } from './common/FlashMessage';
+import { FlashMessage } from './common/FlashMessage'
 
 export const LayOut = () => {
+    const location = useLocation();
     const [ message, setMessage ] = useState([]);
+    const [ showMessage, setShowMessage ] = useState(false);
+
+    useEffect(()=>{
+        location.state?.message && setMessage(location.state.message)
+        setShowMessage(true);
+        setTimeout(()=>{setMessage([]);
+        setShowMessage(false)},1500)
+    },[location.state?.message])
 
     return (
         <Screen>
-            <Header />
+            <FlashMessage message={message} showFlag={showMessage}/>
+            <Header/>
             <Wrapper>
-                <FlashMessage message={message} />
-                <Outlet context={[message, setMessage]}/>
+                <Outlet/>
             </Wrapper>
             <Footer/>
         </Screen>
@@ -33,7 +42,7 @@ const Screen = styled.div`
 `
 
 const Wrapper = styled.div`
-    width: 90%;
+    width: 100%;
     padding-top: 50px;
     margin: 0 auto;
 `

@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { NewsForm } from './common/NewsForm';
 import { BackButton } from './common/BackButton';
-import { useParams } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import styled from 'styled-components'
 
 export const NewsEdit = () => {
-    const newsId = useParams();
     const location = useLocation();
-    const { title, content, to, from } = location.state
+    const { id, title, content, to, from, toUsers, fromUsers } = location.state
     const [ initialTo, setInitialTo ] = useState([]);
     const [ initialFrom, setInitialFrom ] = useState([]);
 
@@ -37,13 +35,12 @@ export const NewsEdit = () => {
     return (
         <Div>
             <BackButton/>
-            <NewsForm initialTitle={title} initialContent={content} newsId={newsId.id} update={true} initialTo={initialTo} initialFrom={initialFrom} />
+            <NewsForm initialTitle={title} initialContent={content} newsId={id} update={true} initialTo={initialTo} initialFrom={initialFrom} initialToUsers={toUsers} initialFromUsers={fromUsers} />
         </Div>
     )
 }
 
 const Div = styled.div`
-    float: left;
-    width: 70%;
-    margin-left: 50px;
+    width: 80%;
+    margin: 0 auto;
 `

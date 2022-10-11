@@ -7,9 +7,8 @@ import Color from './common/Color';
 import { signOut } from "../api/session"
 
 export const SignOutButton = () => {
-    const { isSignedIn, setIsSignedIn } = useContext(AuthContext);
+    const { isSignedIn, setIsSignedIn} = useContext(AuthContext);
     const navigate = useNavigate();
-
     const handleSignOut = async() => {
         try {
             const res = await signOut();
@@ -18,8 +17,7 @@ export const SignOutButton = () => {
               Cookies.remove("_client");
               Cookies.remove("_uid");
               setIsSignedIn(false);
-              navigate("/", { state: { message: "ログアウトしました。", type: "success"} });
-              console.log("Succeeded in sign out")
+              navigate("/", { state: { message: "ログアウトしました。"}});
             } else {
               console.log("Failed in sign out")
             }

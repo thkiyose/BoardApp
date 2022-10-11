@@ -8,6 +8,7 @@ import { MyPage } from './lib/components/MyPage';
 import { MyPageInfo } from './lib/components/MyPageInfo';
 import { News } from './lib/components/News';
 import { NewsIndex } from './lib/components/NewsIndex';
+import { NewsHistory } from './lib/components/NewsHistory'
 import { All } from './lib/components/newsView/All';
 import { To } from './lib/components/newsView/To';
 import { From } from './lib/components/newsView/From';
@@ -15,6 +16,7 @@ import { Search } from './lib/components/newsView/Search';
 import { NewsInfo } from './lib/components/NewsInfo';
 import { CreateNews } from './lib/components/CreateNews';
 import { NewsEdit } from './lib/components/NewsEdit';
+import { ArchiveList } from './lib/components/ArchiveList';
 import { Schedule } from './lib/components/Schedule';
 import { getCurrentUser } from "./lib/api/session.js"
 import { fetchSections } from "./lib/api/section.js"
@@ -58,6 +60,10 @@ export const App = () => {
     handleGetCurrentUser()
   }, [setCurrentUser])
 
+  useEffect(()=>{
+
+  },[])
+
   const LoggedInRoute = ( {children} ) => {
     if (!loading) {
       if (isSignedIn) {
@@ -93,6 +99,7 @@ export const App = () => {
       return <></>;
     }
   };
+
   return (
     <AuthContext.Provider value={{currentUser,setCurrentUser,setIsSignedIn, isSignedIn, sections,rawSections,rawAreas}}>
         <BrowserRouter>
@@ -105,6 +112,8 @@ export const App = () => {
                 <Route path={"info"} element={<MyPageInfo/>} />
               </Route>
               <Route path={"/news"} element={<LoggedInRoute><News/></LoggedInRoute>} >
+                <Route path={"history"} element={<LoggedInRoute><NewsHistory/></LoggedInRoute>}/>
+                <Route path={"archive"} element={<LoggedInRoute><ArchiveList/></LoggedInRoute>}/>
                 <Route path={"index"} element={<LoggedInRoute><NewsIndex/></LoggedInRoute>} >
                   <Route path={"all"} element={<LoggedInRoute><All/></LoggedInRoute>}/>
                   <Route path={"to"} element={<LoggedInRoute><To/></LoggedInRoute>}/>
@@ -113,7 +122,7 @@ export const App = () => {
                 </Route>
                 <Route path={":id"} element={<LoggedInRoute ><NewsInfo /></LoggedInRoute>} />
                 <Route path={"create"} element={<AdminProtectedRoute><CreateNews/></AdminProtectedRoute>} />
-                <Route path={":id/edit"} element={<AdminProtectedRoute><NewsEdit/></AdminProtectedRoute>} />
+                <Route path={"edit"} element={<AdminProtectedRoute><NewsEdit/></AdminProtectedRoute>} />
               </Route>
             </Route>
           </Routes>

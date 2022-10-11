@@ -5,13 +5,14 @@ import Color from './Color';
 import { SignOutButton } from '../SignOutButton';
 import { AuthContext  } from '../../../App';
 
-export const Header = () => {
+export const Header = (props) => {
   const { isSignedIn } = useContext(AuthContext);
+  const { setMessage } = props;
 
     return (
       <HeaderDiv>
         <LeftMenu>
-            <li><SignOutButton /></li>
+            <li><SignOutButton setMessage={setMessage}/></li>
         </LeftMenu>
         <RightMenu>
           { isSignedIn &&
@@ -42,12 +43,16 @@ const LeftMenu = styled.ul`
     padding: 0;
     margin: 0;
     float: left;
-  li {
-    height: 40px;
-    margin: 0px 20px;
-    button {
-        height: 40px;
-    }
+    li {
+      height: 40px;
+      margin: 0px 20px;
+      button {
+          height: 40px;
+      }
+    button:hover {
+      background: ${Color.primary};
+      color: white;
+    } 
 `
 
 const RightMenu = styled.ul`
@@ -55,14 +60,18 @@ const RightMenu = styled.ul`
     padding: 0;
     margin: 0;
     float: right;
-  li {
-    float: right;
-    margin: 0px 20px;
-    background: ${Color.secondary};
-    text-align: center;
-    button {
-        height: 40px;
-    }
+    li {
+      float: right;
+      margin: 0px 20px;
+      background: ${Color.secondary};
+      text-align: center;
+      button {
+          height: 40px;
+      }
+    a:hover {
+      background: ${Color.primary};
+      color: white;
+    } 
     a {
         display: block;
         height: 40px;
@@ -70,6 +79,7 @@ const RightMenu = styled.ul`
         margin: 0px;
         min-width: 100px;
         line-height: 40px;
+        color:inherit;
         text-decoration: none;
     }
 `

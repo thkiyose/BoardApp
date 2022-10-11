@@ -31,7 +31,7 @@ export const SectionSelector = (props) => {
                     </React.Fragment>
             })}
             </SectionDiv>
-            { selectedSection.length > 0 && showLabel ? <p><label>所属エリア</label></p> : <p><label></label></p>}
+            { selectedSection.length > 0 && showLabel ? <p><label>所属エリア</label></p> : <label></label>}
             { selectedSection.map((secName) => {
                 return (
                     <AreaDiv key={secName}>
@@ -60,11 +60,11 @@ export const SectionSelector = (props) => {
 }
 
 const SectionDiv = styled.div`
-    margin-bottom: 10px;
     label {
         margin-right: 5px;
         padding-bottom: 10px;
         display: inline;
+        line-height: 40px;
     }
     label input {
         display: none;

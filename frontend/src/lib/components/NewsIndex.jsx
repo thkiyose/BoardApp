@@ -36,14 +36,15 @@ export const NewsIndex = () => {
 }
 
 const Div = styled.div`
-    padding: 20px 0px;
+    padding: 20px;
     display: flex;
     flex-wrap : wrap;
     position: relative;
-    width: 80%;
+    margin: 0 auto;
+    width: 90%;
     z-index: 900;
     background: ${Color.secondary};
-    justify-content: center;
+    justify-content: stretch;
 `
 
 const Tab = (props) => {
@@ -64,31 +65,33 @@ const Tab = (props) => {
 }
 
 const TabDiv = styled.div`
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     margin: 0 auto;
+    height: 50px;
+    display: flex;
+    width: 90%;
     label {
-    width: 10%;
-    height: 40px;
-    margin-top: 10px;
-    margin-right: 10px;
-    background-color: gray;
-    line-height: 40px;
-    text-align: center;
-    color: #fff;
-    font-size: 0.8rem;
-    display: block;
-    float: left;
-    text-align: center;
-    transition: all 0.2s ease;
-    cursor: pointer;
-  }
-  .tab_item:hover {
-    opacity: 0.75;
-  }
-  .active {
-    background: ${Color.secondary};
-  }
-  input[name="tab_item"] {
-    display: none;
-  }
+        height: 40px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        margin-top: 10px;
+        margin-right: 10px;
+        background-color: gray;
+        line-height: 40px;
+        text-align: center;
+        color: #fff;
+        font-size: 0.8rem;
+        display: block;
+        text-align: center;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        width: 20%;
+    }
+    .tab_item:hover {
+        opacity: 0.75;
+    }
+    .active {
+        background: ${Color.secondary};
+    }
+    input[name="tab_item"] {
+        display: none;
+    }
 `

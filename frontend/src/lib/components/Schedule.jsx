@@ -217,6 +217,7 @@ export const Schedule = () => {
                 components={{
                     toolbar: RBCToolbar
                 }}
+                dayLayoutAlgorithm="no-overlap"
                 />
             </Div>
             <Modal onClick={(e)=>e.stopPropagation()} showFlag={showModal} setShowModal={setShowModal}>
@@ -267,7 +268,9 @@ export const Schedule = () => {
 }
 
 const Div = styled.div`
-    margin-top: 10px;
+    margin: 0 auto;
+    padding-top: 20px;
+    width: 90%;
     .rbc-current-time-indicator {
         z-index: 0;
     }

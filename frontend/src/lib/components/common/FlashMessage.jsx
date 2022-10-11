@@ -1,42 +1,31 @@
-import React, { useState } from 'react'
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components'
 
 export const FlashMessage = (props) => {
-    const { message } = props;
-
-    let renderIt = null;
-
-    if ( message.length > 0) {
-        renderIt = message.map((msg,key)=> {
-            return (
-                <Display key={key}>
-                    <p>{msg}</p>
-                </Display>)
-        })
+    const { message, showFlag } = props;
+    if (message && showFlag) {
+        return (
+        <Div showFlag={showFlag}>{message}</Div>
+      )
     }
-
-    return (
-        message.map((msg,key)=> {
-            return (
-                <>{renderIt}</>
-            )
-        })
-    )
-    
 }
 
-const Display = styled.div`
-    p {
-        background-color: ${props => props.type === "warning" && '#f9b9be'};
-        border: ${props => props.type === "warning" && "solid 1px red" };
-        background-color: ${props => props.type === "success" && '#bfd3ad'};
-        border: ${props => props.type === "success" && "solid 1px green" };
-        text-align: center;
-        padding: 10px;
-        span {
-            float:right;
-            cursor: pointer;
-        }
-    }  
-    margin: 0 auto;
+const Div = styled.div`
+    position: fixed;
+    background: #7ed6ce;
+    width: 50%;
+    color: #fff;
+    line-height: 30px;
+    text-align: center;
+    left: 50%;
+    z-index: 9999;
+    border-radius: 20px;
+    transform: translate(-50%);
+    background: ${(props) => (props.showFlag ? 1 : 0)};
+    animation: fadeOut 2s ease 1 normal;
+    @keyframes fadeOut {
+        0% {opacity: 1}
+        50% {opacity: 1}
+        100% {opacity: 0}
+    }
 `

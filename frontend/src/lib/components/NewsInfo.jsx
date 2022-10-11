@@ -6,18 +6,29 @@ import { ShowNews } from '../api/news';
 import { DestroyNews } from '../api/news';
 import { BackButton } from './common/BackButton';
 import Color from './common/Color';
+import { Modal } from './common/Modal'
+import { Archive } from '../api/news'
 
 export const NewsInfo = () => {
     const [ news, setNews ] = useState({});
+    const [ visitors, setVisitors ] = useState([]);
+    const [ count, setCount ] = useState();
+    const [ showVisitors, setShowVisitors ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(true);
     const { currentUser } = useContext(AuthContext);
     const newsId = useParams();
     const navigate = useNavigate();
 
-    const FetchNews = async(newsId) => {
+    const FetchNews = async(newsId,userId,admin) => {
         try {
-            const res = await ShowNews(newsId); 
+            const res = await ShowNews(newsId,userId,admin); 
+            if ( res.data.news.isArchived && userId !== res.data.news.userId ) {
+                navigate("/")
+                return;
+            }
             if (res.status === 200) {
+                setVisitors(res.data.visitors)
+                setCount(res.data.count)
                 setNews(res.data);
             } else {
               console.log(res)
@@ -29,6 +40,10 @@ export const NewsInfo = () => {
     }
 
     const handleDestroyNews = async(newsId) => {
+        const result = window.confirm("この記事を削除しますか？")
+        if ( result === false ) {
+            return;
+        }
         try {
             const res = await DestroyNews(newsId); 
             if (res.status === 200) {
@@ -41,7 +56,19 @@ export const NewsInfo = () => {
           }
     }
 
-    useEffect(()=>{FetchNews(newsId.id)},[newsId.id]);
+    const handleArchive = async(newsId) => {
+        const result = window.confirm("記事をアーカイブしますか？\n他のユーザーから見えなくなり、アーカイブリストでのみ確認出来るようになります。")
+        if (result) {
+            const res = await Archive(newsId)
+            if (res.status === 200) {
+                navigate("/news/index/all", { state: { message: "Newsをアーカイブしました。"}})
+            } else {
+                console.log(res)
+            }
+        }
+    }
+
+    useEffect(()=>{FetchNews(newsId.id, currentUser.user.id, currentUser.user.admin)},[newsId.id, currentUser.user.id, currentUser.user.admin]);
 
     if ( !isLoading && news.news ) {
         const content = news.news.content.split("\n").map((item, index) => {
@@ -56,19 +83,20 @@ export const NewsInfo = () => {
                         <>
                             <Menu>
                                 <ul>
-                                    <li><Link to={`/news/${newsId.id}/edit`}
-                                        state={{ title: news.news.title, content: news.news.content, to: news.to, from: news.from}}>編集</Link></li>
+                                    <li><Link to={`/news/edit`} state={{ id: news.news.id, title: news.news.title, content: news.news.content, to: news.toSec, from: news.fromSec, toUsers: news.toUsers, fromUsers: news.fromUsers}}>編集</Link></li>
                                     <li><button onClick={()=>{handleDestroyNews(newsId.id)}}>削除</button></li>
+                                    <li><button onClick={()=>{handleArchive(newsId.id)}}>アーカイブ</button></li>
                                 </ul>
                             </Menu>
                             <ClearFix/>
                         </>
                     }
                     <h1>{news.news.title}</h1>
-                    <p className="dayTime">{news.news.createdAt}</p>
-                    <p>
+                    <span className="dayTime">{news.news.createdAt}</span>
+                    <span className="visitorCount">{count}人が閲覧しました</span>{visitors && <VisitorButton onClick={()=>{setShowVisitors(true)}}>詳細</VisitorButton>}
+                    <div>
                         <span className="toFrom">from</span>
-                        {news.from.map((x,index) => {
+                        {news.fromSec.map((x,index) => {
                             return (
                             <SectionArea key={index}>
                                 <span>{x[0].sections}:</span>
@@ -78,10 +106,13 @@ export const NewsInfo = () => {
                             </SectionArea>
                             );
                         })}
-                    </p>
+                        {news.fromUsers.map((user,index)=>{
+                            return <User>{user.name}&lt;{user.email}&gt;</User>
+                        })}
+                    </div>
                     <p>
                         <span className="toFrom">to</span>
-                        {news.to.map((x,index) => {
+                        {news.toSec.map((x,index) => {
                             return (
                             <SectionArea key={index}>
                                 <span>{x[0].sections}:</span>
@@ -90,9 +121,25 @@ export const NewsInfo = () => {
                                 })}
                             </SectionArea>
                             );
+                        })}
+                        {news.toUsers.map((user,index)=>{
+                            return <User>{user.name}&lt;{user.email}&gt;</User>
                         })}
                     </p>
                     <p>{content}</p>
+                    <Modal showFlag={showVisitors} setShowModal={setShowVisitors}>
+                        <VisitorTitle>閲覧済みのユーザー</VisitorTitle>
+                        <VisitorDiv>
+                            {visitors && visitors.map((visitor)=>{
+                                return (
+                                    <Visitor>
+                                        <p>{visitor.name}</p>
+                                        <p>{visitor.email}</p>
+                                    </Visitor>
+                                )
+                            })}
+                        </VisitorDiv>
+                    </Modal>
                 </Div>
         )
     }
@@ -101,19 +148,25 @@ export const NewsInfo = () => {
 const Div = styled.div`
     padding: 20px 30px;
     background: white;
-    float: left;
     width: 70%;
     font-size: 0.8rem;
     min-height: 100px;
-    margin: 15px;
+    margin: 0 auto;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     h1 {
         margin-bottom: 0;
         font-size: 1.1rem;
     }
     .dayTime {
-        color:gray;
-        margin: 0;
+        color: gray;
+        display: inline-block;
+        padding: 10px 0px;
+    }
+    .visitorCount {
+        margin-left: 20px;
+        background: ${Color.form};
+        padding: 3px;
+        border-radius: 5px;
     }
     .toFrom {
         font-weight: bold;
@@ -152,4 +205,39 @@ const ClearFix = styled.div`
         content: "";
         display: block;
         clear: both;
+`
+
+const VisitorButton = styled.button`
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+`
+const VisitorTitle = styled.h3`
+    font-weight: normal;
+    text-align: center;
+`
+
+const VisitorDiv = styled.div`
+    align-item: strech;
+    display: flex;
+`
+const Visitor = styled.div`
+    margin: 5px;
+    background: #fff;
+    border: solid 2px ${Color.primary};
+    padding: 4px;
+    border-radius: 5px;
+    p {
+        margin: 0;
+    }
+`
+
+const User = styled.span`
+    background: ${Color.primary};
+    color: white;
+    padding: 3px;
+    margin-left: 5px;
+    border-radius: 5px;
+    display: inline-block;
 `

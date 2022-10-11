@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
@@ -7,24 +7,20 @@ import { signUp } from "../api/session.js"
 import { createUserSections } from "../api/section.js"
 import { SectionSelector } from './common/SectionSelector.jsx';
 import Color from './common/Color';
-import { FlashMessage } from './common/FlashMessage';
 import { AuthContext } from '../../App.jsx';
 
 export const SignUp = () => {
     const { register, handleSubmit, formState: { errors }  } = useForm();
-    const location = useLocation();
+    const [ error, setError ] = useState("");
     const { setCurrentUser, setIsSignedIn,sections} = useContext(AuthContext)
-    const [ message, setMessage ] = useState(location.state ?  [location.state.message] : []);
     const [selectedSection, setSelectedSection] = useState([]);
     const [selectedArea, setSelectedArea] = useState([]);
-    const [ type, setType ] = useState(location.state && location.state.type ?  location.state.type : "warning");
     const navigate = useNavigate("");
 
     const handleSignUp = async(data) => {
-        setMessage([]);
+        setError("");
         if (selectedArea.length === 0) {
-            setType("warning");
-            setMessage(["所属するエリアを選択して下さい。"]);
+            setError("所属を選択して下さい。")
             return;
         }
         try {
@@ -44,16 +40,12 @@ export const SignUp = () => {
             }
           } catch (e) {
             console.log(e)
-            if (e.response?.data?.errors?.fullMessages) {
-                setType("warning");
-                setMessage(e.response?.data?.errors?.fullMessages);
-              }
+            navigate("", {state: { message: "アカウント作成に失敗しました。"}})
           }
     }
 
     return (
         <Div>
-            <FlashMessage message={message} type={type} />
             <h1>アカウント登録</h1>
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignUp)}>
@@ -80,6 +72,7 @@ export const SignUp = () => {
                     selectedArea={selectedArea}
                     setSelectedArea={setSelectedArea}
                     showLabel={true}/>
+                    { error && <ErrorMessage>{error}</ErrorMessage>}
                     <p><button type="submit" >登録</button></p>
                 </form>
                 <p id="signInGuide">アカウントをお持ちの方は<Link to="/">ログイン</Link></p>

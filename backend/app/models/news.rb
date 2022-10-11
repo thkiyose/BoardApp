@@ -79,9 +79,13 @@ class News < ApplicationRecord
     end
   }
 
-  scope :search_with_to_users, -> ( toId ){
-    return if toId.blank?
-    rel = unscoped.joins(:to_users).where(users: { id: toId })
-    merge(rel)
+  scope :search_with_to_users, -> ( to_id ){
+    return if to_id.blank?
+    joins(:to_users).where(users: {id: to_id})
+  }
+
+  scope :search_with_from_users, -> ( from_id ){
+    return if from_id.blank?
+    joins(:from_users).where(users: {id: from_id })
   }
 end

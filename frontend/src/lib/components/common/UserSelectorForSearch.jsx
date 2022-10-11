@@ -65,7 +65,7 @@ const SearchResult = (props) => {
     const { users, setSelectedUsers, setShowModal, setSearchedUsers, type } = props;
 
     const handleSelect = (user) => {
-        setSelectedUsers({id: user.id, name: user.name, email: user.email }, type)
+        setSelectedUsers([ user.id, user.name, user.email ], type)
         setShowModal(false);
         setSearchedUsers("");
     }

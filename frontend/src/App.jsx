@@ -60,6 +60,10 @@ export const App = () => {
     handleGetCurrentUser()
   }, [setCurrentUser])
 
+  useEffect(()=>{
+
+  },[])
+
   const LoggedInRoute = ( {children} ) => {
     if (!loading) {
       if (isSignedIn) {

@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Header } from './common/Header';
 import { Footer } from './common/Footer';
 import Color from './common/Color';
+import { FlashMessage } from './common/FlashMessage'
 
 export const LayOut = () => {
+    const location = useLocation();
+    const [ message, setMessage ] = useState([]);
+    const [ showMessage, setShowMessage ] = useState(false);
+    console.log(location.state?.message)
+
+    useEffect(()=>{
+        location.state?.message && setMessage(location.state.message)
+        setShowMessage(true);
+        setTimeout(()=>{setMessage([]);
+        setShowMessage(false)},2000)
+    },[location.state?.message])
 
     return (
         <Screen>
+            <FlashMessage message={message} showFlag={showMessage}/>
             <Header/>
             <Wrapper>
                 <Outlet/>

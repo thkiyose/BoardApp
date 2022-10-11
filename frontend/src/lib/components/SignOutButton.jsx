@@ -17,7 +17,7 @@ export const SignOutButton = () => {
               Cookies.remove("_client");
               Cookies.remove("_uid");
               setIsSignedIn(false);
-              navigate("/");
+              navigate("/", { state: { message: "ログアウトしました。"}});
             } else {
               console.log("Failed in sign out")
             }

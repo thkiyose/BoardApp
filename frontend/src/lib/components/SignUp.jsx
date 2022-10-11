@@ -7,24 +7,18 @@ import { signUp } from "../api/session.js"
 import { createUserSections } from "../api/section.js"
 import { SectionSelector } from './common/SectionSelector.jsx';
 import Color from './common/Color';
-import { FlashMessage } from './common/FlashMessage';
 import { AuthContext } from '../../App.jsx';
 
 export const SignUp = () => {
     const { register, handleSubmit, formState: { errors }  } = useForm();
     const location = useLocation();
     const { setCurrentUser, setIsSignedIn,sections} = useContext(AuthContext)
-    const [ message, setMessage ] = useState(location.state ?  [location.state.message] : []);
     const [selectedSection, setSelectedSection] = useState([]);
     const [selectedArea, setSelectedArea] = useState([]);
-    const [ type, setType ] = useState(location.state && location.state.type ?  location.state.type : "warning");
     const navigate = useNavigate("");
 
     const handleSignUp = async(data) => {
-        setMessage([]);
         if (selectedArea.length === 0) {
-            setType("warning");
-            setMessage(["所属するエリアを選択して下さい。"]);
             return;
         }
         try {
@@ -45,15 +39,12 @@ export const SignUp = () => {
           } catch (e) {
             console.log(e)
             if (e.response?.data?.errors?.fullMessages) {
-                setType("warning");
-                setMessage(e.response?.data?.errors?.fullMessages);
               }
           }
     }
 
     return (
         <Div>
-            <FlashMessage message={message} type={type} />
             <h1>アカウント登録</h1>
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignUp)}>

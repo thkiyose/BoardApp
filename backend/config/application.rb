@@ -19,7 +19,7 @@ module Backend
     config.middleware.use ActionDispatch::Flash
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'localhost:4000'
+        origins 'localhost:4000', 'react-board-frontend.web.app'
         resource '*',
                  :headers => :any,
                  :expose => ['access-token', 'expiry', 'token-type', 'uid', 'client'],

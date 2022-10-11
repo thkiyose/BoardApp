@@ -10,13 +10,12 @@ export const LayOut = () => {
     const location = useLocation();
     const [ message, setMessage ] = useState([]);
     const [ showMessage, setShowMessage ] = useState(false);
-    console.log(location.state?.message)
 
     useEffect(()=>{
         location.state?.message && setMessage(location.state.message)
         setShowMessage(true);
         setTimeout(()=>{setMessage([]);
-        setShowMessage(false)},2000)
+        setShowMessage(false)},1500)
     },[location.state?.message])
 
     return (

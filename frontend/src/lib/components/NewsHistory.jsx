@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import moment from "moment";
 import Color from './common/Color';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import { UserNews } from '../api/news';
 import { DestroyNews } from '../api/news';
@@ -10,6 +10,7 @@ import { Archive } from '../api/news'
 export const NewsHistory = () => {
     const [ news, setNews ] = useState([]);
     const location = useLocation();
+    const navigate = useNavigate();
 
     const loadNews = useCallback(async() => {
         try {
@@ -32,6 +33,7 @@ export const NewsHistory = () => {
             const res = await DestroyNews(newsId)
             if (res.status === 200) {
                 loadNews()
+                navigate("", { state: { id: location.state.id, message: "記事を削除しました。"}})
             } else {
                 console.log(res)
             }
@@ -44,6 +46,7 @@ export const NewsHistory = () => {
             const res = await Archive(newsId)
             if (res.status === 200) {
                 loadNews()
+                navigate("", { state: { id: location.state.id, message: "記事をアーカイブしました。"}})
             } else {
                 console.log(res)
             }

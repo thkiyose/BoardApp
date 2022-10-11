@@ -18,7 +18,6 @@ const Div = styled.div`
     line-height: 30px;
     text-align: center;
     left: 50%;
-    top: 10%;
     z-index: 9999;
     border-radius: 20px;
     transform: translate(-50%);

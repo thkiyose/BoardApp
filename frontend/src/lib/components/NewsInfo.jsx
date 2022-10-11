@@ -61,7 +61,7 @@ export const NewsInfo = () => {
         if (result) {
             const res = await Archive(newsId)
             if (res.status === 200) {
-                navigate("/news/index/all")
+                navigate("/news/index/all", { state: { message: "Newsをアーカイブしました。"}})
             } else {
                 console.log(res)
             }
@@ -158,8 +158,9 @@ const Div = styled.div`
         font-size: 1.1rem;
     }
     .dayTime {
-        color:gray;
-        margin: 0;
+        color: gray;
+        display: inline-block;
+        padding: 10px 0px;
     }
     .visitorCount {
         margin-left: 20px;

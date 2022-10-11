@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
@@ -11,14 +11,16 @@ import { AuthContext } from '../../App.jsx';
 
 export const SignUp = () => {
     const { register, handleSubmit, formState: { errors }  } = useForm();
-    const location = useLocation();
+    const [ error, setError ] = useState("");
     const { setCurrentUser, setIsSignedIn,sections} = useContext(AuthContext)
     const [selectedSection, setSelectedSection] = useState([]);
     const [selectedArea, setSelectedArea] = useState([]);
     const navigate = useNavigate("");
 
     const handleSignUp = async(data) => {
+        setError("");
         if (selectedArea.length === 0) {
+            setError("所属を選択して下さい。")
             return;
         }
         try {
@@ -38,8 +40,7 @@ export const SignUp = () => {
             }
           } catch (e) {
             console.log(e)
-            if (e.response?.data?.errors?.fullMessages) {
-              }
+            navigate("", {state: { message: "アカウント作成に失敗しました。"}})
           }
     }
 
@@ -71,6 +72,7 @@ export const SignUp = () => {
                     selectedArea={selectedArea}
                     setSelectedArea={setSelectedArea}
                     showLabel={true}/>
+                    { error && <ErrorMessage>{error}</ErrorMessage>}
                     <p><button type="submit" >登録</button></p>
                 </form>
                 <p id="signInGuide">アカウントをお持ちの方は<Link to="/">ログイン</Link></p>

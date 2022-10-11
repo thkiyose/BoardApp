@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Color from './Color';
 import styled from 'styled-components'
+import { UserSelectorForSearch } from './UserSelectorForSearch';
 
 export const NewsSearchBar = (props) => {
     const [ searchParam, setSearchParam ] = useState({
@@ -10,7 +11,9 @@ export const NewsSearchBar = (props) => {
         fromArea: "",
         toSection: "",
         toArea: "",
-        date:["",""]
+        date:["",""],
+        toUser: "",
+        fromUser: ""
       });
       const { sections, areas, handleSearch } = props;
 
@@ -27,10 +30,14 @@ export const NewsSearchBar = (props) => {
           setSearchParam({...searchParam,toSection:param})
         } else if ( type === "toArea") {
             setSearchParam({...searchParam,toArea:param})
-        }else if (type === "start") {
+        } else if (type === "start") {
           setSearchParam({...searchParam,date:[param, searchParam.date[1]]})
         } else if (type === "end") {
           setSearchParam({...searchParam,date:[searchParam.date[0],param]})
+        } else if (type === "toUser") {
+            setSearchParam({...searchParam, toUser: param })
+        } else if (type === "fromUser") {
+            setSearchParam({...searchParam, fromUser: param })
         }
       }
 
@@ -56,6 +63,11 @@ export const NewsSearchBar = (props) => {
                             return  <option value={area} key={index}>{area.toUpperCase()}</option>
                         })}
                     </select></td></tr>
+                    <tr>
+                    <th></th><td className="user"><label>ユーザー</label><UserSelectorForSearch selectedUsers={searchParam.toUser} setSelectedUsers={onChange} type="toUser" />
+                    { searchParam.toUser && <UserLabel onClick={()=>{setSearchParam({...searchParam, toUser: "" })}}>{searchParam.toUser.name}&lt;{searchParam.toUser.email}&gt;</UserLabel> }
+                    </td>
+                   </tr>
                    <tr>
                     <th><span>From:</span></th><td>
                         <label>セクション</label>
@@ -72,6 +84,11 @@ export const NewsSearchBar = (props) => {
                                 return  <option value={area} key={index}>{area.toUpperCase()}</option>
                             })}
                         </select></td>
+                   </tr>
+                   <tr>
+                    <th></th><td className="user"><label>ユーザー</label><UserSelectorForSearch selectedUsers={searchParam.fromUser} setSelectedUsers={onChange} type="fromUser"/>
+                       { searchParam.fromUser && <UserLabel onClick={()=>{setSearchParam({...searchParam, fromUser: "" })}}>{searchParam.fromUser.name}&lt;{searchParam.fromUser.email}&gt;</UserLabel> }
+                    </td>
                    </tr>
                 </tbody>
             </table>
@@ -131,5 +148,21 @@ const SearchBar = styled.div`
         display: block;
         padding: 10px;
         cursor: pointer;
+    }
+    .user button {
+        margin-left: 5px;
+    }
+`
+
+const UserLabel = styled.span`
+    cursor: pointer;
+    color: #000;
+    background: #fff;
+    padding: 5px;
+    margin-left: 5px;
+    :hover {
+        background: ${Color.primary};
+        color: #fff;
+        border: solid 1px ${Color.primary};
     }
 `

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import Color from './Color';
 import { SignOutButton } from '../SignOutButton';
+import { Notification } from './Notification';
 import { AuthContext  } from '../../../App';
 
 export const Header = (props) => {
@@ -20,6 +21,7 @@ export const Header = (props) => {
             <li><Link to="/mypage/info">マイページ</Link></li>
             <li><Link to="/schedule">スケジュール</Link></li>
             <li><Link to="/news/index/all">News</Link></li>
+            <li id="notification"><Notification/></li>
           </>
           }
         </RightMenu>
@@ -60,6 +62,10 @@ const RightMenu = styled.ul`
     padding: 0;
     margin: 0;
     float: right;
+    #notification {
+      background: none;
+      height: 40px;
+    }
     li {
       float: right;
       margin: 0px 20px;

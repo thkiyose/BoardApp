@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -12,6 +12,7 @@ export const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { setCurrentUser, setIsSignedIn} = useContext(AuthContext)
     const navigate = useNavigate("");
+    const [ error, setError ] = useState([]);
 
     const handleSignIn = async(data) => {
         try {
@@ -26,18 +27,26 @@ export const SignIn = () => {
               navigate("/news/index/all", { state: { message: "ログインしました。"}})
             } else {
               console.log(res)
+              setError([res.message])
             }
           } catch (e) {
             console.log(e)
-            if (e.response?.data?.errors?.fullMessages) {
-              } else if (e.message) {
-              }
+            if (e.response?.data?.errors) {
+                setError(e.response.data.errors)
+            } else if (e.message) {
+                setError([e.message])
+            }
           }
     }
 
     return (
         <Div>
             <h1>ログイン</h1>
+            { error && 
+                error.map((e, index)=>{
+                    return <ErrorMessage key={index}>{e}</ErrorMessage>
+                })
+            }
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignIn)}>
                     <p><label>メールアドレス</label></p>
@@ -104,5 +113,6 @@ const FormDiv = styled.div`
 const ErrorMessage = styled.span`
   font-size: 0.8rem;
   display: block;
+  text-align: center;
   background-color: ${Color.form};
 `

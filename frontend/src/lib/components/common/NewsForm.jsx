@@ -13,13 +13,14 @@ export const NewsForm = (props) => {
     const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm();
     const { initialContent, initialTitle, initialTo, initialFrom, initialToUsers, initialFromUsers, newsId, update } = props;
     const navigate = useNavigate();
-    const { currentUser, sections, setMessage } = useContext(AuthContext)
+    const { currentUser, sections } = useContext(AuthContext)
     const [selectedSectionFrom, setSelectedSectionFrom] = useState([]);
     const [selectedAreaFrom, setSelectedAreaFrom] = useState([]);
     const [selectedSectionTo, setSelectedSectionTo] = useState([]);
     const [selectedAreaTo, setSelectedAreaTo] = useState([]);
     const [ toUsers, setToUsers ] = useState([]);
     const [ fromUsers, setFromUsers ] = useState([]);
+    const [ error, setError ] = useState([]);
 
     const setInitialValue = useCallback((initialContent,initialTitle,initialTo,initialFrom)=>{
         setValue("title",initialTitle);
@@ -50,6 +51,7 @@ export const NewsForm = (props) => {
                     navigate(`/news/${newsId}`, {state: {message: "Newsを更新しました。"}})
                 } else {
                     console.log(res)
+                    setError([res.message])
                 }
                 } else {
                     const res = await CreateNews(params) 
@@ -57,14 +59,14 @@ export const NewsForm = (props) => {
                         navigate("/news/index/all", {state: { message: "Newsを投稿しました。"}})
                     } else {
                         console.log(res)
+                        setError([res.message])
                     }
                 }
             } catch (e) {
-            console.log(e)
-            if (e.response?.data?.errors?.fullMessages) {
-                setMessage(e.response?.data?.errors?.fullMessages)
+                if (e.response?.data?.errors) {
+                    setError(e.response.data.errors)
                 } else if (e.message) {
-                setMessage([e.message])
+                    setError([e.message])
                 }
             }
     }
@@ -78,6 +80,11 @@ export const NewsForm = (props) => {
     return (
         <FormDiv>
             <h1>{ update ? "Newsを更新する" : "Newsを投稿する" }</h1>
+            { error && 
+                error.map((e,index)=>{
+                    return <ErrorMessage key={index}>{e}</ErrorMessage>
+                })
+            }
             <form onSubmit={handleSubmit(handleSubmitNews)}>
             <p><label>タイトル</label></p>
             <input className="titleForm" {...register("title",{ required: true, maxLength: 30 })} />
@@ -120,7 +127,7 @@ export const NewsForm = (props) => {
                     selectedArea={selectedAreaTo}
                     setSelectedArea={setSelectedAreaTo}/>
                 </ToFrom>
-            { update === true ? <p><button type="submit">更新</button></p> : <p><button type="submit">投稿</button></p> }
+            { update === true ? <p><button className="submit" >更新</button></p> : <p><button className="submit" >投稿</button></p> }
             </form>
         </FormDiv>
         );
@@ -150,7 +157,7 @@ const FormDiv = styled.div`
         width: 100%;
         height: 40vh;
     }
-    button[type="submit"] {
+    .submit {
         display: block;
         background-color: ${Color.primary};
         color: white;
@@ -165,6 +172,7 @@ const ErrorMessage = styled.span`
   font-size: 0.8rem;
   display: block;
   background-color: ${Color.form};
+  text-align: center;
 `
 
 const Selected = styled.div`

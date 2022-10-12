@@ -37,6 +37,7 @@ export const SignUp = () => {
               }
             } else {
               console.log(res)
+              navigate("", {state: { message: "アカウント作成に失敗しました。"}})
             }
           } catch (e) {
             console.log(e)

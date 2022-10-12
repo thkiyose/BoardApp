@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 export const FlashMessage = (props) => {
     const { message, showFlag } = props;
+
     if (message && showFlag) {
         return (
         <Div showFlag={showFlag}>{message}</Div>

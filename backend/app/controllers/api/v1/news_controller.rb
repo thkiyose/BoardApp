@@ -49,7 +49,7 @@ class Api::V1::NewsController < ApplicationController
     if news.save
       render json: { status:"success" }
     else
-      render json: { errors: news.errors}
+      render json: { errors: news.errors }
     end
   end
 
@@ -155,5 +155,11 @@ class Api::V1::NewsController < ApplicationController
 
   def create_footprint(user_id, news_id)
     Footprint.create(user_id: user_id, news_id: news_id )
+  end
+
+  def create_notifications(current_user, to_send_users, news_id )
+    users.each do |user|
+      Notification.create(visitor_id: current_user_id, visited_id: user.id, news_id: news_id, action: "NewsCreated")
+    end
   end
 end

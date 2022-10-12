@@ -194,10 +194,33 @@ const Menu = styled.div`
     ul {
         list-style: none;
         display:flex;
-        li {
-            padding: 10px;
-        }
         margin-right: 10px;
+    }
+    li {
+        margin: 2px;
+    }
+    li a {
+        text-decoration: none;
+        display: block;
+        padding: 5px;
+        background: ${Color.primary};
+        color: #fff;
+        text-align: center;
+        width: 80px;
+        :hover {
+            background: ${Color.secondary};
+        }
+    }
+    li button {
+        border: none;
+        background: ${Color.primary};
+        color: #fff;
+        cursor: pointer;
+        width: 80px;
+        padding: 5px;
+        :hover {
+            background: ${Color.secondary};
+        }
     }
 `
 

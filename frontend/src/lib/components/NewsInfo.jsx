@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { ShowNews } from '../api/news';
 import { DestroyNews } from '../api/news';
 import { BackButton } from './common/BackButton';
+import moment from 'moment';
 import Color from './common/Color';
 import { Modal } from './common/Modal'
 import { Archive } from '../api/news'
@@ -92,7 +93,7 @@ export const NewsInfo = () => {
                         </>
                     }
                     <h1>{news.news.title}</h1>
-                    <span className="dayTime">{news.news.createdAt}</span>
+                    <span className="dayTime">{(moment(news.news.createdAt).format("YYYY年MM月DD日 HH時mm分"))}</span>
                     <span className="visitorCount">{count}人が閲覧しました</span>{visitors && <VisitorButton onClick={()=>{setShowVisitors(true)}}>詳細</VisitorButton>}
                     <div>
                         <span className="toFrom">from</span>

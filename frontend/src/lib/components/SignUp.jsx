@@ -83,7 +83,7 @@ export const SignUp = () => {
 
 const Div = styled.div`
     margin:0 auto; 
-
+    min-height: 80vh;
     h1 {
         margin:0 auto;
         margin-top: 20px;

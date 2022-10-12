@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
+import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
 export const NewsCard = (props) => {
@@ -11,7 +12,7 @@ export const NewsCard = (props) => {
             <Image/>
             <Text>
                 <h3>{news.title}</h3>
-                <span>{news.createdAt}</span>
+                <span>{(moment(news.createdAt).format("YYYY年MM月DD日 HH時mm分"))}</span>
                 <div>{news.content}</div>
             </Text>
         </Card>

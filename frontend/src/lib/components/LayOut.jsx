@@ -38,7 +38,7 @@ const Screen = styled.div`
     display: flex;
     flex-flow: column;
     font-size: 0.8rem;
-    min-height: 100vh;
+    min-height: 80vh;
 `
 
 const Wrapper = styled.div`

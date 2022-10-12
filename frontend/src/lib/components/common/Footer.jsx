@@ -7,7 +7,7 @@ const FooterDiv = styled.div`
   color: #fff;
   text-align: center;
   height: 70px;
-  margin-top: 70px;
+  margin-top: 100px;
 `
 
 export const Footer = () => {

@@ -18,10 +18,10 @@ export const Header = (props) => {
         <RightMenu>
           { isSignedIn &&
           <>
+            <li id="notification"><Notification/></li>
             <li><Link to="/mypage/info">マイページ</Link></li>
             <li><Link to="/schedule">スケジュール</Link></li>
             <li><Link to="/news/index/all">News</Link></li>
-            <li id="notification"><Notification/></li>
           </>
           }
         </RightMenu>

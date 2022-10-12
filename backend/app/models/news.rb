@@ -13,6 +13,7 @@ class News < ApplicationRecord
   has_many :from_users, through: :news_from_users, source: :user
   has_many :footprints, dependent: :destroy
   has_many :visitors, through: :footprints, source: :user
+  has_many :notifications, dependent: :destroy
   accepts_nested_attributes_for :news_to_sections, allow_destroy: true
   accepts_nested_attributes_for :news_from_sections, allow_destroy: true
 

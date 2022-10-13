@@ -60,9 +60,11 @@ export const App = () => {
     handleGetCurrentUser()
   }, [setCurrentUser])
 
-  useEffect(()=>{
-
-  },[])
+  const FreeRoute = ( {children} ) => {
+    if (!loading) {
+        return children;
+    }
+  };
 
   const LoggedInRoute = ( {children} ) => {
     if (!loading) {
@@ -104,7 +106,7 @@ export const App = () => {
     <AuthContext.Provider value={{currentUser,setCurrentUser,setIsSignedIn, isSignedIn, sections,rawSections,rawAreas}}>
         <BrowserRouter>
           <Routes>
-            <Route path={"/"} element={<LayOut/>}>
+            <Route path={"/"} element={<FreeRoute><LayOut/></FreeRoute>}>
               <Route path={"/"} element={<NotLoggedInRoute><SignIn/></NotLoggedInRoute>}/>
               <Route path={"/signup"} element={<NotLoggedInRoute><SignUp/></NotLoggedInRoute>}/>
               <Route path={"/schedule"} element={<LoggedInRoute><Schedule/></LoggedInRoute>}/>

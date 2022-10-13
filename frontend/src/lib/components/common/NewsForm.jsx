@@ -6,14 +6,17 @@ import Color from './Color';
 import { CreateNews } from '../../api/news';
 import { UpdateNews } from '../../api/news';
 import { AuthContext } from '../../../App.jsx';
+import { NotificationContext } from '../LayOut';
 import { SectionSelector } from './SectionSelector';
 import { UserSelector  } from './UserSelector';
+import { FetchNotifications } from '../../api/notification';
 
 export const NewsForm = (props) => {
     const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm();
     const { initialContent, initialTitle, initialTo, initialFrom, initialToUsers, initialFromUsers, newsId, update } = props;
     const navigate = useNavigate();
     const { currentUser, sections } = useContext(AuthContext)
+    const { setNotifications } = useContext(NotificationContext);
     const [selectedSectionFrom, setSelectedSectionFrom] = useState([]);
     const [selectedAreaFrom, setSelectedAreaFrom] = useState([]);
     const [selectedSectionTo, setSelectedSectionTo] = useState([]);
@@ -56,6 +59,8 @@ export const NewsForm = (props) => {
                 } else {
                     const res = await CreateNews(params) 
                     if (res.status === 200) {
+                        const notifications = await FetchNotifications(currentUser.user.id);
+                        setNotifications(notifications.data.notifications);
                         navigate("/news/index/all", {state: { message: "Newsを投稿しました。"}})
                     } else {
                         console.log(res)

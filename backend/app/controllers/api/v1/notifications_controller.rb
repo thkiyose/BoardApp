@@ -1,9 +1,14 @@
 class Api::V1::NotificationsController < ApplicationController
     def index
-        notifications = Notification.where(visited_id: params[:id]).where(checked: false)
+        notifications = Notification.joins(:news).where(visited_id: params[:id]).where(checked: false).select('notifications.*, news.title')
         render json: { notifications: notifications }
-        # notifications.each do |notification|
-        #   notification.update(checked: true)
-        # end
-      end
+    end
+
+    def check
+        ids = params[:notifications]
+        ids.each do |id|
+          Notification.find_by(id: id).update(checked: true)
+        end
+        render json: { status: "success" }
+    end
 end

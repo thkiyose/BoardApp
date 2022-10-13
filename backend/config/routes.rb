@@ -20,7 +20,9 @@ Rails.application.routes.draw do
       resources :events, only: [:index, :create, :show, :destroy] do
         get :search, on: :collection
       end
-      resources :notifications, only: [:index]
+      resources :notifications, only: [:index] do
+        get :check, on: :collection
+      end
       namespace :users do
         get :search, to: "search"
       end

@@ -8,7 +8,7 @@ import { AuthContext  } from '../../../App';
 
 export const Header = (props) => {
   const { isSignedIn } = useContext(AuthContext);
-  const { setMessage } = props;
+  const { setMessage, notifications, setNotifications } = props;
 
     return (
       <HeaderDiv>
@@ -18,7 +18,7 @@ export const Header = (props) => {
         <RightMenu>
           { isSignedIn &&
           <>
-            <li id="notification"><Notification/></li>
+            <li id="notification"><Notification notifications={notifications} setNotifications={setNotifications}/></li>
             <li><Link to="/mypage/info">マイページ</Link></li>
             <li><Link to="/schedule">スケジュール</Link></li>
             <li><Link to="/news/index/all">News</Link></li>

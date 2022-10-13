@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from 'styled-components'
 import { Outlet, useLocation } from 'react-router-dom';
 import { Header } from './common/Header';
 import { Footer } from './common/Footer';
 import Color from './common/Color';
 import { FlashMessage } from './common/FlashMessage'
+import { FetchNotifications } from '../api/notification';
+import { AuthContext } from '../../App';
+
+export const NotificationContext = React.createContext("");
 
 export const LayOut = () => {
     const location = useLocation();
+    const { currentUser } = useContext(AuthContext);
+    const [ notifications, setNotifications ] = useState([]);
     const [ message, setMessage ] = useState([]);
     const [ showMessage, setShowMessage ] = useState(false);
 
@@ -18,12 +24,21 @@ export const LayOut = () => {
         setShowMessage(false)},1500)
     },[location.state?.message])
 
+    const getNotification = useCallback(async(userId)=>{
+        const res = await FetchNotifications(userId);
+        setNotifications(res.data.notifications);
+    },[])
+
+    useEffect(()=>{getNotification(currentUser.user.id)},[currentUser.user.id, getNotification])
+
     return (
         <Screen>
             <FlashMessage message={message} showFlag={showMessage}/>
-            <Header/>
+            <Header notifications={notifications} setNotifications={setNotifications}/>
             <Wrapper>
-                <Outlet/>
+                <NotificationContext.Provider value={{setNotifications}}>
+                   <Outlet/>
+                </NotificationContext.Provider>
             </Wrapper>
             <Footer/>
         </Screen>

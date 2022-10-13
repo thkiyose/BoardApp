@@ -98,42 +98,38 @@ export const NewsInfo = () => {
                     <div>
                         <span className="toFrom">from</span>
                         {news.fromSec.map((x,index) => {
-                            return (
-                            <SectionArea key={index}>
-                                <span>{x[0].sections}:</span>
-                                {x.map((child,index) => {
-                                return <span className="area" key={index}>{child.areas}</span>;
-                                })}
-                            </SectionArea>
-                            );
+                            const children = [];
+                                x.forEach((child,index) => {
+                                   children.push(<span className="area" key={index}>{child.areas}</span>);
+                                })
+                            const span = React.createElement("span",{key: index},<SectionArea>{x[0].sections}:{[...children]}</SectionArea>)
+                            return span;
                         })}
                         {news.fromUsers.map((user,index)=>{
-                            return <User>{user.name}&lt;{user.email}&gt;</User>
+                            return <User key={index}>{user.name}&lt;{user.email}&gt;</User>
                         })}
                     </div>
                     <p>
                         <span className="toFrom">to</span>
                         {news.toSec.map((x,index) => {
-                            return (
-                            <SectionArea key={index}>
-                                <span>{x[0].sections}:</span>
-                                {x.map((child,index) => {
-                                return <span className="area" key={index}>{child.areas}</span>;
-                                })}
-                            </SectionArea>
-                            );
+                            const children = [];
+                                x.forEach((child,index) => {
+                                   children.push(<span className="area" key={index}>{child.areas}</span>);
+                                })
+                            const span = React.createElement("span",{key: index},<SectionArea>{x[0].sections}:{[...children]}</SectionArea>)
+                            return span;
                         })}
                         {news.toUsers.map((user,index)=>{
-                            return <User>{user.name}&lt;{user.email}&gt;</User>
+                            return <User key={index}>{user.name}&lt;{user.email}&gt;</User>
                         })}
                     </p>
                     <p>{content}</p>
                     <Modal showFlag={showVisitors} setShowModal={setShowVisitors}>
                         <VisitorTitle>閲覧済みのユーザー</VisitorTitle>
                         <VisitorDiv>
-                            {visitors && visitors.map((visitor)=>{
+                            {visitors && visitors.map((visitor,index)=>{
                                 return (
-                                    <Visitor>
+                                    <Visitor key={index}>
                                         <p>{visitor.name}</p>
                                         <p>{visitor.email}</p>
                                     </Visitor>

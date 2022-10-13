@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import { Check } from '../../api/notification';
-import Color from './Color';
 import moment from 'moment';
 
 export const Notification = (props) => {
@@ -80,7 +79,7 @@ const PopUpDiv = styled.div`
         z-index: 9999;
         text-align: left;
         -webkit-filter:drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.3));
-        background: ${Color.form};
+        background: #fff;
         font-size: 0.7rem;
         .notification {
             border-bottom: solid 1px gray;

@@ -28,6 +28,7 @@ export const NewsHistory = () => {
     useEffect(()=>{loadNews()},[loadNews]);
 
     const handleDestroyNews = async(newsId) => {
+        navigate("", { state: { id: location.state.id }})
         const result = window.confirm("本当に削除しますか？")
         if (result) {
             const res = await DestroyNews(newsId)
@@ -41,6 +42,7 @@ export const NewsHistory = () => {
     }
 
     const handleArchive = async(newsId) => {
+        navigate("", { state: { id: location.state.id }})
         const result = window.confirm("記事をアーカイブしますか？\n他のユーザーから見えなくなり、アーカイブリストでのみ確認出来るようになります。")
         if (result) {
             const res = await Archive(newsId)

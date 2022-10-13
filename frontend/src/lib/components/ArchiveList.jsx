@@ -28,6 +28,7 @@ export const ArchiveList = () => {
     useEffect(()=>{loadArchive()},[loadArchive]);
 
     const handleDestroyNews = async(newsId) => {
+        navigate("", { state: { id: location.state.id }})
         const result = window.confirm("本当に削除しますか？")
         if (result) {
             const res = await DestroyNews(newsId)
@@ -41,6 +42,7 @@ export const ArchiveList = () => {
     }
 
     const handleRestore = async(newsId) => {
+        navigate("", { state: { id: location.state.id }})
         const result = window.confirm("記事を一般公開に戻しますか？")
         if (result) {
             const res = await Archive(newsId)

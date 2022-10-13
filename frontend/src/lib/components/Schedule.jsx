@@ -22,6 +22,7 @@ export const Schedule = () => {
     const [selectedSection, setSelectedSection] = useState([]);
     const [selectedArea, setSelectedArea] = useState([]);
     const [events, setEvents] = useState([]);
+    const [errors, setErrors] = useState([])
     const [ targetId, setTargetId ] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
@@ -35,8 +36,6 @@ export const Schedule = () => {
         allDay: false,
         description: ""
     })
-
-    const [errors, setErrors] = useState([])
 
     const loadEvents = async() => {
         try {
@@ -262,7 +261,7 @@ export const Schedule = () => {
                 </SectionDiv>
                 <Submit className="submit" type="button" onClick={(e)=>handleSubmit(e)}>作成</Submit>
             </Modal>
-            <ShowEvent eventId={targetId} showModal={showInfo} setShowModal={setShowInfo} handleDestroyEvent={handleDestroyEvent}/>
+            <ShowEvent eventId={targetId} showModal={showInfo} setShowModal={setShowInfo} handleDestroyEvent={handleDestroyEvent} loadEvents={loadEvents}/>
     </>
     )
 }

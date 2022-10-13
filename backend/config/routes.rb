@@ -17,7 +17,7 @@ Rails.application.routes.draw do
         get :user_archive_list, on: :member
         put :archive, on: :member
       end
-      resources :events, only: [:index, :create, :show, :destroy] do
+      resources :events, only: [:index, :create, :show, :destroy, :update] do
         get :search, on: :collection
       end
       resources :notifications, only: [:index] do

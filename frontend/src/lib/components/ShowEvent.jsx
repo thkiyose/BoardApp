@@ -5,10 +5,13 @@ import { AuthContext  } from '../../App.jsx';
 import { Modal } from './common/Modal';
 import { FetchEvent  } from '../api/event.js';
 import moment from 'moment';
+import { EventForm } from './common/EventForm.jsx';
+import { useParams } from 'react-router-dom';
 
 export const ShowEvent = (props) => {
-    const { eventId, showModal, setShowModal, handleDestroyEvent } = props;
+    const { eventId, showModal, setShowModal, handleDestroyEvent, loadEvents } = props;
     const [ event, setEvent ] = useState();
+    const [ isEdit, setIsEdit ] = useState(false);
     const { currentUser } = useContext(AuthContext);
 
     const loadEvent = useCallback(async() => {
@@ -34,10 +37,10 @@ export const ShowEvent = (props) => {
         }) : ""
 
     return (
-        <Modal showFlag={showModal} setShowModal={setShowModal}>
-            {event?.sections &&
+        <Modal showFlag={showModal} setShowModal={setShowModal} setIsEdit={setIsEdit}>
+            {event?.sections && !isEdit &&
                 <>
-                    <User><Label>作成者</Label>{event.user.name}:{event.user.email}</User>{event.user.id === currentUser.user.id && <Menu><button>編集</button><button onClick={()=>{handleDestroyEvent(eventId)}}>削除</button></Menu>}
+                    <User><Label>作成者</Label>{event.user.name}:{event.user.email}</User>{event.user.id === currentUser.user.id && <Menu><button onClick={()=>{setIsEdit(true)}}>編集</button><button onClick={()=>{handleDestroyEvent(eventId)}}>削除</button></Menu>}
                     <InfoTable>
                         <tbody>
                             <tr><th>タイトル</th><td>{event.event.title}</td></tr>
@@ -62,6 +65,10 @@ export const ShowEvent = (props) => {
                     </p>
                 </>
             }
+            { isEdit && <>
+                <CancelButton onClick={()=>{setIsEdit(false)}}>✕編集をやめる</CancelButton>
+                <EventForm eventId={event.event.id} event={event.event} initialSections={event.sections} action="update" setIsEdit={setIsEdit} loadEvent={loadEvent} loadEvents={loadEvents} />
+            </> }
         </Modal>
     )
 }
@@ -115,5 +122,13 @@ const SectionArea = styled.span`
         background: ${Color.primary};
         padding: 5px;
         border-radius: 10px;
+    }
+`
+const CancelButton = styled.button`
+    margin: 0 auto;
+    display: block;
+    :hover {
+        cursor: pointer;
+        background: ${Color.form};
     }
 `

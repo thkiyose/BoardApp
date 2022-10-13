@@ -39,8 +39,8 @@ export const Notification = (props) => {
 }
 
 const Img = styled.img`
-    height: 30px;
-    padding-top: 5px;
+    height: 25px;
+    padding-top: 7px;
     line-height: 40px;
     cursor: pointer;
 `

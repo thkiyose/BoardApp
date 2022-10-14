@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { ShowNews } from '../api/news';
 import { DestroyNews } from '../api/news';
 import { BackButton } from './common/BackButton';
+import moment from 'moment';
 import Color from './common/Color';
 import { Modal } from './common/Modal'
 import { Archive } from '../api/news'
@@ -92,47 +93,43 @@ export const NewsInfo = () => {
                         </>
                     }
                     <h1>{news.news.title}</h1>
-                    <span className="dayTime">{news.news.createdAt}</span>
+                    <span className="dayTime">{(moment(news.news.createdAt).format("YYYY年MM月DD日 HH時mm分"))}</span>
                     <span className="visitorCount">{count}人が閲覧しました</span>{visitors && <VisitorButton onClick={()=>{setShowVisitors(true)}}>詳細</VisitorButton>}
                     <div>
                         <span className="toFrom">from</span>
                         {news.fromSec.map((x,index) => {
-                            return (
-                            <SectionArea key={index}>
-                                <span>{x[0].sections}:</span>
-                                {x.map((child,index) => {
-                                return <span className="area" key={index}>{child.areas}</span>;
-                                })}
-                            </SectionArea>
-                            );
+                            const children = [];
+                                x.forEach((child,index) => {
+                                   children.push(<span className="area" key={index}>{child.areas}</span>);
+                                })
+                            const span = React.createElement("span",{key: index},<SectionArea>{x[0].sections}:{[...children]}</SectionArea>)
+                            return span;
                         })}
                         {news.fromUsers.map((user,index)=>{
-                            return <User>{user.name}&lt;{user.email}&gt;</User>
+                            return <User key={index}>{user.name}&lt;{user.email}&gt;</User>
                         })}
                     </div>
                     <p>
                         <span className="toFrom">to</span>
                         {news.toSec.map((x,index) => {
-                            return (
-                            <SectionArea key={index}>
-                                <span>{x[0].sections}:</span>
-                                {x.map((child,index) => {
-                                return <span className="area" key={index}>{child.areas}</span>;
-                                })}
-                            </SectionArea>
-                            );
+                            const children = [];
+                                x.forEach((child,index) => {
+                                   children.push(<span className="area" key={index}>{child.areas}</span>);
+                                })
+                            const span = React.createElement("span",{key: index},<SectionArea>{x[0].sections}:{[...children]}</SectionArea>)
+                            return span;
                         })}
                         {news.toUsers.map((user,index)=>{
-                            return <User>{user.name}&lt;{user.email}&gt;</User>
+                            return <User key={index}>{user.name}&lt;{user.email}&gt;</User>
                         })}
                     </p>
                     <p>{content}</p>
                     <Modal showFlag={showVisitors} setShowModal={setShowVisitors}>
                         <VisitorTitle>閲覧済みのユーザー</VisitorTitle>
                         <VisitorDiv>
-                            {visitors && visitors.map((visitor)=>{
+                            {visitors && visitors.map((visitor,index)=>{
                                 return (
-                                    <Visitor>
+                                    <Visitor key={index}>
                                         <p>{visitor.name}</p>
                                         <p>{visitor.email}</p>
                                     </Visitor>
@@ -193,10 +190,33 @@ const Menu = styled.div`
     ul {
         list-style: none;
         display:flex;
-        li {
-            padding: 10px;
-        }
         margin-right: 10px;
+    }
+    li {
+        margin: 2px;
+    }
+    li a {
+        text-decoration: none;
+        display: block;
+        padding: 5px;
+        background: ${Color.primary};
+        color: #fff;
+        text-align: center;
+        width: 80px;
+        :hover {
+            background: ${Color.secondary};
+        }
+    }
+    li button {
+        border: none;
+        background: ${Color.primary};
+        color: #fff;
+        cursor: pointer;
+        width: 80px;
+        padding: 5px;
+        :hover {
+            background: ${Color.secondary};
+        }
     }
 `
 

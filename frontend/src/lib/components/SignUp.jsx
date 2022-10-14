@@ -11,16 +11,16 @@ import { AuthContext } from '../../App.jsx';
 
 export const SignUp = () => {
     const { register, handleSubmit, formState: { errors }  } = useForm();
-    const [ error, setError ] = useState("");
+    const [ error, setError ] = useState([]);
     const { setCurrentUser, setIsSignedIn,sections} = useContext(AuthContext)
     const [selectedSection, setSelectedSection] = useState([]);
     const [selectedArea, setSelectedArea] = useState([]);
     const navigate = useNavigate("");
 
     const handleSignUp = async(data) => {
-        setError("");
+        setError([]);
         if (selectedArea.length === 0) {
-            setError("所属を選択して下さい。")
+            setError(["所属を選択して下さい。"])
             return;
         }
         try {
@@ -37,16 +37,26 @@ export const SignUp = () => {
               }
             } else {
               console.log(res)
+              setError([res.message])
             }
           } catch (e) {
             console.log(e)
-            navigate("", {state: { message: "アカウント作成に失敗しました。"}})
+            if (e.response?.data?.errors?.fullMessages) {
+                setError([e.response.data.errors.fullMessages])
+            } else if (e.message) {
+                setError([e.message])
+            }
           }
     }
 
     return (
         <Div>
             <h1>アカウント登録</h1>
+            { error && 
+                error.map((e,index)=>{
+                    return <ErrorMessage key={index}>{e}</ErrorMessage>
+                })
+            }
             <FormDiv>
                 <form onSubmit={handleSubmit(handleSignUp)}>
                     <p><label>名前</label></p>
@@ -72,7 +82,6 @@ export const SignUp = () => {
                     selectedArea={selectedArea}
                     setSelectedArea={setSelectedArea}
                     showLabel={true}/>
-                    { error && <ErrorMessage>{error}</ErrorMessage>}
                     <p><button type="submit" >登録</button></p>
                 </form>
                 <p id="signInGuide">アカウントをお持ちの方は<Link to="/">ログイン</Link></p>
@@ -83,7 +92,7 @@ export const SignUp = () => {
 
 const Div = styled.div`
     margin:0 auto; 
-
+    min-height: 80vh;
     h1 {
         margin:0 auto;
         margin-top: 20px;
@@ -129,5 +138,6 @@ const FormDiv = styled.div`
 const ErrorMessage = styled.span`
   font-size: 0.8rem;
   display: block;
+  text-align: center;
   background-color: ${Color.form};
 `

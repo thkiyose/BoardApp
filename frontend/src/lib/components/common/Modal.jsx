@@ -32,6 +32,9 @@ export const Modal = (props) => {
   const { showFlag, setShowModal, resetState } = props;
 
   const handleCloseModal = () => {
+    if (props.setIsEdit) {
+      props.setIsEdit(false);
+    }
     setShowModal(false);
     resetState && resetState("");
   };

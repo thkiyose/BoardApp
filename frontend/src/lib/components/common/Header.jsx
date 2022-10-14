@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import Color from './Color';
 import { SignOutButton } from '../SignOutButton';
+import { Notification } from './Notification';
 import { AuthContext  } from '../../../App';
 
 export const Header = (props) => {
   const { isSignedIn } = useContext(AuthContext);
-  const { setMessage } = props;
+  const { setMessage, notifications, setNotifications } = props;
 
     return (
       <HeaderDiv>
@@ -17,6 +18,7 @@ export const Header = (props) => {
         <RightMenu>
           { isSignedIn &&
           <>
+            <li id="notification"><Notification notifications={notifications} setNotifications={setNotifications}/></li>
             <li><Link to="/mypage/info">マイページ</Link></li>
             <li><Link to="/schedule">スケジュール</Link></li>
             <li><Link to="/news/index/all">News</Link></li>
@@ -60,6 +62,10 @@ const RightMenu = styled.ul`
     padding: 0;
     margin: 0;
     float: right;
+    #notification {
+      background: none;
+      height: 40px;
+    }
     li {
       float: right;
       margin: 0px 20px;

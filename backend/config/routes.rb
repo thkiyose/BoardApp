@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'notifications/index'
   mount_devise_token_auth_for 'User', at: 'api/v1/auth', controllers: {
     registrations: 'api/v1/auth/registrations'
   }
@@ -16,8 +17,11 @@ Rails.application.routes.draw do
         get :user_archive_list, on: :member
         put :archive, on: :member
       end
-      resources :events, only: [:index, :create, :show, :destroy] do
+      resources :events, only: [:index, :create, :show, :destroy, :update] do
         get :search, on: :collection
+      end
+      resources :notifications, only: [:index] do
+        get :check, on: :collection
       end
       namespace :users do
         get :search, to: "search"

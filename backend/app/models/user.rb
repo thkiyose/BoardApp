@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :events, dependent: :destroy
   has_many :footprints, dependent: :destroy
   has_many :visited_news, through: :footprints, source: :news
+  has_many :passive_notifications, class_name: "Notification", foreign_key: "visited_id", dependent: :destroy
 
   scope :search_with_name_or_email, -> (word){
     return [] if word.blank?

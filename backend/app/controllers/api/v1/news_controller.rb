@@ -22,7 +22,6 @@ class Api::V1::NewsController < ApplicationController
     selected_to = params[:selected_area_to]
     user_from = params[:selected_user_from]
     user_to = params[:selected_user_to]
-
     selected_from.each do |x|
         split = x.split(",")
         section = Section.find_by(sections: Section.sections[split[0].capitalize], areas: Section.areas[split[1]])
@@ -47,9 +46,13 @@ class Api::V1::NewsController < ApplicationController
     end
 
     if news.save
+      to_users = news.to_users.pluck(:id)
+      to_section_users = UserSection.where( section_id: news.to_sections.pluck(:id) ).pluck(:user_id)
+      user_ids = (to_users + to_section_users).uniq
+      create_notifications(params[:user_id], user_ids, news.id )
       render json: { status:"success" }
     else
-      render json: { errors: news.errors}
+      render json: { errors: news.errors }
     end
   end
 
@@ -155,5 +158,11 @@ class Api::V1::NewsController < ApplicationController
 
   def create_footprint(user_id, news_id)
     Footprint.create(user_id: user_id, news_id: news_id )
+  end
+
+  def create_notifications(current_user_id, to_send_user_ids, news_id )
+    to_send_user_ids.each do |id|
+      Notification.create(visitor_id: current_user_id, visited_id: id, news_id: news_id, action: "NewsCreated")
+    end
   end
 end

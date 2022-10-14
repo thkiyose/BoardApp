@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_07_042511) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_12_051701) do
   create_table "event_sections", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "event_id", null: false
     t.bigint "section_id", null: false
@@ -86,6 +86,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_042511) do
     t.datetime "updated_at", null: false
     t.index ["news_id"], name: "index_news_to_users_on_news_id"
     t.index ["user_id"], name: "index_news_to_users_on_user_id"
+  end
+
+  create_table "notifications", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "visitor_id", null: false
+    t.integer "visited_id", null: false
+    t.integer "news_id"
+    t.string "action", default: ""
+    t.boolean "checked", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sections", charset: "utf8mb4", force: :cascade do |t|

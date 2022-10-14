@@ -29,7 +29,7 @@ export const LayOut = () => {
         setNotifications(res.data.notifications);
     },[])
 
-    useEffect(()=>{getNotification(currentUser.user.id)},[currentUser.user.id, getNotification])
+    useEffect(()=>{getNotification(currentUser?.user?.id)},[currentUser?.user?.id, getNotification])
 
     return (
         <Screen>

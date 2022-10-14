@@ -24,6 +24,8 @@ export const NewsForm = (props) => {
     const [ toUsers, setToUsers ] = useState([]);
     const [ fromUsers, setFromUsers ] = useState([]);
     const [ error, setError ] = useState([]);
+    const [images, setImages] = useState([]);
+    const inputId = Math.random().toString(32).substring(2);
 
     const setInitialValue = useCallback((initialContent,initialTitle,initialTo,initialFrom)=>{
         setValue("title",initialTitle);
@@ -213,4 +215,14 @@ const ToFrom = styled.div`
     padding: 5px;
     margin: 8px 0px;
     border-radius: 10px;
+`
+const ImagePreview = styled.div`
+    display: flex;
+    margin: 10px 0px;
+    justify-content: space-around;
+`
+
+const Thumbnail = styled.img`
+    max-height: 100px;
+    max-width: 25%;
 `

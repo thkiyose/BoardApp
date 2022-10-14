@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import Color from '../common/Color.jsx';
 import styled from "styled-components";
 import { SectionSelector } from '../common/SectionSelector.jsx';
@@ -7,7 +7,7 @@ import moment from 'moment'
 import { UpdateEvent } from '../../api/event.js';
 
 export const EventForm = (props) => {
-    const { currentUser, sections, rawSections, rawAreas } = useContext(AuthContext);
+    const { currentUser, sections} = useContext(AuthContext);
     const [selectedSection, setSelectedSection] = useState([]);
     const [selectedArea, setSelectedArea] = useState([]);
     const [errors, setErrors] = useState([])
@@ -36,7 +36,7 @@ export const EventForm = (props) => {
             const toPushArea = []
             initialSections.forEach((array)=>{
                 toPushSec.push(array[0].sections.toLowerCase())
-                array.map((n)=>{
+                array.forEach((n)=>{
                     toPushArea.push( `${n.sections.toLowerCase()},${n.areas}`)
                 })
             })
